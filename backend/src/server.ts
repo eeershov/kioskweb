@@ -7,7 +7,7 @@ import apiRouter from "./routes/api.routes.js";
 import { sql } from "./database/database.js";
 
 
-dotenv.config()
+dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 const nodeEnv = process.env.NODE_ENV || "production";
@@ -15,10 +15,10 @@ const nodeEnv = process.env.NODE_ENV || "production";
 const app = express();
 
 async function testCallDB() {
-  console.log(` [${new Date()}] \nCalling Home API`)
+  console.log(` [${new Date()}] \nCalling Home API`);
   const tabababa = await sql`
-    SELECT CURRENT_DATE;
-  `
+    SHOW TIME ZONE;
+  `;
   console.log(tabababa);
 }
 
@@ -33,6 +33,6 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (_req,res) => {
-  console.log('asked')
-  res.send(`ok: ${nodeEnv}`)
-})
+  console.log('asked');
+  res.send(`ok: ${nodeEnv}`);
+});
