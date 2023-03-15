@@ -8,6 +8,7 @@ import { sql } from "./database/database.js";
 
 
 dotenv.config();
+// process.env.TZ = 'Europe/Moscow';
 
 const PORT = process.env.PORT || 8080;
 const nodeEnv = process.env.NODE_ENV || "production";

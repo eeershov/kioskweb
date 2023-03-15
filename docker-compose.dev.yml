@@ -1,0 +1,54 @@
+# docker-compose --file docker-compose.dev.yml up --build
+
+# docker-compose --file docker-compose.dev.yml down --rmi all
+# docker system prune --volumes
+
+version: '3.9'
+
+services:
+  backendapp:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${PWD}/backend:/backendapp
+      - ${PWD}/backend/node_modules:/backendapp/node_modules
+    environment:
+      TZ: 'Europe/Moscow'
+      NODE_ENV: development
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      API_ENV: ${API_ENV}
+    networks:
+      - backendapp_net
+    depends_on:
+      - db
+
+  db:
+    container_name: database
+    image: postgres:15.2-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./backend/src/database/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+    mem_limit: 512m
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --lc-collate='ru_RU.utf8' --lc-ctype='ru_RU.utf8'"
+      PGTZ: 'Europe/Moscow'
+      TZ: 'Europe/Moscow'
+    ports:
+      - "5432:5432"
+    networks:
+      - backendapp_net
+
+volumes:
+  db_data:
+
+networks:
+  backendapp_net:
