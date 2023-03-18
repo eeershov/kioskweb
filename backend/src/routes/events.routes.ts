@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async (_req: Request, res: Response) => {
   try {
-    const events = {"event":"event number one"};
+    const events = { event: "event number one" };
     const tabababa = await sql`
       SELECT CURRENT_TIMESTAMP;
     `;
@@ -15,6 +15,5 @@ router.get("/", async (_req: Request, res: Response) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 export default router;
