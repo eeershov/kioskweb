@@ -12,7 +12,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     ports:
-      - "8080:8080"
+      - 8080:8080
     volumes:
       - ${PWD}/backend:/backendapp
       - ${PWD}/backend/node_modules:/backendapp/node_modules
@@ -27,6 +27,19 @@ services:
       - backendapp_net
     depends_on:
       - db
+  
+  clientapp:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ${PWD}/client:/clientapp
+      - ${PWD}/client/node_modules:/clientapp/node_modules
+    networks:
+      - backendapp_net
 
   db:
     container_name: database
@@ -46,6 +59,9 @@ services:
       - "5432:5432"
     networks:
       - backendapp_net
+
+
+
 
 volumes:
   db_data:
