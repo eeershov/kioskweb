@@ -22,7 +22,12 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      API_ENV: ${API_ENV}
+      TP_API_URL: https://api.timepad.ru/v1/events.json
+      TP_API_TOKEN: ${TP_API_TOKEN}
+      TP_orgIdKiosk: ${TP_orgIdKiosk}
+      TP_orgIdGrky: ${TP_orgIdGrky}
+      TP_orgIdStand: ${TP_orgIdStand}
+      TP_orgId52: ${TP_orgId52}
     networks:
       - backendapp_net
     depends_on:

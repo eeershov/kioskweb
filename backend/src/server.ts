@@ -8,11 +8,14 @@ import { sql } from "./database/database.js";
 
 dotenv.config();
 // process.env.TZ = 'Europe/Moscow';
+import * as TPService from "./services/timepad.service.js";
+TPService.getTimepadData();
 
 const PORT = process.env.PORT || 8080;
 const nodeEnv = process.env.NODE_ENV || "production";
 
 const app = express();
+app.use(cors());
 
 async function testCallDB() {
   console.log(` [${new Date()}] \nCalling Home API`);
@@ -23,8 +26,6 @@ async function testCallDB() {
 }
 
 await testCallDB();
-
-app.use(cors());
 
 app.use("/", apiRouter);
 
