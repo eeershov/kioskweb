@@ -1,6 +1,6 @@
-import * as dotenv from "dotenv";
+// import * as dotenv from "dotenv";
 import postgres from "postgres";
-dotenv.config();
+// dotenv.config();
 
 const POSTGRESQL_USER = process.env.POSTGRES_USER;
 const POSTGRESQL_PASS = process.env.POSTGRES_PASSWORD;
