@@ -12,7 +12,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     ports:
-      - 8080:8080
+      - 127.0.0.1:8080:8080
     volumes:
       - ${PWD}/backend:/backendapp
       - ${PWD}/backend/node_modules:/backendapp/node_modules
@@ -39,7 +39,7 @@ services:
       context: ./client
       dockerfile: Dockerfile.dev
     ports:
-      - 3000:3000
+      - 127.0.0.1:3000:3000
     volumes:
       - ${PWD}/client:/clientapp
       - ${PWD}/client/node_modules:/clientapp/node_modules
@@ -61,7 +61,7 @@ services:
       PGTZ: 'Europe/Moscow'
       TZ: 'Europe/Moscow'
     ports:
-      - "5432:5432"
+      - 127.0.0.1:5432:5432
     networks:
       - backendapp_net
 
