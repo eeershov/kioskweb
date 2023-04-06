@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import axios from "axios";
-import * as dotenv from "dotenv";
-dotenv.config();
+// import * as dotenv from "dotenv";
+// dotenv.config();
 
 import { AxiosResponse } from "axios";
 import { TimepadEventData } from "../types/types.js";

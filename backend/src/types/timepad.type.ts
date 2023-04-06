@@ -5,7 +5,7 @@ type TimepadEventData = {
   description_short: string;
   description_html: string;
   url: string;
-  poster_image: { default_url: string; uploadcare_url: string };
+  poster_image?: { default_url: string; uploadcare_url: string };
   location: { country: string; city: string; location: string };
   organization: {
     id: number;
