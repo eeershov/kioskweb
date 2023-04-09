@@ -11,22 +11,20 @@ const router = express.Router();
 
 router.get("/", async (_req: Request, res: Response) => {
   try {
-    const orgsInfo = await sql`
-      SELECT * FROM tp_organizations;
-    `;
-    let isFirstStart = false;
-    console.log(orgsInfo);
-    if (orgsInfo.length === 0) {
-      isFirstStart = true;
-    }
-    if (isFirstStart) {
-      databaseService.updateOrgs("default");
-    }
+    // const orgsInfo = await sql`
+    //   SELECT * FROM tp_organizations;
+    // `;
+    // let isFirstStart = false;
+    // console.log(orgsInfo);
+    // if (orgsInfo.length === 0) {
+    //   isFirstStart = true;
+    // }
+    // if (isFirstStart) {
+    //   databaseService.updateOrgs("default");
+    // }
 
-    // const events = { event: "event number one" };
     const events = await timepadService.getTimepadData();
-    await databaseService.updateEvents(events);
-    await databaseService.updateOrgs(events);
+    await databaseService.syncTimepad(events);
 
     const tabababa = await sql`
       SELECT CURRENT_TIMESTAMP;

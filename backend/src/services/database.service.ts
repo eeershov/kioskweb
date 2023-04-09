@@ -103,4 +103,9 @@ export default class DatabaseService {
           updated = CURRENT_TIMESTAMP
     `;
   }
+
+  async syncTimepad(TimepadEvents: TimepadEventData[]) {
+    await this.updateOrgs(TimepadEvents);
+    await this.updateEvents(TimepadEvents);
+  }
 }
