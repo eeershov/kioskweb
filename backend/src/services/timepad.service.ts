@@ -4,7 +4,7 @@ import axios from "axios";
 // dotenv.config();
 
 import { AxiosResponse } from "axios";
-import { TimepadEventData } from "../types/types.js";
+import { TimepadEventData } from "../types/index.js";
 
 // import { callHomeDB } from "../controllers/Api.controller.js";
 // import { sql } from "../database/db.js";
@@ -82,61 +82,4 @@ export default class TimepadService {
       return [];
     }
   }
-  // async updateRemovedData() {
-  //   const dbData = await callHomeDB();
-  //   const eventsIdStored: number[] = [];
-  //   dbData.forEach((element) => {
-  //     eventsIdStored.push(element.tp_id);
-  //   });
-
-  //   const axios_config = getAxiosConfig(eventsIdStored);
-  //   const tpData = await axios(axios_config);
-  //   const tpEventsIdList = tpData.data.values;
-  //   // console.log(tpEventsIdList)
-  //   const eventsIdTp: number[] = [];
-  //   tpEventsIdList.forEach((element: any) => {
-  //     eventsIdTp.push(element.id);
-  //   });
-
-  //   const a = new Set(eventsIdStored);
-  //   const b = new Set(eventsIdTp);
-  //   const a_minus_b = new Set([...a].filter((x) => !b.has(x)));
-  //   const difArr = Array.from(a_minus_b);
-
-  //   await sql`
-  //     UPDATE events
-  //     SET removed = TRUE
-  //     WHERE tp_id IN ${sql(difArr)};
-  //   `;
-  // }
 }
-
-// async function callTimepadAPI() {
-//   try {
-//     console.log(` [${new Date()}] \nCalling Timepad API`);
-//     const response: any = await getTimepadData();
-//     // res.send(response.data)
-//     const timepadEventsArr = response.data.values;
-//     // console.log(response);
-//     console.log(` [${new Date()}] \nUpdating data in DB`);
-//     updateOrganizationsDB(timepadEventsArr);
-//     updateEventsDB(timepadEventsArr);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// https://github.com/typescript-eslint/typescript-eslint/blob/v2.28.0/packages/eslint-plugin/docs/rules/no-misused-promises.md
-
-// function delay(ms: number) {
-//   return new Promise((resolve) => setTimeout(resolve, ms));
-// }
-
-// async function tpService() {
-//   await delay(1000);
-//   console.log("1. update data");
-//   await callTimepadAPI();
-//   await delay(1000);
-//   console.log("2. remove deleted");
-//   await updateRemovedData();
-// }

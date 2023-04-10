@@ -1,39 +1,19 @@
 import express, { Request, Response } from "express";
-import { sql } from "../database/database.js";
+import { DatabaseService } from "../services/index.js";
 
-import TimepadService from "../services/timepad.service.js";
-import DatabaseService from "../services/database.service.js";
-
-const timepadService = new TimepadService();
 const databaseService = new DatabaseService();
 
 const router = express.Router();
 
+import { sql } from "../database/database.js";
 router.get("/", async (_req: Request, res: Response) => {
   try {
-    // const orgsInfo = await sql`
-    //   SELECT * FROM tp_organizations;
-    // `;
-    // let isFirstStart = false;
-    // console.log(orgsInfo);
-    // if (orgsInfo.length === 0) {
-    //   isFirstStart = true;
-    // }
-    // if (isFirstStart) {
-    //   databaseService.updateOrgs("default");
-    // }
-
-    const events = await timepadService.getTimepadData();
-    await databaseService.syncTimepad(events);
+    const events = await databaseService.getEvents();
 
     const tabababa = await sql`
       SELECT CURRENT_TIMESTAMP;
     `;
     console.log(tabababa);
-    const tabadada = await sql`
-      SELECT * FROM events;
-    `;
-    console.log(tabadada);
 
     res.status(200).send(events);
   } catch (err) {

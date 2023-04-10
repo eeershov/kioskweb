@@ -1,5 +1,11 @@
 import { sql } from "../database/database.js";
-import { TimepadEventData } from "../types/types.js";
+import {
+  TimepadEventData,
+  OrganizationInfo,
+  EventInfo,
+} from "../types/index.js";
+
+type EventOrgInfo = EventInfo & OrganizationInfo;
 
 const TP_orgIdKiosk: number = parseInt(process.env.TP_orgIdKiosk as string);
 const TP_orgIdGrky: number = parseInt(process.env.TP_orgIdGrky as string);
@@ -109,17 +115,50 @@ export default class DatabaseService {
     await this.updateEvents(TimepadEvents);
   }
 
-  public async getEvents() {
-    const eventsList = await sql`
-      SELECT E.*, O.tp_org_name, O.tp_org_subdomain, O.tp_org_logo_image_default_url
-      FROM events E
-        INNER JOIN tp_organizations O 
-          ON O.tp_org_id = E.tp_org_id
-      WHERE E.tp_starts_at BETWEEN CURRENT_DATE-10 AND CURRENT_DATE+10 
-        AND removed = FALSE
-        ORDER BY
-          E.tp_starts_at ASC;
-    `;
-    return eventsList;
+  public async getEvents(): Promise<EventOrgInfo[] | []> {
+    try {
+      const eventsList = await sql<EventOrgInfo[]>`
+        SELECT E.*, O.tp_org_name, O.tp_org_subdomain, O.tp_org_logo_image_default_url
+        FROM events E
+          INNER JOIN tp_organizations O 
+            ON O.tp_org_id = E.tp_org_id
+        WHERE E.tp_starts_at BETWEEN CURRENT_DATE-10 AND CURRENT_DATE+10 
+          AND removed = FALSE
+          ORDER BY
+            E.tp_starts_at ASC;
+      `;
+      return eventsList;
+    } catch (error) {
+      console.log(`Error getting data from DB, ${error}`);
+      return [];
+    }
   }
+
+  // private async updateRemovedData() {
+  //   const dbData = await this.getEvents();
+  //   const eventsIdStored: number[] = [];
+  //   dbData.forEach((element) => {
+  //     eventsIdStored.push(element.tp_id);
+  //   });
+
+  //   const axios_config = getAxiosConfig(eventsIdStored);
+  //   const tpData = await axios(axios_config);
+  //   const tpEventsIdList = tpData.data.values;
+  //   // console.log(tpEventsIdList)
+  //   const eventsIdTp: number[] = [];
+  //   tpEventsIdList.forEach((element: any) => {
+  //     eventsIdTp.push(element.id);
+  //   });
+
+  //   const a = new Set(eventsIdStored);
+  //   const b = new Set(eventsIdTp);
+  //   const a_minus_b = new Set([...a].filter((x) => !b.has(x)));
+  //   const difArr = Array.from(a_minus_b);
+
+  //   await sql`
+  //     UPDATE events
+  //     SET removed = TRUE
+  //     WHERE tp_id IN ${sql(difArr)};
+  //   `;
+  // }
 }
