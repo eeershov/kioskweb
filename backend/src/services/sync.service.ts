@@ -4,7 +4,7 @@ const timepadService = new TimepadService();
 const databaseService = new DatabaseService();
 
 export default class SyncService {
-  public async syncEvents() {
+  public async updateEventsAndOrgs() {
     try {
       const timepadEvents = await timepadService.getTimepadData();
       await databaseService.updateEventsAndOrgs(timepadEvents);
