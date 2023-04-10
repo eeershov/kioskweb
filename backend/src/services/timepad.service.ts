@@ -82,35 +82,34 @@ export default class TimepadService {
       return [];
     }
   }
+  // async updateRemovedData() {
+  //   const dbData = await callHomeDB();
+  //   const eventsIdStored: number[] = [];
+  //   dbData.forEach((element) => {
+  //     eventsIdStored.push(element.tp_id);
+  //   });
+
+  //   const axios_config = getAxiosConfig(eventsIdStored);
+  //   const tpData = await axios(axios_config);
+  //   const tpEventsIdList = tpData.data.values;
+  //   // console.log(tpEventsIdList)
+  //   const eventsIdTp: number[] = [];
+  //   tpEventsIdList.forEach((element: any) => {
+  //     eventsIdTp.push(element.id);
+  //   });
+
+  //   const a = new Set(eventsIdStored);
+  //   const b = new Set(eventsIdTp);
+  //   const a_minus_b = new Set([...a].filter((x) => !b.has(x)));
+  //   const difArr = Array.from(a_minus_b);
+
+  //   await sql`
+  //     UPDATE events
+  //     SET removed = TRUE
+  //     WHERE tp_id IN ${sql(difArr)};
+  //   `;
+  // }
 }
-
-// async function updateRemovedData() {
-//   const dbData = await callHomeDB();
-//   const eventsIdStored: number[] = [];
-//   dbData.forEach((element) => {
-//     eventsIdStored.push(element.tp_id);
-//   });
-
-//   const axios_config = getAxiosConfig(eventsIdStored);
-//   const tpData = await axios(axios_config);
-//   const tpEventsIdList = tpData.data.values;
-//   // console.log(tpEventsIdList)
-//   const eventsIdTp: number[] = [];
-//   tpEventsIdList.forEach((element: any) => {
-//     eventsIdTp.push(element.id);
-//   });
-
-//   const a = new Set(eventsIdStored);
-//   const b = new Set(eventsIdTp);
-//   const a_minus_b = new Set([...a].filter((x) => !b.has(x)));
-//   const difArr = Array.from(a_minus_b);
-
-//   await sql`
-//     UPDATE events
-//     SET removed = TRUE
-//     WHERE tp_id IN ${sql(difArr)};
-//   `;
-// }
 
 // async function callTimepadAPI() {
 //   try {
@@ -141,5 +140,3 @@ export default class TimepadService {
 //   console.log("2. remove deleted");
 //   await updateRemovedData();
 // }
-
-console.log("Timepad service imported");
