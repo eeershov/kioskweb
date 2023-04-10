@@ -7,7 +7,7 @@ const TP_orgIdStand: number = parseInt(process.env.TP_orgIdStand as string);
 const TP_orgId52: number = parseInt(process.env.TP_orgId52 as string);
 
 export default class DatabaseService {
-  async updateEvents(arrTPEvents: TimepadEventData[]) {
+  private async updateEvents(arrTPEvents: TimepadEventData[]) {
     const arrEvents = [];
     for (let i = 0; i < arrTPEvents.length; i++) {
       const event = arrTPEvents[i];
@@ -44,7 +44,7 @@ export default class DatabaseService {
     `;
   }
 
-  async updateOrgs(TimepadEvents: TimepadEventData[] | "default") {
+  private async updateOrgs(TimepadEvents: TimepadEventData[] | "default") {
     // Org_anizations
     const allOrgs = [];
 
@@ -104,8 +104,22 @@ export default class DatabaseService {
     `;
   }
 
-  async syncTimepad(TimepadEvents: TimepadEventData[]) {
+  public async syncTimepad(TimepadEvents: TimepadEventData[]) {
     await this.updateOrgs(TimepadEvents);
     await this.updateEvents(TimepadEvents);
+  }
+
+  public async getEvents() {
+    const eventsList = await sql`
+      SELECT E.*, O.tp_org_name, O.tp_org_subdomain, O.tp_org_logo_image_default_url
+      FROM events E
+        INNER JOIN tp_organizations O 
+          ON O.tp_org_id = E.tp_org_id
+      WHERE E.tp_starts_at BETWEEN CURRENT_DATE-10 AND CURRENT_DATE+10 
+        AND removed = FALSE
+        ORDER BY
+          E.tp_starts_at ASC;
+    `;
+    return eventsList;
   }
 }
