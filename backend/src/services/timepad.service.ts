@@ -22,7 +22,7 @@ const TP_orgId52: number = parseInt(process.env.TP_orgId52 as string);
 // } from "./Timepad.service.helpers.js";
 
 export default class TimepadService {
-  getAxiosConfig(eventsId?: number[]) {
+  private getAxiosConfig(eventsId?: number[]) {
     const org_ids = `${TP_orgIdKiosk},${TP_orgIdGrky},${TP_orgIdStand},${TP_orgId52}`;
 
     // formating current date to yyyy-MM-dd
@@ -71,14 +71,21 @@ export default class TimepadService {
     return axios_config;
   }
 
-  async getTimepadData(): Promise<TimepadEventData[]> {
+  public async getTimepadData(
+    eventsId?: number[]
+  ): Promise<TimepadEventData[]> {
     try {
-      const axios_config = this.getAxiosConfig();
+      let axios_config;
+      if (eventsId) {
+        axios_config = this.getAxiosConfig(eventsId);
+      } else {
+        axios_config = this.getAxiosConfig();
+      }
       const response: AxiosResponse<{ values: TimepadEventData[] }> =
         await axios(axios_config);
       return response.data.values;
     } catch (error) {
-      console.error(error);
+      console.error(`Axios error: ${error}`);
       return [];
     }
   }

@@ -17,7 +17,6 @@ export default class DatabaseService {
     const arrEvents = [];
     for (let i = 0; i < arrTPEvents.length; i++) {
       const event = arrTPEvents[i];
-      console.log(event);
       const eventData = {
         tp_org_id: event.organization.id,
         day_num: 123, // can do without it
@@ -31,7 +30,6 @@ export default class DatabaseService {
         tp_poster_image_default_url: event.poster_image?.default_url || null,
       };
       arrEvents.push(eventData);
-      console.log(arrEvents);
     }
     await sql`
       INSERT INTO events ${sql(arrEvents)}
@@ -131,6 +129,20 @@ export default class DatabaseService {
     } catch (error) {
       console.log(`Error getting data from DB, ${error}`);
       return [];
+    }
+  }
+
+  public async updateMarkRemovedEvents(removedEventIds: number[]) {
+    try {
+      await sql.begin(async (sql) => {
+        await sql`
+          UPDATE events
+          SET removed = TRUE
+          WHERE tp_id IN ${sql(removedEventIds)};
+        `;
+      });
+    } catch (error) {
+      console.log(`Error updateMarkRemovedEvents: ${error}`);
     }
   }
 }
