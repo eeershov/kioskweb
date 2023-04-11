@@ -1,13 +1,8 @@
 import { format } from "date-fns";
 import axios from "axios";
-// import * as dotenv from "dotenv";
-// dotenv.config();
-
 import { AxiosResponse } from "axios";
-import { TimepadEventData } from "../types/index.js";
 
-// import { callHomeDB } from "../controllers/Api.controller.js";
-// import { sql } from "../database/db.js";
+import { TimepadEventData } from "../types/index.js";
 
 const TP_API_TOKEN: string = process.env.TP_API_TOKEN as string;
 const TP_API_URL: string = process.env.TP_API_URL as string;
@@ -16,16 +11,10 @@ const TP_orgIdGrky: number = parseInt(process.env.TP_orgIdGrky as string);
 const TP_orgIdStand: number = parseInt(process.env.TP_orgIdStand as string);
 const TP_orgId52: number = parseInt(process.env.TP_orgId52 as string);
 
-// import {
-//   updateOrganizationsDB,
-//   updateEventsDB,
-// } from "./Timepad.service.helpers.js";
-
 export default class TimepadService {
   private getAxiosConfig(eventsId?: number[]) {
     const org_ids = `${TP_orgIdKiosk},${TP_orgIdGrky},${TP_orgIdStand},${TP_orgId52}`;
 
-    // formating current date to yyyy-MM-dd
     const currentDate = new Date();
     const dateNow = format(currentDate, "yyyy-MM-dd");
 
