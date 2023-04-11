@@ -1,5 +1,5 @@
 import { TimepadService, DatabaseService } from "../services/index.js";
-import { EventInfo, TimepadEventData } from "../types/index.js";
+import { EventData, TimepadEventData } from "../types/index.js";
 
 const timepadService = new TimepadService();
 const databaseService = new DatabaseService();
@@ -8,7 +8,7 @@ export default class SyncService {
   private async updateRemovedEvents() {
     // marks removed events in db
     // compares events in db with timepad's by timepad-id
-    const dbData: EventInfo[] = await databaseService.getEvents();
+    const dbData: EventData[] = await databaseService.getEvents();
 
     const databaseEventId: number[] = [];
     dbData.forEach((element) => {

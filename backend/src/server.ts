@@ -17,11 +17,15 @@ const app = express();
 app.use(cors());
 
 async function testCallDB() {
-  console.log(` [${new Date()}] \nCalling Home API`);
-  const tabababa = await sql`
-    SHOW TIME ZONE;
-  `;
-  console.log(tabababa);
+  try {
+    console.log(` [${new Date()}] \nCalling Home API`);
+    const tabababa = await sql`
+      SHOW TIME ZONE;
+    `;
+    console.log(tabababa);
+  } catch (error) {
+    console.log(`${error}`);
+  }
 }
 
 await testCallDB();

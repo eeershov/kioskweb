@@ -1,3 +1,6 @@
 export { TimepadEventData } from "./timepad.type.js";
-export { OrganizationInfo } from "./organization.type.js";
-export { EventInfo } from "./event.type.js";
+export {
+  OrganizationCreationData,
+  OrganizationData,
+} from "./organization.type.js";
+export { EventCreationData, EventData } from "./event.type.js";

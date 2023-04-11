@@ -1,5 +1,4 @@
-type EventInfo = {
-  id: number;
+type EventCreationData = {
   tp_org_id: number;
   day_num: number;
   week_num: number;
@@ -9,10 +8,16 @@ type EventInfo = {
   tp_description_short: string;
   tp_description_html: string;
   tp_url: string;
-  tp_poster_image_default_url: string;
+  tp_poster_image_default_url: string | null;
+};
+
+type DatabaseGenerated = {
+  id: number;
   created: Date;
   updated: Date;
   removed: boolean;
 };
 
-export { EventInfo };
+type EventData = EventCreationData & DatabaseGenerated;
+
+export { EventCreationData, EventData };
