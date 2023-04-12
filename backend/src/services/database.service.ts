@@ -3,13 +3,10 @@ import { parseISO } from "date-fns";
 import { sql } from "../database/database.js";
 import {
   TimepadEventData,
-  OrganizationData,
+  EventWithOrganizationData,
   EventCreationData,
-  EventData,
   OrganizationCreationData,
 } from "../types/index.js";
-
-type EventOrgData = EventData & OrganizationData;
 
 const TP_orgIdKiosk: number = parseInt(process.env.TP_orgIdKiosk as string);
 const TP_orgIdGrky: number = parseInt(process.env.TP_orgIdGrky as string);
@@ -53,7 +50,8 @@ export default class DatabaseService {
               tp_poster_image_default_url = EXCLUDED.tp_poster_image_default_url,
               day_num = EXCLUDED.day_num,
               week_num = EXCLUDED.week_num,
-              updated = CURRENT_TIMESTAMP
+              updated = CURRENT_TIMESTAMP,
+              removed = FALSE
         `;
       });
     } catch (error) {
@@ -134,9 +132,9 @@ export default class DatabaseService {
     await this.updateEvents(TimepadEvents);
   }
 
-  public async getEvents(): Promise<EventOrgData[] | []> {
+  public async getEvents(): Promise<EventWithOrganizationData[] | []> {
     try {
-      const eventsList = await sql<EventOrgData[]>`
+      const eventsList = await sql<EventWithOrganizationData[]>`
         SELECT E.*, O.tp_org_name, O.tp_org_subdomain, O.tp_org_logo_image_default_url
         FROM events E
           INNER JOIN tp_organizations O 

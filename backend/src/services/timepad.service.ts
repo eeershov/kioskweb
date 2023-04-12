@@ -62,7 +62,7 @@ export default class TimepadService {
 
   public async getTimepadData(
     eventsId?: number[]
-  ): Promise<TimepadEventData[]> {
+  ): Promise<TimepadEventData[] | undefined> {
     try {
       let axios_config;
       if (eventsId) {
@@ -75,7 +75,7 @@ export default class TimepadService {
       return response.data.values;
     } catch (error) {
       console.error(`Axios error: ${error}`);
-      return [];
+      throw new Error(`Axios error: ${error}`);
     }
   }
 }
