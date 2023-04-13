@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, subMonths } from "date-fns";
 import axios from "axios";
 import { AxiosResponse } from "axios";
 
@@ -15,9 +15,16 @@ const TP_orgIds = [
 
 export default class TimepadService {
   private static getAxiosConfig(eventsId?: number[]): AxiosConfig {
+    // getting events by IDs is the (only) way to check if they are still exist
     const org_ids = TP_orgIds.join(",");
+
     const currentDate = new Date();
-    const dateNow = format(currentDate, "yyyy-MM-dd");
+    const dateFormat = "yyyy-MM-dd";
+    const [dateNow, monthAgo] = [
+      format(currentDate, dateFormat),
+      format(subMonths(currentDate, 1), dateFormat),
+    ];
+
     const fields = [
       "id",
       "location",
@@ -31,12 +38,12 @@ export default class TimepadService {
     const payload = {
       show_empty_fields: false,
       fields,
-      limit: 100,
+      limit: 100, // 100 is max
       starts_at_min: dateNow,
       organization_ids: org_ids,
       ...(eventsId && {
         event_ids: eventsId,
-        starts_at_min: "2023-01-01",
+        starts_at_min: monthAgo,
       }),
     };
 
@@ -63,9 +70,16 @@ export default class TimepadService {
       }
       const response: AxiosResponse<{ values: TimepadEventData[] }> =
         await axios(axios_config);
-      return response.data.values;
+      const values = response.data.values;
+      if (values) {
+        return values;
+      } else {
+        console.log(
+          `response.data.values from Timepad is undefined: ${response}`
+        );
+        return [];
+      }
     } catch (error) {
-      console.error(`Axios error: ${error}`);
       throw new Error(`Axios error: ${error}`);
     }
   }
