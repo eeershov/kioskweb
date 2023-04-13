@@ -45,6 +45,8 @@ services:
       - ${PWD}/client/node_modules:/clientapp/node_modules
     networks:
       - backendapp_net
+    depends_on:
+      - backendapp
 
   db:
     container_name: database
