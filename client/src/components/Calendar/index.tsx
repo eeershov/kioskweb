@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import axios from "axios";
 
 function Calendar() {
   const [data, setData] = useState<EventData[] | []>([]);
 
   interface EventData {
     id: number;
-    name: string;
+    tp_name: string;
   }
 
+  const config = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      "Content-Type": "application/json",
+    },
+  };
+  const getEvents = async () => {
+    return await axios.get(
+      "http://localhost:8080/api/events",
+      config
+    );
+  };
+
   useEffect(() => {
-    fetch('https://localhost:8080/api/events')
-      .then(response => response.json())
-      .then((data: EventData[]) => setData(data))
+    getEvents()
+      .then(response => setData(response.data))
       .catch(error => console.error(error));
   }, []);
 
@@ -20,7 +34,7 @@ function Calendar() {
       {data ? (
         <ul>
           {data.map(item => (
-            <li key={item.id}>{item.name}</li>
+            <li key={item.id}>{item.tp_name}</li>
           ))}
         </ul>
       ) : (
