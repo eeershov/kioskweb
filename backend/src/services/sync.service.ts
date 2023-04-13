@@ -1,6 +1,5 @@
 import { TimepadService, DatabaseService } from "../services/index.js";
 
-const timepadService = new TimepadService();
 const databaseService = new DatabaseService();
 
 export default class SyncService {
@@ -11,7 +10,7 @@ export default class SyncService {
     const databaseEventId: number[] = databaseData.map((event) => event.tp_id);
 
     try {
-      const timepadData = await timepadService.getTimepadData(databaseEventId);
+      const timepadData = await TimepadService.getTimepadData(databaseEventId);
       if (timepadData) {
         const timepadEventId: number[] = timepadData.map((event) => event.id);
         const diffArr = databaseEventId.filter(
@@ -29,7 +28,7 @@ export default class SyncService {
 
   public async updateEventsAndOrgs() {
     try {
-      const timepadEvents = await timepadService.getTimepadData();
+      const timepadEvents = await TimepadService.getTimepadData();
       if (timepadEvents) {
         await databaseService.updateEventsAndOrgs(timepadEvents);
         console.log("Synced with Timepad successfully.");

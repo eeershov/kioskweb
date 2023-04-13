@@ -14,7 +14,7 @@ const TP_orgIds = [
 ];
 
 export default class TimepadService {
-  private getAxiosConfig(eventsId?: number[]): AxiosConfig {
+  private static getAxiosConfig(eventsId?: number[]): AxiosConfig {
     const org_ids = TP_orgIds.join(",");
     const currentDate = new Date();
     const dateNow = format(currentDate, "yyyy-MM-dd");
@@ -51,7 +51,7 @@ export default class TimepadService {
     };
   }
 
-  public async getTimepadData(
+  public static async getTimepadData(
     eventsId?: number[]
   ): Promise<TimepadEventData[] | undefined> {
     try {
