@@ -2,23 +2,23 @@ import { format } from "date-fns";
 import axios from "axios";
 import { AxiosResponse } from "axios";
 
-import { TimepadEventData } from "../types/index.js";
+import { TimepadEventData, AxiosConfig } from "../types/index.js";
 
 const TP_API_TOKEN: string = process.env.TP_API_TOKEN as string;
 const TP_API_URL: string = process.env.TP_API_URL as string;
-const TP_orgIdKiosk: number = parseInt(process.env.TP_orgIdKiosk as string);
-const TP_orgIdGrky: number = parseInt(process.env.TP_orgIdGrky as string);
-const TP_orgIdStand: number = parseInt(process.env.TP_orgIdStand as string);
-const TP_orgId52: number = parseInt(process.env.TP_orgId52 as string);
+const TP_orgIds = [
+  parseInt(process.env.TP_orgIdKiosk as string),
+  parseInt(process.env.TP_orgIdGrky as string),
+  parseInt(process.env.TP_orgIdStand as string),
+  parseInt(process.env.TP_orgId52 as string),
+];
 
 export default class TimepadService {
-  private getAxiosConfig(eventsId?: number[]) {
-    const org_ids = `${TP_orgIdKiosk},${TP_orgIdGrky},${TP_orgIdStand},${TP_orgId52}`;
-
+  private getAxiosConfig(eventsId?: number[]): AxiosConfig {
+    const org_ids = TP_orgIds.join(",");
     const currentDate = new Date();
     const dateNow = format(currentDate, "yyyy-MM-dd");
-
-    const plFields = [
+    const fields = [
       "id",
       "location",
       "description_short",
@@ -28,27 +28,19 @@ export default class TimepadService {
       "tickets_limit",
     ];
 
-    const payload: {
-      show_empty_fields: string;
-      fields: string[];
-      limit: string;
-      starts_at_min: string;
-      organization_ids: string;
-      event_ids?: number[];
-    } = {
-      show_empty_fields: "false",
-      fields: plFields,
-      limit: "100",
+    const payload = {
+      show_empty_fields: false,
+      fields,
+      limit: 100,
       starts_at_min: dateNow,
       organization_ids: org_ids,
+      ...(eventsId && {
+        event_ids: eventsId,
+        starts_at_min: "2023-01-01",
+      }),
     };
 
-    if (eventsId) {
-      payload["event_ids"] = eventsId;
-      payload["starts_at_min"] = "2023-01-01";
-    }
-
-    const axios_config = {
+    return {
       method: "get",
       url: TP_API_URL,
       params: payload,
@@ -57,7 +49,6 @@ export default class TimepadService {
         "Accept-Encoding": "text/html; charset=UTF-8",
       },
     };
-    return axios_config;
   }
 
   public async getTimepadData(

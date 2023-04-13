@@ -6,3 +6,4 @@ export type EventWithOrganizationData = EventData & OrganizationData;
 export { TimepadEventData } from "./timepad.type.js";
 export { OrganizationCreationData } from "./organization.type.js";
 export { EventCreationData, EventData } from "./event.type.js";
+export { AxiosConfig } from "./axiosconfig.type.js";
