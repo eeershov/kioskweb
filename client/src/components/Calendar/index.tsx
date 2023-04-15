@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import { backend } from "../../utils/address";
+import Week from "./Week";
+
+import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
 function Calendar() {
-  const [data, setData] = useState<EventData[] | []>([]);
-
-  interface EventData {
-    id: number;
-    tp_name: string;
-  }
+  const [data, setData] = useState<EventWithOrganizationData[] | []>([]);
 
   const config = {
     headers: {
@@ -17,26 +16,24 @@ function Calendar() {
     },
   };
   const getEvents = async () => {
-    return await axios.get(
-      "http://localhost:8080/api/events",
-      config
-    );
+    try {
+      const response = await axios.get(`${backend}:8080/api/events`, config);
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
-    getEvents()
-      .then(response => setData(response.data))
-      .catch(error => console.error(error));
+    getEvents();
   }, []);
 
   return (
     <div>
       {data ? (
-        <ul>
-          {data.map(item => (
-            <li key={item.id}>{item.tp_name}</li>
-          ))}
-        </ul>
+        <div>
+          <Week events={data} />
+        </div>
       ) : (
         <p>Loading...</p>
       )}
