@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { format, setDefaultOptions } from "date-fns";
+import { format, setDefaultOptions, previousMonday, isMonday } from "date-fns";
 import { ru } from 'date-fns/locale';
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
+import Day from "./Day";
 
 setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
@@ -11,17 +12,22 @@ interface Events {
   events: EventWithOrganizationData[] | []
 }
 
-export default function Week(props: Events) {
-  const { events } = props;
+export default function Week({ events }: Events) {
   const [weekDates, setWeekDates] = useState<Date[]>([]);
 
   useEffect(() => {
     // Get the dates for the current week
+    // From Monday to Sunday
     const currentDate = new Date();
-    const currentDay = currentDate.getDay();
+    let theDay: Date;
+    if (isMonday(currentDate)) {
+      theDay = currentDate;
+    } else {
+      theDay = previousMonday(currentDate);
+    }
     const dates = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date(currentDate);
-      date.setDate(date.getDate() + i - currentDay + 1);
+      const date = new Date(theDay);
+      date.setDate(date.getDate() + i);
       return date;
     });
     setWeekDates(dates);
@@ -29,29 +35,20 @@ export default function Week(props: Events) {
 
   return (
     <div>
-      {weekDates.map((date, index) => {
+      {weekDates.map((weekDate, index) => {
         // Filter events for the current date
         const dateEvents = events.filter((event) => {
           const eventDate = new Date(event.tp_starts_at);
           return (
-            eventDate.getDate() === date.getDate() &&
-            eventDate.getMonth() === date.getMonth() &&
-            eventDate.getFullYear() === date.getFullYear()
+            eventDate.getDate() === weekDate.getDate() &&
+            eventDate.getMonth() === weekDate.getMonth() &&
+            eventDate.getFullYear() === weekDate.getFullYear()
           );
         });
-
         return (
           <div key={index}>
-            <h3>{format(date, 'EEEE, MMMM d')}</h3>
-            {dateEvents.length > 0 ? (
-              <ul>
-                {dateEvents.map((event, index) => (
-                  <li key={index}>{event.tp_name}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No events for this day</p>
-            )}
+            <h3>{format(weekDate, 'EEEE, MMMM d')}</h3>
+            {<Day events={dateEvents} />}
           </div>
         );
       })}
