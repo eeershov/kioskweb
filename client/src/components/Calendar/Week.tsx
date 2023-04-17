@@ -34,7 +34,9 @@ export default function Week({ events }: Events) {
   }, []);
 
   return (
-    <div>
+    <div className='Week
+                    flex-row
+                    m-0'>
       {weekDates.map((weekDate, index) => {
         // Filter events for the current date
         const dateEvents = events.filter((event) => {
@@ -46,8 +48,10 @@ export default function Week({ events }: Events) {
           );
         });
         return (
-          <div key={index}>
-            <h3>{format(weekDate, 'EEEE, MMMM d')}</h3>
+          <div key={index} className='pb-2'>
+            <h3 className='text-center self-center uppercase font-bold text-sm p-2'>
+              {format(weekDate, 'EEEE, MMMM d')}
+            </h3>
             {<Day events={dateEvents} />}
           </div>
         );

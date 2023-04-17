@@ -6,7 +6,7 @@ import Week from "./Week";
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
 function Calendar() {
-  const [data, setData] = useState<EventWithOrganizationData[] | []>([]);
+  const [data, setData] = useState<EventWithOrganizationData[] | [] | null>(null);
   useEffect(() => {
     const config = {
       headers: {
@@ -27,7 +27,7 @@ function Calendar() {
   }, []);
 
   return (
-    <div>
+    <div className='Calendar'>
       {data ? (
         <div>
           <Week events={data} />
