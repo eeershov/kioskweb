@@ -7,24 +7,22 @@ import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
 function Calendar() {
   const [data, setData] = useState<EventWithOrganizationData[] | []>([]);
-
-  const config = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-      "Content-Type": "application/json",
-    },
-  };
-  const getEvents = async () => {
-    try {
-      const response = await axios.get(`${backend}:8080/api/events`, config);
-      setData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    const config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        "Content-Type": "application/json",
+      },
+    };
+    async function getEvents(): Promise<void> {
+      try {
+        const response = await axios.get(`${backend}:8080/api/events`, config);
+        setData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
     getEvents();
   }, []);
 
