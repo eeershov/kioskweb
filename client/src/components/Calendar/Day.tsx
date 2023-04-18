@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EventCard from "./EventCard";
+import { EventCard } from "./index";
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 interface Events {

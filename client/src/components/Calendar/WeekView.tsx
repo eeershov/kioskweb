@@ -3,7 +3,7 @@ import { format, setDefaultOptions, previousMonday, isMonday } from "date-fns";
 import { ru } from 'date-fns/locale';
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
-import Day from "./Day";
+import { Day } from "./index";
 
 setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
@@ -12,7 +12,7 @@ interface Events {
   events: EventWithOrganizationData[] | []
 }
 
-export default function Week({ events }: Events) {
+export default function WeekView({ events }: Events) {
   const [weekDates, setWeekDates] = useState<Date[]>([]);
 
   useEffect(() => {

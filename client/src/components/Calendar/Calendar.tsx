@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { backend } from "../../utils/address";
-import Week from "./Week";
+import { WeekView, MonthView } from "./index";
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
@@ -30,7 +30,7 @@ function Calendar() {
     <div className='Calendar'>
       {data ? (
         <div>
-          <Week events={data} />
+          <WeekView events={data} />
         </div>
       ) : (
         <p>Loading...</p>
