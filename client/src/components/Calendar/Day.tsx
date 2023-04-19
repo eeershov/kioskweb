@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EventCard from "./EventCard";
+import { EventCard } from "./index";
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 interface Events {
@@ -16,7 +16,10 @@ export default function Day({ events }: Events) {
     )
   }
   return (
-    <div>
+    <div className='Day-content
+                    flex-row
+                    pb-4
+                    '>
       {events.map((event, i) => {
         return (
           <EventCard key={i} performance={event} />

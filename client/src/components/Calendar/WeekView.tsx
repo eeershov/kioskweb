@@ -3,7 +3,7 @@ import { format, setDefaultOptions, previousMonday, isMonday } from "date-fns";
 import { ru } from 'date-fns/locale';
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
-import Day from "./Day";
+import { Day } from "./index";
 
 setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
@@ -12,7 +12,7 @@ interface Events {
   events: EventWithOrganizationData[] | []
 }
 
-export default function Week({ events }: Events) {
+export default function WeekView({ events }: Events) {
   const [weekDates, setWeekDates] = useState<Date[]>([]);
 
   useEffect(() => {
@@ -34,7 +34,9 @@ export default function Week({ events }: Events) {
   }, []);
 
   return (
-    <div>
+    <div className='Week
+                    flex-row
+                    m-0'>
       {weekDates.map((weekDate, index) => {
         // Filter events for the current date
         const dateEvents = events.filter((event) => {
@@ -46,8 +48,10 @@ export default function Week({ events }: Events) {
           );
         });
         return (
-          <div key={index}>
-            <h3>{format(weekDate, 'EEEE, MMMM d')}</h3>
+          <div key={index} className='pb-2'>
+            <h3 className='text-center self-center uppercase font-bold text-sm p-2'>
+              {format(weekDate, 'EEEE, MMMM d')}
+            </h3>
             {<Day events={dateEvents} />}
           </div>
         );
