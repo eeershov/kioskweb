@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { format, setDefaultOptions, previousMonday, isMonday, addDays, isFirstDayOfMonth, parse, set as dateSet } from "date-fns";
+import { format, setDefaultOptions, previousMonday, isMonday, addDays, parse } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { Week } from "./index";
 
@@ -12,12 +12,8 @@ interface EventsByDay {
 }
 
 export default function MonthView({ eventsByDay }: EventsByDay) {
-  // const [monthDates, setMonthDates] = useState<Date[]>([]);
   console.log("MonthView");
-  console.log(eventsByDay);
-
-
-  function getWeekDates(date: Date, map: Map<string, any>): Map<Date, any> {
+  function getWeekDates(date: Date, map: Map<string, any>): Map<string, any> {
     // check to what week date is belong
     // const dateZeroHours = dateSet(date, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 })
     const dateFormat = `d-M-yyyy`;
@@ -37,7 +33,7 @@ export default function MonthView({ eventsByDay }: EventsByDay) {
       const dateString = format(dateToRecieve, dateFormat);
       const events = map.get(dateString);
       console.log(events);
-      weekDates.set(dateToRecieve, events);
+      weekDates.set(dateString, events);
     }
 
     return weekDates;
