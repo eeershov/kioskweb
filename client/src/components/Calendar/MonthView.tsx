@@ -13,10 +13,10 @@ interface EventsByDay {
 
 export default function MonthView({ eventsByDay }: EventsByDay) {
   console.log("MonthView");
+  const dateFormat = `d-M-yyyy`;
+
   function getWeekDates(date: Date, map: Map<string, any>): Map<string, any> {
     // check to what week date is belong
-    // const dateZeroHours = dateSet(date, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 })
-    const dateFormat = `d-M-yyyy`;
     const dateString = format(date, dateFormat);
     const dateType = parse(dateString, dateFormat, new Date())
     const weekDates = new Map();
@@ -39,11 +39,28 @@ export default function MonthView({ eventsByDay }: EventsByDay) {
     return weekDates;
   }
 
+  function getSundays({ eventsByDay }: EventsByDay): string[] {
+    const eventsIter = eventsByDay.keys();
+
+    let i = 0;
+    const sundays = [];
+    for (const dateString of eventsIter) {
+      i++;
+      if (!(i % 7)) {
+        sundays.push(dateString);
+      }
+    }
+    return sundays;
+  }
   const currentDate = new Date();
-  const firstDate = eventsByDay.entries().next().value[0];
-  console.log(firstDate)
-  const thisWeekEvents = getWeekDates(currentDate, eventsByDay);
-  console.log("thisWeekEvents", thisWeekEvents);
+  const sundays = getSundays({ eventsByDay });
+  console.log(sundays);
+  const weeksJSX = [];
+  for (let i = 0; i < sundays.length; i++) {
+    const dateString = sundays[i];
+    const date = parse(dateString, dateFormat, currentDate)
+    weeksJSX.push(<Week weekEvents={getWeekDates(date, eventsByDay)} />)
+  }
 
 
   return (
@@ -51,7 +68,11 @@ export default function MonthView({ eventsByDay }: EventsByDay) {
                     flex-row
                     m-0'>
       <p>MonthView!</p>
-      {eventsByDay.size > 0 ? <Week weekEvents={getWeekDates(new Date(), eventsByDay)} /> : "pepepe"}
+      {eventsByDay.size > 0 ?
+        <div>
+          {weeksJSX}
+        </div>
+        : "pepepe"}
 
     </div>
   );
