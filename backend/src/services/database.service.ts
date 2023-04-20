@@ -139,7 +139,7 @@ export default class DatabaseService {
         FROM events E
           INNER JOIN tp_organizations O 
             ON O.tp_org_id = E.tp_org_id
-        WHERE E.tp_starts_at BETWEEN CURRENT_DATE-10 AND CURRENT_DATE+10 
+        WHERE E.tp_starts_at BETWEEN CURRENT_DATE-40 AND CURRENT_DATE+10 
           AND removed = FALSE
           ORDER BY
             E.tp_starts_at ASC;
