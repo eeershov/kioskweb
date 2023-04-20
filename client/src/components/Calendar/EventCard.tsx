@@ -8,7 +8,7 @@ interface Performance {
 export default function EventCard({ performance }: Performance) {
   const [showModal, setShowModal] = useState(false);
 
-  console.log(`performance`, performance)
+  // console.log(`performance`, performance)
 
   const starts_at = new Date(performance.tp_starts_at).toLocaleTimeString('ru-RU', { 'timeStyle': 'short' });
 
