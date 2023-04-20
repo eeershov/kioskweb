@@ -90,7 +90,7 @@ function Calendar() {
     <div className='Calendar'>
       {eventsByDayState.size > 0 ? (
         <div>
-          <MonthView eventsByDay={eventsByDayState} />
+          <WeekView eventsByDay={eventsByDayState} />
         </div>
       ) : (
         <p>Loading...</p>
