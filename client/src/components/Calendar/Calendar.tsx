@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { ApiService } from '../../services/api.service';
 import { format, setDefaultOptions, previousMonday, isMonday, isFirstDayOfMonth, parse } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { WeekView, MonthView } from "./index";
+import { ViewportContext } from '../../appContext/ViewportContext';
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
@@ -13,7 +14,11 @@ setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 // }
 
 function Calendar() {
-  console.log("Calendar")
+  console.log("Calendar");
+  const widthHeight = useContext(ViewportContext);
+  const breakpoint = 620;
+  const width = widthHeight.width;
+
   const [dataState, setDataState] = useState<EventWithOrganizationData[] | [] | "Error">([]);
   const [eventsByDayState, setEventsByDayState] = useState<Map<string, [] | EventWithOrganizationData[]>>(new Map());
 
@@ -86,11 +91,14 @@ function Calendar() {
     }
   }, [dataState]);
 
+
+  const MonthOrWeekView = (breakpoint > width ? <WeekView eventsByDay={eventsByDayState} /> : <MonthView eventsByDay={eventsByDayState} />)
+
   return (
     <div className='Calendar'>
       {eventsByDayState.size > 0 ? (
         <div>
-          <WeekView eventsByDay={eventsByDayState} />
+          {MonthOrWeekView}
         </div>
       ) : (
         <p>Loading...</p>
