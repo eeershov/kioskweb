@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { format, setDefaultOptions, parse, subDays, addDays } from "date-fns";
+import { setDefaultOptions, subDays, addDays } from "date-fns";
 import { ru } from 'date-fns/locale';
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
@@ -15,12 +15,7 @@ interface EventsByDay {
 
 export default function WeekView({ eventsByDay }: EventsByDay) {
   const [dateState, setDateState] = useState(new Date());
-  const [weekState, setWeekState] = useState(getWeekDates(dateState, eventsByDay));
   const [disabledControls, setDisabledControls] = useState({ prev: false, next: false });
-
-  useEffect(() => {
-    setWeekState(getWeekDates(dateState, eventsByDay))
-  }, [dateState, eventsByDay])
 
   function ControlButton({ option, children }: { option: "prev" | "next"; children: string }): JSX.Element {
     console.log(option);
@@ -31,27 +26,30 @@ export default function WeekView({ eventsByDay }: EventsByDay) {
       status = disabledControls.next;
     }
     return (
-      <button onClick={() => handleControl(option)} disabled={status}>
+      <button onClick={() => handleControl(option)} disabled={status} className='bg-slate-500 disabled:bg-stone-500'>
         {children}
       </button>
     );
   }
 
   function handleControl(option: "prev" | "next") {
-    let newDate;
+    let optionDate;
+    let optionFutureDate;
     if (option === "prev") {
-      newDate = subDays(dateState, 7);
+      optionDate = subDays(dateState, 7);
+      optionFutureDate = subDays(dateState, 14);
     } else {
-      newDate = addDays(dateState, 7);
+      optionDate = addDays(dateState, 7);
+      optionFutureDate = addDays(dateState, 14);
     }
-    const newWeek = getWeekDates(newDate, eventsByDay);
-    const hasEvents = Array.from(newWeek.values()).some(events => events !== undefined);
+    const optionFutureWeek = getWeekDates(optionFutureDate, eventsByDay);
+    const hasEvents = Array.from(optionFutureWeek.values()).some(events => events !== undefined);
     if (hasEvents) {
-      setDateState(newDate);
       setDisabledControls({ prev: false, next: false });
     } else {
       setDisabledControls({ prev: option === "prev", next: option === "next" });
     }
+    setDateState(optionDate);
   }
 
   return (
@@ -64,7 +62,7 @@ export default function WeekView({ eventsByDay }: EventsByDay) {
           next
         </ControlButton>
       </div>
-      {<Week weekEvents={weekState} option={"week-view"} />}
+      {<Week weekEvents={getWeekDates(dateState, eventsByDay)} option={"week-view"} />}
     </div>
   )
 }

@@ -36,7 +36,7 @@ export default function MonthView({ eventsByDay }: EventsByDay) {
   for (let i = 0; i < sundays.length; i++) {
     const dateString = sundays[i];
     const date = parse(dateString, dateFormat, currentDate)
-    weeksJSX.push(<Week weekEvents={getWeekDates(date, eventsByDay)} option={"month-view"} />)
+    weeksJSX.push(<Week key={i} weekEvents={getWeekDates(date, eventsByDay)} option={"month-view"} />)
   }
 
 
