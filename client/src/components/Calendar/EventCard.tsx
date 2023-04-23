@@ -90,7 +90,11 @@ export default function EventCard({ performance }: Performance) {
                   <div className="buttons-block items-center gap-2 mt-3 sm:flex">
                     <button
                       className="w-full mt-2 p-2.5 flex-1 bg-purple-600 text-white rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
-                      onClick={() => setShowModal(false)}
+                      onClick={() => {
+                        setShowModal(false);
+                        window.open(`${performance.tp_url}`);
+                      }}
+
                     >
                       Открыть на таймпаде ↗
                     </button>

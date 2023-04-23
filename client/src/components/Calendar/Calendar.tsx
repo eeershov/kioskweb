@@ -15,9 +15,7 @@ setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
 function Calendar() {
   console.log("Calendar");
-  const widthHeight = useContext(ViewportContext);
-  const breakpoint = 620;
-  const width = widthHeight.width;
+  const mobOrDesk = useContext(ViewportContext);
 
   const [dataState, setDataState] = useState<EventWithOrganizationData[] | [] | "Error">([]);
   const [eventsByDayState, setEventsByDayState] = useState<Map<string, [] | EventWithOrganizationData[]>>(new Map());
@@ -92,7 +90,7 @@ function Calendar() {
   }, [dataState]);
 
 
-  const MonthOrWeekView = (breakpoint > width ? <WeekView eventsByDay={eventsByDayState} /> : <MonthView eventsByDay={eventsByDayState} />)
+  const MonthOrWeekView = (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDayState} /> : <MonthView eventsByDay={eventsByDayState} />)
 
   return (
     <div className='Calendar'>
