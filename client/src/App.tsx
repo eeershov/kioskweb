@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Footer from "./components/Footer";
@@ -7,7 +7,8 @@ import { ViewportContext } from './appContext/ViewportContext';
 
 function App() {
   const ViewportProvider = ({ children }: { children: React.ReactNode }) => {
-    const [mobOrDesk, setMobOrDesk] = React.useState<"Mobile" | "Desktop">("Mobile");
+    const mobOrDeskContext = useContext(ViewportContext);
+    const [mobOrDesk, setMobOrDesk] = React.useState(mobOrDeskContext);
     // const [widthHeight, setWidthHeight] = React.useState({ width: window.innerWidth, height: window.innerHeight });
     const breakpoint = 620;
 

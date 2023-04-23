@@ -1,4 +1,10 @@
 import { createContext } from "react";
 
-
-export const ViewportContext = createContext<"Mobile" | "Desktop">("Mobile");
+let mobOrDesk: "Mobile" | "Desktop";
+console.log(window.innerWidth);
+if (window.innerWidth > 620) {
+  mobOrDesk = "Desktop";
+} else {
+  mobOrDesk = "Mobile";
+}
+export const ViewportContext = createContext(mobOrDesk);
