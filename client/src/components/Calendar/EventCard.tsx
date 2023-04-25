@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
+import { ViewportContext } from "../../appContext/ViewportContext";
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 interface Performance {
   performance: EventWithOrganizationData
@@ -7,6 +8,7 @@ interface Performance {
 
 export default function EventCard({ performance }: Performance) {
   const [showModal, setShowModal] = useState(false);
+  const mobOrDesk = useContext(ViewportContext);
 
   // console.log(`performance`, performance)
 
@@ -19,8 +21,8 @@ export default function EventCard({ performance }: Performance) {
     performanceImage = performance.tp_org_logo_image_default_url
   }
 
-  const verTwo = (
-    <div className="Card 
+  const mobile = (
+    <div className="Card
                     rounded-2xl justify-center bg-no-repeat bg-cover bg-center bg-local
                     w-full h-28 overflow-hidden shadow-2xl my-2"
       style={{ backgroundImage: `url(${performanceImage})` }}>
@@ -57,7 +59,16 @@ export default function EventCard({ performance }: Performance) {
       </div>
     </div>
   );
+  const desktop = (
+    <div className="Card
+                    rounded-2xl justify-center bg-no-repeat bg-cover bg-center bg-local
+                    w-full h-28 overflow-hidden shadow-2xl my-2"
+      style={{ backgroundImage: `url(${performanceImage})` }}>
 
+
+    </div>
+
+  );
 
   function Modal() {
     return (
@@ -116,7 +127,7 @@ export default function EventCard({ performance }: Performance) {
 
   return (
     <>
-      {verTwo}
+      {mobOrDesk === "Mobile" ? mobile : desktop}
       <Modal />
     </>
   )
