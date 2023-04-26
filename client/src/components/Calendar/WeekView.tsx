@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { setDefaultOptions, subDays, addDays } from "date-fns";
 import { ru } from 'date-fns/locale';
 

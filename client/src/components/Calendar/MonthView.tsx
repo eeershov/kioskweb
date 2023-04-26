@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { format, setDefaultOptions, previousMonday, isMonday, addDays, parse } from "date-fns";
+import React from 'react';
+import { setDefaultOptions, parse, getDay } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { Week } from "./index";
 import { getWeekDates } from "./utils";
@@ -15,28 +15,31 @@ interface EventsByDay {
 export default function MonthView({ eventsByDay }: EventsByDay) {
   console.log("MonthView");
   const dateFormat = `d-M-yyyy`;
+  const currentDate = new Date();
 
-  function getSundays({ eventsByDay }: EventsByDay): string[] {
-    const eventsIter = eventsByDay.keys();
-
+  function getWeekInfo(): { isWeekdayEmpty: number[], sundays: string[] } {
+    const eventsIter = eventsByDay.entries();
     let i = 0;
+    const isWeekdayEmpty = [0, 0, 0, 0, 0, 0, 0];
     const sundays = [];
-    for (const dateString of eventsIter) {
+    for (const [dateString, events] of eventsIter) {
       i++;
+      const date = parse(dateString, dateFormat, currentDate);
+      isWeekdayEmpty[getDay(date)] += events.length;
+      // getting a day from each week for cutting a month into weeks
       if (!(i % 7)) {
         sundays.push(dateString);
       }
     }
-    return sundays;
+    return { isWeekdayEmpty, sundays };
   }
-  const currentDate = new Date();
-  const sundays = getSundays({ eventsByDay });
+  const weekInfo = getWeekInfo();
 
   const weeksJSX = [];
-  for (let i = 0; i < sundays.length; i++) {
-    const dateString = sundays[i];
+  for (let i = 0; i < weekInfo.sundays.length; i++) {
+    const dateString = weekInfo.sundays[i];
     const date = parse(dateString, dateFormat, currentDate)
-    weeksJSX.push(<Week key={i} weekEvents={getWeekDates(date, eventsByDay)} option={"month-view"} />)
+    weeksJSX.push(<Week key={i} weekEvents={getWeekDates(date, eventsByDay)} isWeekdayEmpty={weekInfo.isWeekdayEmpty} option={"month-view"} />)
   }
 
 
@@ -44,12 +47,22 @@ export default function MonthView({ eventsByDay }: EventsByDay) {
     <div className='WeekView
                     flex-row m-0'>
       <p>MonthView!</p>
+      <div className='Week flex'>
+        <div className='basis-2/12'>ПН</div>
+        <div className='basis-2/12'>ВТ</div>
+        <div className='basis-2/12'>СР</div>
+        <div className='basis-2/12'>ЧТ</div>
+        <div className='basis-2/12'>ПТ</div>
+        <div className='basis-2/12'>СБ</div>
+        <div className='basis-2/12'>ВС</div>
+      </div>
       {eventsByDay.size > 0 ?
         <div>
           {weeksJSX}
         </div>
-        : "pepepe"}
+        : "No events"
+      }
 
-    </div>
+    </div >
   );
 }

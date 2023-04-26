@@ -1,26 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
+import { ViewportContext } from "../../appContext/ViewportContext";
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
+
 interface Performance {
-  performance: EventWithOrganizationData
+  performance: EventWithOrganizationData;
 }
 
 export default function EventCard({ performance }: Performance) {
   const [showModal, setShowModal] = useState(false);
+  const mobOrDesk = useContext(ViewportContext);
 
   // console.log(`performance`, performance)
 
   const starts_at = new Date(performance.tp_starts_at).toLocaleTimeString('ru-RU', { 'timeStyle': 'short' });
+  let performanceImage: string = performance.tp_poster_image_default_url || performance.tp_org_logo_image_default_url;
 
-  let performanceImage: string;
-  if (performance.tp_poster_image_default_url) {
-    performanceImage = performance.tp_poster_image_default_url
-  } else {
-    performanceImage = performance.tp_org_logo_image_default_url
-  }
-
-  const verTwo = (
-    <div className="Card 
+  const mobile = (
+    <div className="Card
                     rounded-2xl justify-center bg-no-repeat bg-cover bg-center bg-local
                     w-full h-28 overflow-hidden shadow-2xl my-2"
       style={{ backgroundImage: `url(${performanceImage})` }}>
@@ -58,6 +55,17 @@ export default function EventCard({ performance }: Performance) {
     </div>
   );
 
+  const desktop = (
+    <div className="Card w-full h-fit flex p-1 group cursor-pointer
+    hover:bg-gradient-to-t from-purple-600 to-violet-600 last:rounded-b-lg" onClick={() => setShowModal(true)}>
+      <div className='rounded-md bg-no-repeat bg-cover bg-center bg-local w-[50%] aspect-square mr-1 shrink-0 self-center'
+        style={{ backgroundImage: `url(${performanceImage})` }}></div>
+      <div className="flex flex-col overflow-clip text-violet-950 group-hover:text-white">
+        <p className="font-bold text-sm md:text-base md:leading-4 xl:text-lg overflow-clip lg:mb-1">{starts_at}</p>
+        <p className="text-sm xl:text-base md:leading-4 xl:leading-5 line-clamp-2 lg:line-clamp-3 w-auto leading-3 break-words">{performance.tp_name}</p>
+      </div>
+    </div>
+  );
 
   function Modal() {
     return (
@@ -116,7 +124,7 @@ export default function EventCard({ performance }: Performance) {
 
   return (
     <>
-      {verTwo}
+      {mobOrDesk === "Mobile" ? mobile : desktop}
       <Modal />
     </>
   )

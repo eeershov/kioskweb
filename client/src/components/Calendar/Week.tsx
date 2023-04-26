@@ -1,28 +1,42 @@
-import { format, parse } from "date-fns";
+import React, { useContext } from "react";
+import { format, getDay, parse } from "date-fns";
 
+import { ViewportContext } from "../../appContext/ViewportContext";
 import { Day } from "./index";
+
 
 interface WeekEvents {
   weekEvents: Map<string, []>;
-  option: "month-view" | "week-view"
+  option: "month-view" | "week-view";
+  isWeekdayEmpty?: number[];
 }
 
-export default function Week({ weekEvents, option }: WeekEvents) {
+export default function Week({ weekEvents, option, isWeekdayEmpty }: WeekEvents) {
   console.log("Week");
+  const mobOrDesk = useContext(ViewportContext);
+
+  const dateFormat = `d-M-yyyy`;
+  const currentDate = new Date();
+
   const dayIterator = weekEvents.entries()
   let days: JSX.Element[] = [];
 
   function getWeekDays(option: "month-view" | "week-view"): JSX.Element[] {
     const days = [];
     for (const [dateString, events] of dayIterator) {
-      const date = format(parse(dateString, `d-M-yyyy`, new Date()), 'EEEE, MMMM d');
+      const date = parse(dateString, dateFormat, currentDate);
+      const dateFormatted = format(date, 'EEEE, MMMM d');
+      let isEmpty: boolean = false;
+      if (isWeekdayEmpty) {
+        isEmpty = (isWeekdayEmpty[getDay(date)] <= 0)
+      }
       days.push(
-        <div key={dateString} className='pb-2'>
+        <>
           {(option === "week-view") ? <h3 className='text-center self-center uppercase font-bold text-sm p-2'>
-            {date}
+            {dateFormatted}
           </h3> : null}
-          {<Day events={events} />}
-        </div>
+          {<Day key={dateString} events={events} date={date} isEmpty={isEmpty} />}
+        </>
       )
     }
     return days;
@@ -34,8 +48,13 @@ export default function Week({ weekEvents, option }: WeekEvents) {
     days = getWeekDays("week-view");
   }
 
+  const weekContent = {
+    mobile: "Week flex-col",
+    desktop: "Week flex"
+  };
+
   return (
-    <div>
+    <div className={mobOrDesk === "Mobile" ? weekContent.mobile : weekContent.desktop}>
       {days}
     </div>
   )
