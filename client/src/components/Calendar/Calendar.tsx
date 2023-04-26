@@ -96,7 +96,7 @@ function Calendar() {
   return (
     <div className='Calendar'>
       {eventsByDayState.size > 0 ? (
-        <div>
+        <div className='max-w-7xl m-auto'>
           {MonthOrWeekView}
         </div>
       ) : (

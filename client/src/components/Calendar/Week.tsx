@@ -4,6 +4,7 @@ import { format, getDay, parse } from "date-fns";
 import { ViewportContext } from "../../appContext/ViewportContext";
 import { Day } from "./index";
 
+
 interface WeekEvents {
   weekEvents: Map<string, []>;
   option: "month-view" | "week-view";
@@ -34,7 +35,7 @@ export default function Week({ weekEvents, option, isWeekdayEmpty }: WeekEvents)
           {(option === "week-view") ? <h3 className='text-center self-center uppercase font-bold text-sm p-2'>
             {dateFormatted}
           </h3> : null}
-          {<Day key={dateString} events={events} isEmpty={isEmpty} />}
+          {<Day key={dateString} events={events} date={date} isEmpty={isEmpty} />}
         </>
       )
     }
