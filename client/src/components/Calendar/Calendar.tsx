@@ -64,8 +64,9 @@ function Calendar() {
         date.setDate(date.getDate() + i);
         return date;
       });
-      const eventsByDay: Map<string, EventWithOrganizationData[] | []> = new Map()
-      monthDates.map((monthDate, index) => {
+
+      const eventsByDay: Map<string, EventWithOrganizationData[] | []> = new Map();
+      monthDates.map((monthDate, _index) => {
         // Filter events for the current date
         const dateEvents = data.filter((event) => {
           const eventDate = new Date(event.tp_starts_at);
@@ -95,7 +96,7 @@ function Calendar() {
   return (
     <div className='Calendar'>
       {eventsByDayState.size > 0 ? (
-        <div>
+        <div className='max-w-7xl m-auto'>
           {MonthOrWeekView}
         </div>
       ) : (
