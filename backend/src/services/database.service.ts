@@ -1,4 +1,12 @@
-import { parseISO } from "date-fns";
+import {
+  parseISO,
+  getYear,
+  getMonth,
+  parse,
+  addDays,
+  format,
+  subDays,
+} from "date-fns";
 
 import { sql } from "../database/database.js";
 import {
@@ -133,13 +141,28 @@ export default class DatabaseService {
   }
 
   public async getEvents(): Promise<EventWithOrganizationData[] | []> {
+    const formatString = `yyyy-MM-dd`;
+    const currentDate = new Date();
+    const year = getYear(currentDate);
+    const month = getMonth(currentDate) + 1;
+    const currentMonthStartDate = parse(
+      `${year}-${month}-01`,
+      formatString,
+      currentDate
+    );
+    const periodStartDate = subDays(currentMonthStartDate, 8);
+    const periodEndDate = addDays(currentMonthStartDate, 43);
+
+    const periodStartString = format(periodStartDate, formatString);
+    const periodEndString = format(periodEndDate, formatString);
+
     try {
       const eventsList = await sql<EventWithOrganizationData[]>`
         SELECT E.*, O.tp_org_name, O.tp_org_subdomain, O.tp_org_logo_image_default_url
         FROM events E
           INNER JOIN tp_organizations O 
             ON O.tp_org_id = E.tp_org_id
-        WHERE E.tp_starts_at BETWEEN CURRENT_DATE-40 AND CURRENT_DATE+10 
+        WHERE E.tp_starts_at BETWEEN ${periodStartString} AND ${periodEndString}
           AND removed = FALSE
           ORDER BY
             E.tp_starts_at ASC;
