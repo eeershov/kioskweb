@@ -131,7 +131,7 @@ export default class DatabaseService {
       });
     } catch (error) {
       console.log(`updateOrgs error: ${error}`);
-      // throw new Error("Error updating orgs");
+      throw new Error("Error updating orgs.");
     }
   }
 
@@ -140,15 +140,29 @@ export default class DatabaseService {
     await this.updateEvents(TimepadEvents);
   }
 
-  public async getEvents(): Promise<EventWithOrganizationData[] | []> {
+  public async getEvents(
+    date?: string
+  ): Promise<EventWithOrganizationData[] | []> {
     const formatString = `yyyy-MM-dd`;
     const currentDate = new Date();
-    const year = getYear(currentDate);
-    const month = getMonth(currentDate) + 1;
+    let periodDate: Date;
+    if (date) {
+      periodDate = parse(date, formatString, currentDate);
+      if (!periodDate.getTime()) {
+        throw new Error(
+          `Wrong date value: ${date}. Use string in yyyy-MM-dd format.`
+        );
+      }
+    } else {
+      periodDate = currentDate;
+    }
+
+    const currentYear = getYear(periodDate);
+    const currentMonth = getMonth(periodDate) + 1;
     const currentMonthStartDate = parse(
-      `${year}-${month}-01`,
+      `${currentYear}-${currentMonth}-01`,
       formatString,
-      currentDate
+      periodDate
     );
     const periodStartDate = subDays(currentMonthStartDate, 8);
     const periodEndDate = addDays(currentMonthStartDate, 43);
@@ -169,8 +183,7 @@ export default class DatabaseService {
       `;
       return eventsList;
     } catch (error) {
-      console.log(`Error getting data from DB, ${error}`);
-      return [];
+      throw new Error(`Error getting data from the database.`);
     }
   }
 
