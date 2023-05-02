@@ -1,17 +1,29 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import { DatabaseService } from "../services/index.js";
 const databaseService = new DatabaseService();
 
 const router = express.Router();
 
-router.get("/", async (_req: Request, res: Response) => {
+router.get("/", async (_req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log;
     const events = await databaseService.getEvents();
     res.status(200).send(events);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "error" });
+    next(err);
   }
 });
+
+router.get(
+  "/:dateString",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const events = await databaseService.getEvents(req.params.dateString);
+      res.status(200).send(events);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 export default router;
