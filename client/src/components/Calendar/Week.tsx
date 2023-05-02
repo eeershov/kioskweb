@@ -50,7 +50,7 @@ export default function Week({ weekEvents, option, isWeekdayEmpty }: WeekEvents)
 
   const weekContent = {
     mobile: "Week flex-col",
-    desktop: "Week flex"
+    desktop: "Week flex justify-center"
   };
 
   return (
