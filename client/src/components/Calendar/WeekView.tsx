@@ -34,17 +34,25 @@ export default function WeekView({ eventsByDay }: EventsByDay) {
 
   function handleClick(option: "prev" | "next") {
     let optionDate;
-    let optionFutureDate;
+    let optionAfterDate;
     if (option === "prev") {
       optionDate = subDays(dateState, 7);
-      optionFutureDate = subDays(dateState, 14);
+      optionAfterDate = subDays(dateState, 14);
     } else {
       optionDate = addDays(dateState, 7);
-      optionFutureDate = addDays(dateState, 14);
+      optionAfterDate = addDays(dateState, 14);
     }
-    const optionFutureWeek = getWeekEvents(optionFutureDate, eventsByDay);
-    const hasEvents = Array.from(optionFutureWeek.values()).some(events => events !== undefined);
-    if (hasEvents) {
+    // check current press
+    const optionWeek = getWeekEvents(optionDate, eventsByDay);
+    const hasEvents = Array.from(optionWeek.values()).some(events => events !== undefined);
+    if (!hasEvents) {
+      setIsDisabledControls({ prev: option === "prev", next: option === "next" });
+      return
+    }
+
+    const optionAfterWeek = getWeekEvents(optionAfterDate, eventsByDay);
+    const hasAfterEvents = Array.from(optionAfterWeek.values()).some(events => events !== undefined);
+    if (hasAfterEvents) {
       setIsDisabledControls({ prev: false, next: false });
     } else {
       setIsDisabledControls({ prev: option === "prev", next: option === "next" });
