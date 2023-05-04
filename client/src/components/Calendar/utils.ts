@@ -2,8 +2,8 @@ import {format, parse, isMonday, addDays, previousMonday} from "date-fns";
 
 const dateFormat = `d-M-yyyy`;
 
-export function getWeekDates(date: Date, map: Map<string, any>): Map<string, any> {
-  // check to what week date is belong
+export function getWeekEvents(date: Date, map: Map<string, any>): Map<string, any> {
+  // check to which week date belongs and return this week with events
   const dateString = format(date, dateFormat);
   const dateType = parse(dateString, dateFormat, new Date())
   const weekDates = new Map();
@@ -21,6 +21,5 @@ export function getWeekDates(date: Date, map: Map<string, any>): Map<string, any
     const events = map.get(dateString);
     weekDates.set(dateString, events);
   }
-
   return weekDates;
 }
