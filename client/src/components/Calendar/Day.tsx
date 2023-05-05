@@ -14,16 +14,24 @@ interface Events {
 
 export default function Day({ events, date, isEmpty }: Events) {
   const mobOrDesk = useContext(ViewportContext);
-  const dateFormat = `d`;
+  const dateFormatMobile = `EEEE, MMMM d`;
+  const dateFormatDesktop = `d`;
 
-  const dateString = format(date, dateFormat)
+  const dateStringMobile = format(date, dateFormatMobile);
+  const dateStringDesktop = format(date, dateFormatDesktop);
 
+
+  const mobileDate = (
+    <h3 className='text-center self-center uppercase font-bold text-sm p-2'>
+      {dateStringMobile}
+    </h3>
+  );
 
   const cornerDate = (
     <div className='relative'>
       <div className='rounded-md bg-purple-900 bg-opacity-30 h-4 md:h-5 lg:h-6 aspect-square min-[600px]:text-center absolute backdrop-blur-sm text-white m-1'>
         <div className='lg:font-bold text-xs md:text-sm lg:text-base opacity-90'>
-          {dateString}
+          {dateStringDesktop}
         </div>
       </div>
     </div>
@@ -44,13 +52,13 @@ export default function Day({ events, date, isEmpty }: Events) {
   if (events.length === 0 && isEmpty) {
     return (
       <div className={mobOrDesk === "Mobile" ? emptyDay.mobile : emptyDay.desktop}>
-        {mobOrDesk === "Desktop" && cornerDate}
+        {mobOrDesk === "Desktop" ? cornerDate : mobileDate}
       </div>
     )
   } else if (events.length === 0) {
     return (
       <div className={mobOrDesk === "Mobile" ? dayContent.mobile : dayContent.desktop}>
-        {mobOrDesk === "Desktop" && cornerDate}
+        {mobOrDesk === "Desktop" ? cornerDate : mobileDate}
       </div>
     )
   }
