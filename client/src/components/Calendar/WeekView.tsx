@@ -70,7 +70,7 @@ export default function WeekView({ eventsByDay }: EventsByDay) {
           next
         </ControlButton>
       </div>
-      {<Week weekEvents={getWeekEvents(dateState, eventsByDay)} option={"week-view"} />}
+      {<Week weekEvents={getWeekEvents(dateState, eventsByDay)} />}
     </div>
   )
 }

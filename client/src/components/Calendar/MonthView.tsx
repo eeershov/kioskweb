@@ -39,7 +39,7 @@ export default function MonthView({ eventsByDay }: EventsByDay) {
   for (let i = 0; i < weekInfo.sundays.length; i++) {
     const dateString = weekInfo.sundays[i];
     const date = parse(dateString, dateFormat, currentDate)
-    weeksJSX.push(<Week key={i} weekEvents={getWeekEvents(date, eventsByDay)} isWeekdayEmpty={weekInfo.isWeekdayEmpty} option={"month-view"} />)
+    weeksJSX.push(<Week key={i} weekEvents={getWeekEvents(date, eventsByDay)} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />)
   }
 
 
