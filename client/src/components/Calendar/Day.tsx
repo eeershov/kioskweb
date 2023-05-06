@@ -44,7 +44,7 @@ export default function Day({ events, date, isEmpty }: Events) {
   };
 
   const dayContent = {
-    mobile: "Day-content flex-row pb-4",
+    mobile: "Day-content flex-row pb-4 mx-2",
     desktop: "Day-content basis-2/12 flex flex-col justify-start bg-white m-1 overflow-clip ring-1 ring-slate-900/5 rounded-lg shadow-sm"
   };
 
@@ -65,10 +65,10 @@ export default function Day({ events, date, isEmpty }: Events) {
 
   return (
     <div className={mobOrDesk === "Mobile" ? dayContent.mobile : dayContent.desktop}>
-      {mobOrDesk === "Desktop" && cornerDate}
+      {mobOrDesk === "Desktop" ? cornerDate : mobileDate}
       {events.map((event, i) => {
         return (
-          <EventCard key={i} performance={event} />
+          <EventCard key={i} event={event} />
         )
       })}
     </div>
