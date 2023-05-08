@@ -78,8 +78,11 @@ export default function EventCard({ event }: Event) {
               <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
                 <div className='Organization-block
                                 h-24 bg-slate-400 rounded-md p-3 grid grid-rows-1 grid-cols-2'>
-                  <div className="col-span-1 flex items-center justify-center flex-none h-full aspect-square bg-purple-600 rounded-full bg-cover"
-                    style={{ backgroundImage: `url(${event.tp_org_logo_image_default_url})` }}></div>
+                  <div className="col-span-1 flex items-center h-full aspect-square bg-purple-600 rounded-full">
+                    <img className="Logo
+                      h-auto aspect-square rounded-full object-cover"
+                      alt="logo" src={event.tp_org_logo_image_default_url} />
+                  </div>
                   <div className='flex items-center justify-center'>
                     <p>{event.tp_org_name}</p>
                   </div>
