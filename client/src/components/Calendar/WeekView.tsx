@@ -42,7 +42,6 @@ export default function WeekView({ eventsByDay }: EventsByDay) {
       optionDate = addDays(dateState, 7);
       optionAfterDate = addDays(dateState, 14);
     }
-    // check current press
     const optionWeek = getWeekEvents(optionDate, eventsByDay);
     const hasEvents = Array.from(optionWeek.values()).some(events => events !== undefined);
     if (!hasEvents) {

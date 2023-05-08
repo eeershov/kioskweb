@@ -9,9 +9,6 @@ import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
 setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
-// interface EventsData {
-//   data: EventWithOrganizationData[] | []
-// }
 
 function Calendar() {
   console.log("Calendar");
@@ -33,7 +30,7 @@ function Calendar() {
     return () => {
       active = false;
     };
-  }, []); // Or [] if effect doesn't need props or state
+  }, []);
 
   useEffect(() => {
     let active = true;
