@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ApiService } from '../../services/api.service';
-import { format, setDefaultOptions, previousMonday, isMonday, isFirstDayOfMonth, parse } from "date-fns";
+import { setDefaultOptions } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { WeekView, MonthView } from "./index";
 import { ViewportContext } from '../../appContext/ViewportContext';

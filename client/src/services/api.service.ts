@@ -7,7 +7,7 @@ import { EventWithOrganizationData } from "../types/EventWithOrg.type";
 
 
 export class ApiService {
-  public static async getEvents(dateString?: string) : Promise<EventWithOrganizationData[] | [] | "Error"> {
+  private static async getEvents(dateString?: string) : Promise<EventWithOrganizationData[] | [] | "Error"> {
     const config = {
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -16,7 +16,7 @@ export class ApiService {
       },
     };
     try {
-      const response = await axios.get(`${backend}:8080/api/events`, config);
+      const response = await axios.get(`${backend}:8080/api/events${dateString !== undefined ? ("/"+dateString) : ""}`, config);
       return response.data;
     } catch (error) {
       throw new Error("Error while getting data from server.")
@@ -67,7 +67,7 @@ export class ApiService {
   public static async getCalendarData(dateString?: string): Promise<Map<string, EventWithOrganizationData[] | []>> {
     let data;
     try {
-      data = await this.getEvents();
+      data = await this.getEvents(dateString);
     } catch (error) {
       throw new Error("Error while getting data from server.");
     }
