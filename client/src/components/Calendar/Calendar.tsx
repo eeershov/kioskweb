@@ -14,15 +14,14 @@ function Calendar() {
   console.log("Calendar");
   const mobOrDesk = useContext(ViewportContext);
 
-  const [dataState, setDataState] = useState<"Error" | [] | EventWithOrganizationData[]>([]);
-  const [eventsByDayState, setEventsByDayState] = useState<Map<string, [] | EventWithOrganizationData[]>>(new Map());
+  const [eventsByDay, setEventsByDay] = useState<Map<string, [] | EventWithOrganizationData[]>>(new Map());
 
   useEffect(() => {
     let active = true;
     async function fetchData() {
-      ApiService.getEvents().then(response => {
+      ApiService.getCalendarData().then(response => {
         if (active) {
-          setDataState(response);
+          setEventsByDay(response);
         }
       });
     }
@@ -32,63 +31,12 @@ function Calendar() {
     };
   }, []);
 
-  useEffect(() => {
-    let active = true;
-    if (dataState !== "Error" && active) {
-      setEventsByDayState(convertToMap(dataState));
-    }
-    return () => {
-      active = false;
-    };
-  }, [dataState]);
+  const MonthOrWeekView = (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDay} /> : <MonthView eventsByDay={eventsByDay} />)
 
-  function convertToMap(data: EventWithOrganizationData[] | []): Map<string, EventWithOrganizationData[] | []> {
-    // Get the dates for the current month (6 weeks)
-    // From first week of the month, from Monday to Sunday
-
-    const currentDate = new Date();
-    let theDay: Date;
-    let firstDayOfM: Date;
-    if (isFirstDayOfMonth(currentDate) && isMonday(currentDate)) {
-      theDay = currentDate;
-    } else {
-      const dateString = `1-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
-      firstDayOfM = parse(dateString, `d-M-yyyy`, currentDate);
-      if (isMonday(firstDayOfM)) {
-        theDay = firstDayOfM;
-      } else {
-        theDay = previousMonday(firstDayOfM);
-      }
-    }
-    const monthDates = Array.from({ length: 42 }, (_, i) => {
-      const date = new Date(theDay);
-      date.setDate(date.getDate() + i);
-      return date;
-    });
-
-    const eventsByDay = new Map();
-    monthDates.map((monthDate, _index) => {
-      // Filter events for the current date
-      const dateEvents = data.filter((event) => {
-        const eventDate = new Date(event.tp_starts_at);
-        return (
-          eventDate.getDate() === monthDate.getDate() &&
-          eventDate.getMonth() === monthDate.getMonth() &&
-          eventDate.getFullYear() === monthDate.getFullYear()
-        );
-      });
-      return eventsByDay.set(format(monthDate, `d-M-yyyy`), dateEvents);
-    })
-
-    return eventsByDay;
-  }
-
-
-  const MonthOrWeekView = (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDayState} /> : <MonthView eventsByDay={eventsByDayState} />)
 
   return (
     <div className='Calendar'>
-      {eventsByDayState.size > 0 ? (
+      {eventsByDay.size > 0 ? (
         <div className='max-w-7xl m-auto'>
           {MonthOrWeekView}
         </div>
