@@ -23,45 +23,59 @@ export class ApiService {
     }
   }
 
-  private static convertToMap(data: EventWithOrganizationData[] | []): Map<string, EventWithOrganizationData[] | []> {
+  private static convertToMap(data: EventWithOrganizationData[] | [], dateString?: string): Map<string, EventWithOrganizationData[] | []> {
     // Get the dates for the current month (6 weeks)
     // From first week of the month, from Monday to Sunday
-
-    const currentDate = new Date();
-    let theDay: Date;
-    let firstDayOfM: Date;
-    if (isFirstDayOfMonth(currentDate) && isMonday(currentDate)) {
-      theDay = currentDate;
-    } else {
-      const dateString = `1-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
-      firstDayOfM = parse(dateString, `d-M-yyyy`, currentDate);
-      if (isMonday(firstDayOfM)) {
-        theDay = firstDayOfM;
-      } else {
-        theDay = previousMonday(firstDayOfM);
-      }
-    }
-    const monthDates = Array.from({ length: 42 }, (_, i) => {
-      const date = new Date(theDay);
-      date.setDate(date.getDate() + i);
-      return date;
-    });
+    const dateFormat = `d-M-yyyy`;
+    const monthBlockDates = getMonthBlockDates(dateString);
 
     const eventsByDay = new Map();
-    monthDates.map((monthDate, _index) => {
+    monthBlockDates.map((blockDate, _index) => {
       // Filter events for the current date
       const dateEvents = data.filter((event) => {
         const eventDate = new Date(event.tp_starts_at);
         return (
-          eventDate.getDate() === monthDate.getDate() &&
-          eventDate.getMonth() === monthDate.getMonth() &&
-          eventDate.getFullYear() === monthDate.getFullYear()
+          eventDate.getDate() === blockDate.getDate() &&
+          eventDate.getMonth() === blockDate.getMonth() &&
+          eventDate.getFullYear() === blockDate.getFullYear()
         );
       });
-      return eventsByDay.set(format(monthDate, `d-M-yyyy`), dateEvents);
+      return eventsByDay.set(format(blockDate, dateFormat), dateEvents);
     })
-
+    console.log(eventsByDay)
     return eventsByDay;
+
+    function getMonthBlockDates(dateString?: string) {
+      const currentDate = new Date();
+      const serverFormatString = `yyyy-MM-dd`;
+      
+      let selectedDate;
+      if (dateString) {
+        selectedDate = parse(dateString,serverFormatString,currentDate)
+      } else {
+        selectedDate = currentDate;
+      }
+
+      let firstDayOfMonthBlock: Date;
+      if (isFirstDayOfMonth(selectedDate) && isMonday(selectedDate)) {
+        firstDayOfMonthBlock = selectedDate;
+      } else {
+        const dateString = `1-${selectedDate.getMonth() + 1}-${selectedDate.getFullYear()}`;
+        const firstDayOfM = parse(dateString, dateFormat, selectedDate);
+        if (isMonday(firstDayOfM)) {
+          firstDayOfMonthBlock = firstDayOfM;
+        } else {
+          firstDayOfMonthBlock = previousMonday(firstDayOfM);
+        }
+      }
+
+      const monthBlockDates = Array.from({ length: 42 }, (_, i) => {
+        const date = new Date(firstDayOfMonthBlock);
+        date.setDate(date.getDate() + i);
+        return date;
+      });
+      return monthBlockDates;
+    }
   }
   
   public static async getCalendarData(dateString?: string): Promise<Map<string, EventWithOrganizationData[] | []>> {
@@ -76,9 +90,9 @@ export class ApiService {
     }
 
     try {
-      return this.convertToMap(data);  
+      return this.convertToMap(data, dateString);  
     } catch (error) {
-      throw new Error("Error getting data from server");
+      throw new Error("Error converting data");
     }
   }
 }
