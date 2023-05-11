@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ApiService } from '../../services/api.service';
-import { format, setDefaultOptions, previousMonday, isMonday, isFirstDayOfMonth, parse } from "date-fns";
+import { setDefaultOptions, format } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { WeekView, MonthView } from "./index";
 import { ViewportContext } from '../../appContext/ViewportContext';
@@ -13,16 +13,20 @@ setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 function Calendar() {
   console.log("Calendar");
   const mobOrDesk = useContext(ViewportContext);
+  const todayDate = new Date();
 
-  const [dataState, setDataState] = useState<"Error" | [] | EventWithOrganizationData[]>([]);
-  const [eventsByDayState, setEventsByDayState] = useState<Map<string, [] | EventWithOrganizationData[]>>(new Map());
+  const [selectedDate, setSelectedDate] = useState(todayDate);
+  const [eventsByDay, setEventsByDay] = useState<Map<string, [] | EventWithOrganizationData[]>>(new Map());
 
   useEffect(() => {
     let active = true;
     async function fetchData() {
-      ApiService.getEvents().then(response => {
+      const dateFormat = `yyyy-MM-dd`;
+      const selectedDateString = format(selectedDate, dateFormat);
+      ApiService.getCalendarData(selectedDateString).then(response => {
         if (active) {
-          setDataState(response);
+          console.log(response);
+          setEventsByDay(response);
         }
       });
     }
@@ -30,65 +34,15 @@ function Calendar() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [selectedDate]);
 
-  useEffect(() => {
-    let active = true;
-    if (dataState !== "Error" && active) {
-      setEventsByDayState(convertToMap(dataState));
-    }
-    return () => {
-      active = false;
-    };
-  }, [dataState]);
+  const MonthOrWeekView = (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDay} selectedDate={selectedDate} todayDate={todayDate} /> :
+    <MonthView eventsByDay={eventsByDay} setSelectedDate={setSelectedDate} todayDate={todayDate} selectedDate={selectedDate} />)
 
-  function convertToMap(data: EventWithOrganizationData[] | []): Map<string, EventWithOrganizationData[] | []> {
-    // Get the dates for the current month (6 weeks)
-    // From first week of the month, from Monday to Sunday
-
-    const currentDate = new Date();
-    let theDay: Date;
-    let firstDayOfM: Date;
-    if (isFirstDayOfMonth(currentDate) && isMonday(currentDate)) {
-      theDay = currentDate;
-    } else {
-      const dateString = `1-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
-      firstDayOfM = parse(dateString, `d-M-yyyy`, currentDate);
-      if (isMonday(firstDayOfM)) {
-        theDay = firstDayOfM;
-      } else {
-        theDay = previousMonday(firstDayOfM);
-      }
-    }
-    const monthDates = Array.from({ length: 42 }, (_, i) => {
-      const date = new Date(theDay);
-      date.setDate(date.getDate() + i);
-      return date;
-    });
-
-    const eventsByDay = new Map();
-    monthDates.map((monthDate, _index) => {
-      // Filter events for the current date
-      const dateEvents = data.filter((event) => {
-        const eventDate = new Date(event.tp_starts_at);
-        return (
-          eventDate.getDate() === monthDate.getDate() &&
-          eventDate.getMonth() === monthDate.getMonth() &&
-          eventDate.getFullYear() === monthDate.getFullYear()
-        );
-      });
-      return eventsByDay.set(format(monthDate, `d-M-yyyy`), dateEvents);
-    })
-
-    return eventsByDay;
-  }
-
-
-  const MonthOrWeekView = (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDayState} /> : <MonthView eventsByDay={eventsByDayState} />)
 
   return (
     <div className='Calendar'>
-      {eventsByDayState.size > 0 ? (
+      {eventsByDay.size > 0 ? (
         <div className='max-w-7xl m-auto'>
           {MonthOrWeekView}
         </div>

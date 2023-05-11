@@ -9,12 +9,14 @@ import { getWeekEvents } from "./utils";
 setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
 
-interface EventsByDay {
+interface Props {
   eventsByDay: Map<string, EventWithOrganizationData[] | []>
+  selectedDate: Date,
+  todayDate: Date
 }
 
-export default function WeekView({ eventsByDay }: EventsByDay) {
-  const [dateState, setDateState] = useState(new Date());
+export default function WeekView({ eventsByDay, selectedDate, todayDate }: Props) {
+  const [dateState, setDateState] = useState(selectedDate); // selected date
   const [isDisabledControls, setIsDisabledControls] = useState({ prev: false, next: false });
 
   function ControlButton({ option, children }: { option: "prev" | "next"; children: string }): JSX.Element {
