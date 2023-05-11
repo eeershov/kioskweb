@@ -35,11 +35,13 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
         sundays.push(dateString);
       }
     }
+    // const isWeekdayEmpty = weekdayNumberEvents.map(number => number<=0); 
+
     return { isWeekdayEmpty, sundays };
   }
   const weekInfo = getWeekInfo();
 
-  const weeksJSX = [];
+  const weeksJSX = [<WeekdaysRow isWeekdayEmpty={weekInfo.isWeekdayEmpty} />];
   for (let i = 0; i < weekInfo.sundays.length; i++) {
     const dateString = weekInfo.sundays[i];
     const date = parse(dateString, dateFormat, currentDate)
@@ -73,32 +75,58 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
     );
   }
 
+  function WeekdaysRow({ isWeekdayEmpty }: { isWeekdayEmpty: number[] }): JSX.Element {
+    const weekdays = {
+      short: ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
+      full: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+    };
+
+    const sundayZero = new Map([[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0]])
+
+    const classStyleString = {
+      empty: "flex m-1 overflow-clip w-9 h-auto min-h-[2rem]",
+      notEmpty: "basis-2/12 flex flex-col justify-start bg-white m-1 overflow-clip"
+    };
+
+    return (
+      <div className='flex justify-center'>
+        {[0, 1, 2, 3, 4, 5, 6].map((index) => {
+          const weekdayIndex: number = sundayZero.get(index) as number;
+          const isEmpty = (isWeekdayEmpty[weekdayIndex] <= 0);
+          let weekday;
+          if (isEmpty) {
+            weekday = weekdays.short[index];
+          } else {
+            weekday = weekdays.full[index];
+          }
+          return (
+            <div className={isEmpty ? classStyleString.empty : classStyleString.notEmpty}>
+              <div className='self-center m-auto text-sm md:text-base font-medium text-violet-950'>
+                {weekday}
+              </div>
+            </div>
+          )
+        }
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className='WeekView
                     flex-row m-0'>
-      <p>MonthView!</p>
       <ControlButton option='prev'>
         Предыдущий месяц
       </ControlButton>
       <ControlButton option='next'>
         Следующий месяц
       </ControlButton>
-      <div className='Week flex'>
-        <div className='basis-2/12'>ПН</div>
-        <div className='basis-2/12'>ВТ</div>
-        <div className='basis-2/12'>СР</div>
-        <div className='basis-2/12'>ЧТ</div>
-        <div className='basis-2/12'>ПТ</div>
-        <div className='basis-2/12'>СБ</div>
-        <div className='basis-2/12'>ВС</div>
-      </div>
       {eventsByDay.size > 0 ?
         <div>
           {weeksJSX}
         </div>
         : "No events"
       }
-
     </div >
   );
 }

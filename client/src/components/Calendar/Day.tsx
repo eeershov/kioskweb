@@ -14,7 +14,7 @@ interface Events {
 
 export default function Day({ events, date, isEmpty }: Events) {
   const mobOrDesk = useContext(ViewportContext);
-  const dateFormatMobile = `EEEE, MMMM d`;
+  const dateFormatMobile = `EEEE d`;
   const dateFormatDesktop = `d`;
 
   const dateStringMobile = format(date, dateFormatMobile);
