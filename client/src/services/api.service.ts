@@ -51,7 +51,7 @@ export class ApiService {
       
       let selectedDate;
       if (dateString) {
-        selectedDate = parse(dateString,serverFormatString,currentDate)
+        selectedDate = parse(dateString,serverFormatString,currentDate);
       } else {
         selectedDate = currentDate;
       }
@@ -78,6 +78,12 @@ export class ApiService {
     }
   }
   
+  /**
+   * 
+   * Gets Map of 42 { d-M-yyyy, [] }
+   * @param dateString must be in yyyy-MM-dd
+   * @returns
+   */
   public static async getCalendarData(dateString?: string): Promise<Map<string, EventWithOrganizationData[] | []>> {
     let data;
     try {
