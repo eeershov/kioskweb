@@ -59,7 +59,7 @@ export default function EventCard({ event }: Event) {
       <div className='rounded-md bg-no-repeat bg-cover bg-center bg-local w-[50%] aspect-square mr-1 shrink-0 self-center'
         style={{ backgroundImage: `url(${eventImage})` }}></div>
       <div className="flex flex-col overflow-clip text-violet-950 group-hover:text-white">
-        <p className="font-bold text-sm md:text-base md:leading-4 xl:text-lg overflow-clip lg:mb-1">{starts_at}</p>
+        <p className="font-mono font-bold text-sm md:text-lg md:leading-4 overflow-clip text-left my-1">{starts_at}</p>
         <p className="text-sm xl:text-base md:leading-4 xl:leading-5 line-clamp-2 lg:line-clamp-3 w-auto leading-3 break-words">{event.tp_name}</p>
       </div>
     </div>

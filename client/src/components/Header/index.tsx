@@ -9,9 +9,9 @@ function Header() {
 
   return (
     <div>
-      <div className='h-16 flex 
-                      justify-center text-center
-                      bg-slate-800
+      <div className='h-14 flex 
+                      justify-center 
+                      bg-violet-950
       '>
         <h1 className='self-center text-3xl text-pink-500'>Kiosk Comedy</h1>
       </div>

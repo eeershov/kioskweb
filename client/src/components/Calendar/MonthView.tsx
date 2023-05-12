@@ -65,7 +65,11 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
     let status = false;
 
     return (
-      <button onClick={() => handleClick(option)} disabled={status} className='bg-slate-500 disabled:bg-stone-500'>
+      <button onClick={() => handleClick(option)} disabled={status}
+        className='items-center px-4 py-2 text-sm font-medium text-violet-950 bg-transparent 
+                  border border-violet-950 rounded-lg hover:bg-violet-950 hover:text-white 
+                  focus:z-10 focus:ring-2 focus:ring-violet-500 focus:bg-violet-950 focus:text-white
+                  dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-violet-700 dark:focus:bg-violet-700'>
         {children}
       </button>
     );
@@ -111,19 +115,23 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
   return (
     <div className='WeekView
                     flex-row m-0'>
-      <ControlButton option='prev'>
-        Предыдущий месяц
-      </ControlButton>
-      <ControlButton option='next'>
-        Следующий месяц
-      </ControlButton>
-      <h2 className='text-left text-lg text-violet-950 capitalize'>{format(selectedDate, `LLLL YYY`)}</h2>
-      {eventsByDay.size > 0 ?
-        <div>
-          {weeksJSX}
-        </div>
-        : "No events"
-      }
+
+      <div className='flex m-1'>
+        <ControlButton option='prev'>
+          Предыдущий
+        </ControlButton>
+
+        <h2 className='text-center text-base font-medium text-violet-950 uppercase 
+                      h-6 m-2 w-32'>
+          {format(selectedDate, `LLLL YYY`)}
+        </h2>
+
+        <ControlButton option='next'>
+          Следующий
+        </ControlButton>
+      </div>
+
+      {weeksJSX}
     </div >
   );
 }
