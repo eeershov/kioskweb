@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { setDefaultOptions, parse, getDay, subDays, addDays } from "date-fns";
+import { setDefaultOptions, parse, getDay, subDays, addDays, format } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { Week } from "./index";
 import { getWeekEvents } from "./utils";
@@ -63,11 +63,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
   function ControlButton({ option, children }: { option: "prev" | "next"; children: string }): JSX.Element {
     console.log(option);
     let status = false;
-    // if (option === "prev") {
-    //   status = isDisabledControls.prev;
-    // } else {
-    //   status = isDisabledControls.next;
-    // }
+
     return (
       <button onClick={() => handleClick(option)} disabled={status} className='bg-slate-500 disabled:bg-stone-500'>
         {children}
@@ -80,7 +76,6 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
       short: ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
       full: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
     };
-
     const sundayZero = new Map([[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0]])
 
     const classStyleString = {
@@ -112,6 +107,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
     )
   }
 
+
   return (
     <div className='WeekView
                     flex-row m-0'>
@@ -121,6 +117,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
       <ControlButton option='next'>
         Следующий месяц
       </ControlButton>
+      <h2 className='text-left text-lg text-violet-950 capitalize'>{format(selectedDate, `LLLL YYY`)}</h2>
       {eventsByDay.size > 0 ?
         <div>
           {weeksJSX}
