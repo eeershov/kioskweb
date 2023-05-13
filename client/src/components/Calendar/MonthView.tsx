@@ -41,7 +41,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
   }
   const weekInfo = getWeekInfo();
 
-  const weeksJSX = [<WeekdaysRow isWeekdayEmpty={weekInfo.isWeekdayEmpty} />];
+  const weeksJSX = [<WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />];
   for (let i = 0; i < weekInfo.sundays.length; i++) {
     const dateString = weekInfo.sundays[i];
     const date = parse(dateString, dateFormat, currentDate)
@@ -103,7 +103,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
             weekday = weekdays.full[index];
           }
           return (
-            <div className={isEmpty ? classStyleString.empty : classStyleString.notEmpty}>
+            <div key={weekdayIndex} className={isEmpty ? classStyleString.empty : classStyleString.notEmpty}>
               <div className='self-center m-auto text-sm md:text-base font-medium text-violet-950'>
                 {weekday}
               </div>
