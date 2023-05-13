@@ -40,7 +40,7 @@ export default function Day({ events, date, isEmpty }: Events) {
 
   const emptyDay = {
     mobile: "",
-    desktop: "shrink flex flex-wrap m-1 overflow-clip ring-1 ring-slate-900/5 rounded-lg w-9 shadow-sm h-auto min-h-[2rem]"
+    desktop: "flex flex-wrap m-1 overflow-clip ring-1 ring-slate-900/5 rounded-lg w-9 shadow-sm h-auto min-h-[2rem] grow"
   };
 
   const dayContent = {

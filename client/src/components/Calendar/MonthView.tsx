@@ -48,25 +48,29 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
     weeksJSX.push(<Week key={i} weekEvents={getWeekEvents(date, eventsByDay)} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />)
   }
 
-  function handleClick(option: "prev" | "next") {
-    if (option === "prev") {
-      setSelectedDate(
-        subDays(selectedDate, 31)
-      )
-    } else {
-      setSelectedDate(
-        addDays(selectedDate, 31)
-      )
+  function handleClick(option: "today" | "prev" | "next") {
+    switch (option) {
+      case "prev":
+        setSelectedDate(subDays(selectedDate, 31));
+        break;
+      case "next":
+        setSelectedDate(addDays(selectedDate, 31));
+        break;
+      case "today":
+        setSelectedDate(new Date());
+        break;
+      default:
+        break;
     }
   }
 
-  function ControlButton({ option, children }: { option: "prev" | "next"; children: string }): JSX.Element {
+  function ControlButton({ option, children }: { option: "today" | "prev" | "next"; children: string }): JSX.Element {
     console.log(option);
     let status = false;
 
     return (
       <button onClick={() => handleClick(option)} disabled={status}
-        className='items-center px-4 py-2 text-sm font-medium text-violet-950 bg-transparent 
+        className='items-center px-4 py-2 text-sm font-medium text-violet-950 bg-transparent mx-1
                   border border-violet-950 rounded-lg hover:bg-violet-950 hover:text-white 
                   focus:z-10 focus:ring-2 focus:ring-violet-500 focus:bg-violet-950 focus:text-white
                   dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-violet-700 dark:focus:bg-violet-700'>
@@ -83,7 +87,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
     const sundayZero = new Map([[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0]])
 
     const classStyleString = {
-      empty: "flex m-1 overflow-clip w-9 h-auto min-h-[2rem]",
+      empty: "flex m-1 overflow-clip w-9 h-auto min-h-[2rem] grow",
       notEmpty: "basis-2/12 flex flex-col justify-start bg-white m-1 overflow-clip"
     };
 
@@ -116,19 +120,20 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
     <div className='WeekView
                     flex-row m-0'>
 
-      <div className='flex m-1'>
-        <ControlButton option='prev'>
-          Предыдущий
+      <div className='Controls flex m-1'>
+        <ControlButton option='today'>
+          Сегодня
         </ControlButton>
-
+        <ControlButton option='prev'>
+          ❮
+        </ControlButton>
+        <ControlButton option='next'>
+          ❯
+        </ControlButton>
         <h2 className='text-center text-base font-medium text-violet-950 uppercase 
                       h-6 m-2 w-32'>
           {format(selectedDate, `LLLL YYY`)}
         </h2>
-
-        <ControlButton option='next'>
-          Следующий
-        </ControlButton>
       </div>
 
       {weeksJSX}
