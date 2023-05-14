@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { setDefaultOptions, parse, getDay, subDays, addDays, format } from "date-fns";
+import { setDefaultOptions, parse, getDay, subDays, addDays, format, differenceInDays } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { Week } from "./index";
 import { getWeekEvents } from "./utils";
@@ -12,11 +12,10 @@ interface Props {
   eventsByDay: Map<string, EventWithOrganizationData[] | []>,
   selectedDate: Date,
   setSelectedDate: Dispatch<SetStateAction<Date>>,
-  todayDate: Date
 }
 
 
-export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, todayDate }: Props) {
+export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }: Props) {
   console.log("MonthView");
   const dateFormat = `d-M-yyyy`;
   const currentDate = new Date();
@@ -42,10 +41,22 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
   const weekInfo = getWeekInfo();
 
   const weeksJSX = [<WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />];
+
+  const currentDateMidnight = parse(format(currentDate, dateFormat), dateFormat, currentDate);
   for (let i = 0; i < weekInfo.sundays.length; i++) {
     const dateString = weekInfo.sundays[i];
-    const date = parse(dateString, dateFormat, currentDate)
-    weeksJSX.push(<Week key={i} weekEvents={getWeekEvents(date, eventsByDay)} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />)
+    const date = parse(dateString, dateFormat, currentDate);
+    const weekEvents = getWeekEvents(date, eventsByDay);
+
+    const diffDates = differenceInDays(date, currentDateMidnight);
+    let isCurrentWeek = false;
+    if (diffDates > -6 && diffDates < 2) { // -6 < x < 1
+      isCurrentWeek = true;
+    }
+    console.log("diffDates", diffDates)
+    console.log("date", date);
+    console.log(isCurrentWeek);
+    weeksJSX.push(<Week key={i} weekEvents={weekEvents} isWeekdayEmpty={weekInfo.isWeekdayEmpty} isCurrentWeek={isCurrentWeek} />)
   }
 
   function handleClick(option: "today" | "prev" | "next") {

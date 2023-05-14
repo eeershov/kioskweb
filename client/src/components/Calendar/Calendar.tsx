@@ -39,11 +39,11 @@ function Calendar() {
   }, [selectedDate]);
 
   const MonthOrWeekView = (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDay} selectedDate={selectedDate} todayDate={todayDate} /> :
-    <MonthView eventsByDay={eventsByDay} setSelectedDate={setSelectedDate} todayDate={todayDate} selectedDate={selectedDate} />)
+    <MonthView eventsByDay={eventsByDay} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />)
 
 
   return (
-    <div className='Calendar max-w-7xl m-auto'>
+    <div className='Calendar max-w-7xl m-auto px-1'>
       {loading ? <p>Loading...</p> : (
         <div className=''>
           {MonthOrWeekView}

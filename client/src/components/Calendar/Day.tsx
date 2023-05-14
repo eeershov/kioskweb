@@ -45,7 +45,7 @@ export default function Day({ events, date, isEmpty }: Events) {
 
   const dayContent = {
     mobile: "Day-content flex-row pb-4 mx-2",
-    desktop: "Day-content basis-2/12 flex flex-col justify-start bg-white m-1 overflow-clip ring-1 ring-slate-900/5 rounded-lg shadow-sm"
+    desktop: "Day-content basis-2/12 flex flex-col justify-start m-1 overflow-clip ring-1 ring-slate-900/5 rounded-lg shadow-sm"
   };
 
 
