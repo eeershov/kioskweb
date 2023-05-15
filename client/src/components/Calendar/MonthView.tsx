@@ -50,12 +50,9 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
 
     const diffDates = differenceInDays(date, currentDateMidnight);
     let isCurrentWeek = false;
-    if (diffDates > -6 && diffDates < 2) { // -6 < x < 1
+    if (diffDates > -1 && diffDates < 7) { // -1 < x < 7
       isCurrentWeek = true;
     }
-    console.log("diffDates", diffDates)
-    console.log("date", date);
-    console.log(isCurrentWeek);
     weeksJSX.push(<Week key={i} weekEvents={weekEvents} isWeekdayEmpty={weekInfo.isWeekdayEmpty} isCurrentWeek={isCurrentWeek} />)
   }
 
