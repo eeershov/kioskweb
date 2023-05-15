@@ -8,9 +8,10 @@ import { Day } from "./index";
 interface WeekEvents {
   weekEvents: Map<string, []>;
   isWeekdayEmpty?: number[];
+  isCurrentWeek: boolean;
 }
 
-export default function Week({ weekEvents, isWeekdayEmpty }: WeekEvents) {
+export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek }: WeekEvents) {
   console.log("Week");
   const mobOrDesk = useContext(ViewportContext);
 
@@ -38,12 +39,24 @@ export default function Week({ weekEvents, isWeekdayEmpty }: WeekEvents) {
   days = getWeekDays();
 
   const weekContent = {
-    mobile: "Week flex-col",
-    desktop: "Week flex justify-center"
+    mobile: "Week flex-col ",
+    desktop: "Week flex justify-center ",
+    currentMobile: "",
+    currentDesktop: "ring-2 rounded-xl ring-violet-400 shadow-xl",
   };
 
+  let sumClassName: string[] = [];
+  if (mobOrDesk === "Mobile") {
+    sumClassName.push(weekContent.mobile);
+  } else {
+    sumClassName.push(weekContent.desktop);
+    if (isCurrentWeek) {
+      sumClassName.push(weekContent.currentDesktop)
+    }
+  }
+
   return (
-    <div className={mobOrDesk === "Mobile" ? weekContent.mobile : weekContent.desktop}>
+    <div className={sumClassName.join(" ")}>
       {days}
     </div>
   )

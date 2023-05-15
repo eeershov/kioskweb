@@ -5,7 +5,7 @@ function Footer() {
   return (
     <div className="Footer">
       <ul>
-        <li>2022</li>
+        <li>2023</li>
         <li>made by kiosk</li>
       </ul>
     </div>

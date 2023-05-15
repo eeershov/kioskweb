@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 
 import { ViewportContext } from '../../appContext/ViewportContext';
 import { EventCard } from "./index";
@@ -16,6 +16,7 @@ export default function Day({ events, date, isEmpty }: Events) {
   const mobOrDesk = useContext(ViewportContext);
   const dateFormatMobile = `EEEE d`;
   const dateFormatDesktop = `d`;
+  const isCurrentDay = isSameDay(new Date(), date);
 
   const dateStringMobile = format(date, dateFormatMobile);
   const dateStringDesktop = format(date, dateFormatDesktop);
@@ -28,49 +29,90 @@ export default function Day({ events, date, isEmpty }: Events) {
   );
 
   const cornerDate = (
-    <div className='relative'>
-      <div className='rounded-md bg-purple-900 bg-opacity-30 h-4 md:h-5 lg:h-6 aspect-square min-[600px]:text-center absolute backdrop-blur-sm text-white m-1'>
-        <div className='lg:font-bold text-xs md:text-sm lg:text-base opacity-90'>
-          {dateStringDesktop}
-        </div>
+    <div className='rounded-md bg-purple-900 bg-opacity-30 h-4 md:h-5 lg:h-6 aspect-square min-[600px]:text-center absolute backdrop-blur-sm text-white m-1'>
+      <div className='lg:font-bold text-xs md:text-sm lg:text-base opacity-90'>
+        {dateStringDesktop}
       </div>
     </div>
   );
 
+  const dayStyles = {
+    emptyDay: {
+      mobile: "relative",
+      desktop: "flex flex-wrap m-1 ring-1 ring-slate-900/5 rounded-lg w-9 shadow-sm h-auto min-h-[2rem] grow relative"
+    },
+    dayContent: {
+      mobile: "Day-content flex-row pb-4 mx-2 relative",
+      desktop: "Day-content basis-2/12 flex flex-col justify-start m-1 ring-1 ring-slate-900/5 rounded-lg shadow-sm relative"
+    },
+    currentDay: {
+      mobile: "ring-2 ring-violet-400 ring-offset-0 rounded-lg absolute w-full h-full",
+      desktop: "ring-2 ring-violet-400 ring-offset-0 rounded-lg absolute w-full h-full",
+    }
+  }
 
-  const emptyDay = {
-    mobile: "",
-    desktop: "shrink flex flex-wrap m-1 overflow-clip ring-1 ring-slate-900/5 rounded-lg w-9 shadow-sm h-auto min-h-[2rem]"
-  };
+  let dayClass: string[] = [];
+  let ringClass: string[] = [];
 
-  const dayContent = {
-    mobile: "Day-content flex-row pb-4 mx-2",
-    desktop: "Day-content basis-2/12 flex flex-col justify-start bg-white m-1 overflow-clip ring-1 ring-slate-900/5 rounded-lg shadow-sm"
-  };
-
+  if (mobOrDesk === "Mobile") {
+    ringClass.push(dayStyles.currentDay.mobile);
+  } else {
+    ringClass.push(dayStyles.currentDay.desktop);
+  }
+  const currentDayRing = () => {
+    if (isCurrentDay) {
+      return (
+        <div className={ringClass.join(" ")}></div>
+      );
+    } else {
+      return null;
+    }
+  }
 
   if (events.length === 0 && isEmpty) {
+    if (mobOrDesk === "Mobile") {
+      dayClass.push(dayStyles.emptyDay.mobile);
+    } else {
+      dayClass.push(dayStyles.emptyDay.desktop)
+    }
     return (
-      <div className={mobOrDesk === "Mobile" ? emptyDay.mobile : emptyDay.desktop}>
+      <div className={dayClass.join(" ")}>
+        {currentDayRing()}
         {mobOrDesk === "Desktop" ? cornerDate : mobileDate}
       </div>
     )
   } else if (events.length === 0) {
+    if (mobOrDesk === "Mobile") {
+      dayClass.push(dayStyles.dayContent.mobile);
+    } else {
+      dayClass.push(dayStyles.dayContent.desktop)
+    }
     return (
-      <div className={mobOrDesk === "Mobile" ? dayContent.mobile : dayContent.desktop}>
+      <div className={dayClass.join(" ")}>
+        {currentDayRing()}
         {mobOrDesk === "Desktop" ? cornerDate : mobileDate}
       </div>
     )
   }
 
+  if (mobOrDesk === "Mobile") {
+    dayClass.push(dayStyles.dayContent.mobile);
+  } else {
+    dayClass.push(dayStyles.dayContent.desktop);
+  }
+
   return (
-    <div className={mobOrDesk === "Mobile" ? dayContent.mobile : dayContent.desktop}>
-      {mobOrDesk === "Desktop" ? cornerDate : mobileDate}
-      {events.map((event, i) => {
-        return (
-          <EventCard key={i} event={event} />
-        )
-      })}
-    </div>
+    <>
+      <div className={dayClass.join(" ")}>
+        {currentDayRing()}
+        {mobOrDesk === "Desktop" ? cornerDate : mobileDate}
+        <div>
+          {events.map((event, i) => {
+            return (
+              <EventCard key={i} event={event} />
+            )
+          })}</div>
+      </div>
+    </>
   );
 }

@@ -15,18 +15,20 @@ function Calendar() {
   const mobOrDesk = useContext(ViewportContext);
   const todayDate = new Date();
 
+  const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [eventsByDay, setEventsByDay] = useState<Map<string, [] | EventWithOrganizationData[]>>(new Map());
 
   useEffect(() => {
     let active = true;
     async function fetchData() {
+      setLoading(true);
       const dateFormat = `yyyy-MM-dd`;
       const selectedDateString = format(selectedDate, dateFormat);
       ApiService.getCalendarData(selectedDateString).then(response => {
         if (active) {
-          console.log(response);
           setEventsByDay(response);
+          setLoading(false);
         }
       });
     }
@@ -37,17 +39,15 @@ function Calendar() {
   }, [selectedDate]);
 
   const MonthOrWeekView = (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDay} selectedDate={selectedDate} todayDate={todayDate} /> :
-    <MonthView eventsByDay={eventsByDay} setSelectedDate={setSelectedDate} todayDate={todayDate} selectedDate={selectedDate} />)
+    <MonthView eventsByDay={eventsByDay} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />)
 
 
   return (
-    <div className='Calendar'>
-      {eventsByDay.size > 0 ? (
-        <div className='max-w-7xl m-auto'>
+    <div className='Calendar max-w-7xl m-auto px-1'>
+      {loading ? <p>Loading...</p> : (
+        <div className=''>
           {MonthOrWeekView}
         </div>
-      ) : (
-        <p>Loading...</p>
       )}
     </div>
   );
