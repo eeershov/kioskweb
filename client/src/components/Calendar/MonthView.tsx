@@ -40,7 +40,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
   }
   const weekInfo = getWeekInfo();
 
-  const weeksJSX = [<WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />];
+  const weeksJSX = [];
 
   const currentDateMidnight = parse(format(currentDate, dateFormat), dateFormat, currentDate);
   for (let i = 0; i < weekInfo.sundays.length; i++) {
@@ -96,7 +96,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
 
     const classStyleString = {
       empty: "flex m-1 overflow-clip w-9 h-auto min-h-[2rem] grow",
-      notEmpty: "basis-2/12 flex flex-col justify-start bg-white m-1 overflow-clip"
+      notEmpty: "basis-2/12 flex flex-col justify-start m-1 overflow-clip"
     };
 
     return (
@@ -128,22 +128,24 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
     <div className='WeekView
                     flex-row m-0'>
 
-      <div className='Controls flex m-1'>
-        <ControlButton option='today'>
-          Сегодня
-        </ControlButton>
-        <ControlButton option='prev'>
-          ❮
-        </ControlButton>
-        <ControlButton option='next'>
-          ❯
-        </ControlButton>
-        <h2 className='text-center text-base font-medium text-violet-950 uppercase 
+      <div className='sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-50'>
+        <div className='Controls flex m-1 pt-1'>
+          <ControlButton option='today'>
+            Сегодня
+          </ControlButton>
+          <ControlButton option='prev'>
+            ❮
+          </ControlButton>
+          <ControlButton option='next'>
+            ❯
+          </ControlButton>
+          <h2 className='text-center text-base font-medium text-violet-950 uppercase 
                       h-6 m-2 w-32'>
-          {format(selectedDate, `LLLL YYY`)}
-        </h2>
+            {format(selectedDate, `LLLL YYY`)}
+          </h2>
+        </div>
+        <WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />
       </div>
-
       {weeksJSX}
     </div >
   );
