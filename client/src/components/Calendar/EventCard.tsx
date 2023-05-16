@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { format } from "date-fns";
 
 import { ViewportContext } from "../../appContext/ViewportContext";
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
@@ -11,8 +12,12 @@ export default function EventCard({ event }: Event) {
   const [showModal, setShowModal] = useState(false);
   const mobOrDesk = useContext(ViewportContext);
 
-  const starts_at = new Date(event.tp_starts_at).toLocaleTimeString('ru-RU', { 'timeStyle': 'short' });
-  let eventImage: string = event.tp_poster_image_default_url || event.tp_org_logo_image_default_url;
+  const dateFormatMobile = `EEEE d MMM`;
+  const date = new Date(event.tp_starts_at);
+
+  const starts_at = date.toLocaleTimeString('ru-RU', { 'timeStyle': 'short' });
+  const starts_at_weekDay = format(date, dateFormatMobile);
+  const eventImage: string = event.tp_poster_image_default_url || event.tp_org_logo_image_default_url;
 
   const mobile = (
     <div className="Card
@@ -123,35 +128,43 @@ export default function EventCard({ event }: Event) {
 
   const modal2 = (
     <div id="defaultModal" tabIndex={-1} aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 w-full overflow-x-hidden overflow-y-auto md:inset-0 max-h-full">
-      <div onClick={() => setShowModal(false)} className='fixed bg-opacity-30 bg-black backdrop-blur-sm h-full w-full'></div>
-      <div className="relative w-full max-w-2xl max-h-full m-auto">
+      <div onClick={() => setShowModal(false)} className='fixed bg-opacity-30 bg-black backdrop-blur h-full w-full'></div>
+      <div className="relative w-full max-w-2xl max-h-full">
         {/* <!-- Modal content --> */}
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div className="relative bg-white rounded-lg shadow ">
           {/* <!-- Modal header --> */}
-          <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <div className="flex items-start justify-between p-4 border-b rounded-t ">
+            <h3 className="text-xl font-semibold text-gray-900 ">
               {event.tp_name}
             </h3>
-            <button type="button" onClick={() => setShowModal(false)} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal">
+            <button type="button" onClick={() => setShowModal(false)} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
               <span className="sr-only">Close modal</span>
             </button>
           </div>
           {/* <!-- Modal body --> */}
-          <div className="p-6 space-y-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-            </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-            </p>
+          <div className="p-2 space-y-6 flex">
+            <div className='min-w-[50%] flex '>
+              <img src={eventImage} alt="Poster" className="w-auto h-auto max-w-full max-h-full rounded-xl " />
+            </div>
+            <div className='max-w-[50%] flex flex-wrap'>
+              <h2 className='text-xl font-mono self-baseline'>{starts_at}</h2>
+              <h2 className='text-xl self-baseline'>{starts_at_weekDay}</h2>
+              <div className="flex">
+                <img src={event.tp_org_logo_image_default_url} alt="logo" className="rounded-full w-24 h-24 object-cover aspect-square" />
+                <p>{event.tp_org_name}</p>
+              </div>
+              <p className="text-base leading-relaxed text-gray-500  p-2">
+                {event.tp_description_short}
+              </p>
+            </div>
           </div>
           {/* <!-- Modal footer --> */}
-          <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+          <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b ">
             <button type="button" onClick={() => {
               setShowModal(false);
               window.open(`${event.tp_url}`);
-            }} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            }} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
               Открыть на таймпаде ↗
             </button>
           </div>

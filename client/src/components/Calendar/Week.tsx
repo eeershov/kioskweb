@@ -39,8 +39,8 @@ export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek }: Week
   days = getWeekDays();
 
   const weekContent = {
-    mobile: "Week flex-col ",
-    desktop: "Week flex justify-center ",
+    mobile: "Week flex-col",
+    desktop: "Week flex justify-center",
     currentMobile: "",
     currentDesktop: "ring-2 rounded-xl ring-violet-400 shadow-xl",
   };
