@@ -80,8 +80,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
       <button onClick={() => handleClick(option)} disabled={status}
         className='items-center px-4 py-2 text-sm font-medium text-violet-950 bg-transparent mx-1
                   border border-violet-950 rounded-lg hover:bg-violet-950 hover:text-white 
-                  focus:z-10 focus:ring-2 focus:ring-violet-500 focus:bg-violet-950 focus:text-white
-                  dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-violet-700 dark:focus:bg-violet-700'>
+                  focus:z-10 focus:ring-2 focus:ring-violet-500 focus:bg-violet-950 focus:text-white'>
         {children}
       </button>
     );
