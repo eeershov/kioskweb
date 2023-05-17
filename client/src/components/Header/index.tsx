@@ -51,9 +51,9 @@ function Header() {
     <div>
       <div className='h-14 flex 
                       justify-center 
-                      bg-violet-950
+                      bg-violet-900/5
       '>
-        <h1 className='self-center text-3xl text-pink-500'>Kiosk Comedy</h1>
+        <h1 className='bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 self-center text-3xl font-bold'>Kiosk Comedy</h1>
       </div>
     </div>
   )
