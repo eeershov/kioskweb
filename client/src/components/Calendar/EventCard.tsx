@@ -52,7 +52,8 @@ export default function EventCard({ event }: Event) {
   const mobile = (
     <div className="Card
                     rounded-2xl justify-center bg-no-repeat bg-cover bg-center bg-local
-                    w-full h-28 overflow-hidden shadow-md my-2"
+                    w-full h-28 overflow-hidden shadow-md my-2 cursor-pointer"
+      onClick={() => handleClick("open")}
       style={{ backgroundImage: `url(${eventImage})` }}>
       <div className="Two-sides 
                       grid grid-cols-3 grid-rows-1 h-full">
@@ -77,7 +78,6 @@ export default function EventCard({ event }: Event) {
               alt="logo" src={event.tp_org_logo_image_default_url} />
             <button
               type='button'
-              onClick={() => handleClick("open")}
               className="flex text-white max-h-8 w-min py-1 px-3 rounded-full bg-purple-600 justify-center items-center"
             >
               Подробнее
