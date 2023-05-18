@@ -19,6 +19,16 @@ export default function EventCard({ event }: Event) {
   const starts_at_weekDay = format(date, dateFormatMobile);
   const eventImage: string = event.tp_poster_image_default_url || event.tp_org_logo_image_default_url;
 
+  function handleClick(option: "open" | "close") {
+
+    if (option === "open") {
+      setShowModal(true);
+      document.body.style.overflow = "hidden";
+    } else {
+      setShowModal(false);
+      document.body.style.overflow = "scroll";
+    }
+  }
 
   function handleEsc(event: any) {
     if (event.key === "Escape") {
@@ -61,7 +71,7 @@ export default function EventCard({ event }: Event) {
               alt="logo" src={event.tp_org_logo_image_default_url} />
             <button
               type='button'
-              onClick={() => setShowModal(true)}
+              onClick={() => handleClick("open")}
               className="flex text-white max-h-8 w-min py-1 px-3 rounded-full bg-purple-600 justify-center items-center"
             >
               Подробнее
@@ -74,7 +84,7 @@ export default function EventCard({ event }: Event) {
 
   const desktop = (
     <div className="Card w-full h-fit flex p-1 group cursor-pointer
-    hover:bg-gradient-to-t from-purple-600 to-violet-600 first:rounded-t-lg last:rounded-b-lg" onClick={() => setShowModal(true)}>
+    hover:bg-gradient-to-t from-purple-600 to-violet-600 first:rounded-t-lg last:rounded-b-lg" onClick={() => handleClick("open")}>
       <div className='rounded-md bg-no-repeat bg-cover bg-center bg-local w-[50%] aspect-square mr-1 shrink-0 self-center'
         style={{ backgroundImage: `url(${eventImage})` }}></div>
       <div className="flex flex-col overflow-clip text-violet-950 group-hover:text-white">
@@ -87,38 +97,43 @@ export default function EventCard({ event }: Event) {
 
   const modal2 = (
     <div id="defaultModal" tabIndex={-1} aria-hidden="true"
-      className="flex items-center fixed top-0 left-0 right-0 z-50 w-full h-full overflow-x-hidden overflow-y-auto max-h-full">
-      <div onClick={() => setShowModal(false)} className='fixed bg-opacity-30 bg-black backdrop-blur h-full w-full'></div>
-      <div className="relative max-w-3xl w-full h-fit p-[1.5rem] m-auto">
+      className="flex items-center fixed top-0 left-0 right-0 z-50 w-full h-full max-height: -webkit-fill-available overflow-x-hidden overflow-y-auto">
+      <div onClick={() => handleClick("close")} className='fixed bg-opacity-30 bg-black backdrop-blur h-full w-full'></div>
+      <div className="relative max-w-3xl w-full h-full p-[1.5rem] m-auto">
         {/* <!-- Modal content --> */}
-        <div className="relative bg-white rounded-lg shadow h-full sm:h-fit">
+        <div className="relative bg-white flex flex-col justify-between rounded-lg shadow h-full sm:h-fit overflow-hidden">
           {/* <!-- Modal header --> */}
           <div className="flex items-start justify-between p-4 border-b rounded-t">
             <h2 className='text-xl font-mono self-baseline font-bold m-1'>{starts_at} {starts_at_weekDay}</h2>
-            <button type="button" onClick={() => setShowModal(false)} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
+            <button type="button" onClick={() => handleClick("close")} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
               <span className="sr-only">Close modal</span>
             </button>
           </div>
           {/* <!-- Modal body --> */}
-          <div className="m-2 flex flex-col sm:flex-row relative overflow-hidden">
-            <div className='sm:w-[50%] h-full w-full flex-col'>
+          <div className="m-2 flex flex-col sm:flex-row relative overflow-hidden h-full">
+            <div className='sm:w-[50%] h-[50%] w-full flex-col'>
               <div className='p-1 flex justify-center'>
                 <h3 className="text-xl font-semibold text-gray-900 ">
                   {event.tp_name}
                 </h3>
               </div>
-              <div className='float-right sm:float-none mb-2 sm:mr-2 p-1'>
-                <div className="flex flex-col justify-center items-center">
-                  <img src={event.tp_org_logo_image_default_url} alt="logo" className="rounded-full w-24 h-24 object-cover aspect-square" />
-                  <h4 className='text-base font-mono font-bold leading-relaxed text-gray-500'>{event.tp_org_name}</h4>
+              {/* <!-- Orgs and Desc --> */}
+              <div className='overflow-y-auto overflow-x-clip space-y-2'>
+                <div className='float-right ml-2 sm:mr-2 p-1 w-[30%]'>
+                  {/* inset(calc(100% - 100px) 0 0); */}
+                  <div className="flex flex-col justify-center items-center">
+                    <img src={event.tp_org_logo_image_default_url} alt="logo"
+                      className="rounded-full w-auto h-auto object-cover aspect-square" />
+                    <h4 className='text-base font-mono font-bold text-center leading-4 text-gray-500 break-all sm:break-normal'>{event.tp_org_name}</h4>
+                  </div>
                 </div>
+                <p className="text-base text-gray-500 pb-2 max-h-[30vh]">
+                  {event.tp_description_short}
+                </p>
               </div>
-              <p className="text-base leading-relaxed text-gray-500 overflow-y-auto overflow-x-clip pb-2 max-h-[30vh]">
-                {event.tp_description_short}
-              </p>
             </div>
-            <div className={`sm:w-[50%] w-full flex sm:aspect-square justify-center rounded-2xl overflow-clip`}>
+            <div className={`sm:w-[50%] w-full h-[50%] flex sm:aspect-square justify-center rounded-2xl overflow-clip`}>
               <div className='w-full h-full bg-cover' style={{ backgroundImage: `url(${eventImage})` }}>
                 <div className='h-full w-full backdrop-blur flex justify-center'>
                   <img src={eventImage} alt="Poster" className="w-auto object-scale-down max-w-full max-h-full" />
@@ -127,7 +142,7 @@ export default function EventCard({ event }: Event) {
             </div>
           </div>
           {/* <!-- Modal footer --> */}
-          <div className="flex items-center p-6 border-t border-gray-200 rounded-b ">
+          <div className="flex justify-end p-4 border-t border-gray-200">
             <button type="button" onClick={() => {
               setShowModal(false);
               window.open(`${event.tp_url}`);
