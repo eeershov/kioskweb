@@ -43,7 +43,7 @@ function Calendar() {
 
 
   return (
-    <div className='Calendar max-w-7xl m-auto px-1'>
+    <div className='Calendar max-w-7xl m-auto'>
       {loading ? <p>Loading...</p> : (
         <div className=''>
           {MonthOrWeekView}

@@ -8,7 +8,7 @@ import { Day } from "./index";
 interface WeekEvents {
   weekEvents: Map<string, []>;
   isWeekdayEmpty?: number[];
-  isCurrentWeek: boolean;
+  isCurrentWeek?: boolean;
 }
 
 export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek }: WeekEvents) {

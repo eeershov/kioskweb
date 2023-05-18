@@ -5,6 +5,7 @@ import { ru } from 'date-fns/locale';
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 import { Week } from "./index";
 import { getWeekEvents } from "./utils";
+import ButtonControlStyle from './ButtonControlStyle';
 
 setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
@@ -19,36 +20,45 @@ export default function WeekView({ eventsByDay, selectedDate, todayDate }: Props
   const [dateState, setDateState] = useState(selectedDate); // selected date
   const [isDisabledControls, setIsDisabledControls] = useState({ prev: false, next: false });
 
-  function ControlButton({ option, children }: { option: "prev" | "next"; children: string }): JSX.Element {
+  function ControlButton({ option, children }: { option: "prev" | "next" | "current"; children: string }): JSX.Element {
     console.log(option);
     let status = false;
-    if (option === "prev") {
-      status = isDisabledControls.prev;
-    } else {
-      status = isDisabledControls.next;
+    switch (option) {
+      case "prev":
+        status = isDisabledControls.prev;
+        break;
+      case "next":
+        status = isDisabledControls.next;
+        break;
+      default:
+        break;
     }
     return (
-      <button onClick={() => handleClick(option)} disabled={status} className='bg-slate-500 disabled:bg-stone-500'>
+      <ButtonControlStyle onClick={() => handleClick(option)} disabled={status}>
         {children}
-      </button>
+      </ButtonControlStyle>
     );
   }
 
-  function handleClick(option: "prev" | "next") {
+  function handleClick(option: "prev" | "next" | "current") {
     let optionDate;
     let optionAfterDate;
     if (option === "prev") {
       optionDate = subDays(dateState, 7);
       optionAfterDate = subDays(dateState, 14);
-    } else {
+    } else if (option === "next") {
       optionDate = addDays(dateState, 7);
       optionAfterDate = addDays(dateState, 14);
+    } else {
+      setDateState(selectedDate);
+      setIsDisabledControls({ prev: false, next: false });
+      return;
     }
     const optionWeek = getWeekEvents(optionDate, eventsByDay);
     const hasEvents = Array.from(optionWeek.values()).some(events => events !== undefined);
     if (!hasEvents) {
       setIsDisabledControls({ prev: option === "prev", next: option === "next" });
-      return
+      return;
     }
 
     const optionAfterWeek = getWeekEvents(optionAfterDate, eventsByDay);
@@ -63,12 +73,15 @@ export default function WeekView({ eventsByDay, selectedDate, todayDate }: Props
 
   return (
     <div>
-      <div>
-        <ControlButton option={"prev"}>
-          prev
+      <div className='flex m-1 pt-1'>
+        <ControlButton option="prev">
+          ❮
         </ControlButton>
-        <ControlButton option={"next"}>
-          next
+        <ControlButton option="current">
+          Сегодня
+        </ControlButton>
+        <ControlButton option="next">
+          ❯
         </ControlButton>
       </div>
       {<Week weekEvents={getWeekEvents(dateState, eventsByDay)} />}

@@ -3,6 +3,7 @@ import { setDefaultOptions, parse, getDay, subDays, addDays, format, differenceI
 import { ru } from 'date-fns/locale';
 import { Week } from "./index";
 import { getWeekEvents } from "./utils";
+import ButtonControlStyle from "./ButtonControlStyle";
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
@@ -72,17 +73,13 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
     }
   }
 
-  function ControlButton({ option, children }: { option: "today" | "prev" | "next"; children: string }): JSX.Element {
-    console.log(option);
-    let status = false;
 
+
+  function ControlButton({ option, children }: { option: "today" | "prev" | "next"; children: string }): JSX.Element {
     return (
-      <button onClick={() => handleClick(option)} disabled={status}
-        className='items-center px-4 py-2 text-sm font-medium text-violet-950 bg-transparent mx-1
-                  border border-violet-950 rounded-lg hover:bg-violet-950 hover:text-white 
-                  focus:z-10 focus:ring-2 focus:ring-violet-500 focus:bg-violet-950 focus:text-white'>
+      <ButtonControlStyle onClick={() => handleClick(option)}>
         {children}
-      </button>
+      </ButtonControlStyle>
     );
   }
 
@@ -125,8 +122,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
 
   return (
     <div className='WeekView
-                    flex-row m-0'>
-
+                    flex-row'>
       <div className='sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-50'>
         <div className='Controls flex m-1 pt-1'>
           <ControlButton option='today'>
@@ -145,7 +141,9 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
         </div>
         <WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />
       </div>
-      {weeksJSX}
+      <div className='mx-1'>
+        {weeksJSX}
+      </div>
     </div >
   );
 }

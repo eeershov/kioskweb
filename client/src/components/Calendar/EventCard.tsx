@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { format } from "date-fns";
 
 import { ViewportContext } from "../../appContext/ViewportContext";
@@ -19,10 +19,41 @@ export default function EventCard({ event }: Event) {
   const starts_at_weekDay = format(date, dateFormatMobile);
   const eventImage: string = event.tp_poster_image_default_url || event.tp_org_logo_image_default_url;
 
+  function handleClick(option: "open" | "close") {
+
+    if (option === "open") {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "scroll";
+    }
+  }, [showModal])
+
+  function handleEsc(event: any) {
+    if (event.key === "Escape") {
+      setShowModal(false);
+    }
+  }
+  useEffect(() => {
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
+
+
   const mobile = (
     <div className="Card
                     rounded-2xl justify-center bg-no-repeat bg-cover bg-center bg-local
-                    w-full h-28 overflow-hidden shadow-2xl my-2"
+                    w-full h-28 overflow-hidden shadow-md my-2 cursor-pointer"
+      onClick={() => handleClick("open")}
       style={{ backgroundImage: `url(${eventImage})` }}>
       <div className="Two-sides 
                       grid grid-cols-3 grid-rows-1 h-full">
@@ -47,7 +78,6 @@ export default function EventCard({ event }: Event) {
               alt="logo" src={event.tp_org_logo_image_default_url} />
             <button
               type='button'
-              onClick={() => setShowModal(true)}
               className="flex text-white max-h-8 w-min py-1 px-3 rounded-full bg-purple-600 justify-center items-center"
             >
               Подробнее
@@ -60,7 +90,7 @@ export default function EventCard({ event }: Event) {
 
   const desktop = (
     <div className="Card w-full h-fit flex p-1 group cursor-pointer
-    hover:bg-gradient-to-t from-purple-600 to-violet-600 first:rounded-t-lg last:rounded-b-lg" onClick={() => setShowModal(true)}>
+    hover:bg-gradient-to-t from-purple-600 to-violet-600 first:rounded-t-lg last:rounded-b-lg" onClick={() => handleClick("open")}>
       <div className='rounded-md bg-no-repeat bg-cover bg-center bg-local w-[50%] aspect-square mr-1 shrink-0 self-center'
         style={{ backgroundImage: `url(${eventImage})` }}></div>
       <div className="flex flex-col overflow-clip text-violet-950 group-hover:text-white">
@@ -71,106 +101,65 @@ export default function EventCard({ event }: Event) {
   );
 
 
-  const modal1 = ((<>
-    <div className="fixed m-auto z-50 w-full overflow-hidden md:inset-0 h-[calc(100%-1rem)] max-h-full">
-      <div className='relative w-full max-w-2xl max-h-full'>
-        <div
-          className="fixed inset-0 w-full h-full bg-black opacity-40"
-          onClick={() => setShowModal(false)}
-        ></div>
-        <div className="flex items-center px-8">
-          <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
-            <div className='Organization-block
-                          h-24 bg-slate-400 rounded-md p-3 grid grid-rows-1 grid-cols-2'>
-              <div className="col-span-1 flex items-center h-full aspect-square bg-purple-600 rounded-full">
-                <img className="Logo
-                h-auto aspect-square rounded-full object-cover"
-                  alt="logo" src={event.tp_org_logo_image_default_url} />
-              </div>
-              <div className='flex items-center justify-center'>
-                <p>{event.tp_org_name}</p>
-              </div>
-            </div>
-            <div className="mt-2 text-left">
-              <h4 className="text-lg font-medium text-gray-800">
-                {event.tp_name}
-              </h4>
-              <img className='h-auto w-32 aspect-square rounded-md object-cover'
-                alt="Event poster" src={eventImage} />
-              <p className="mt-2 text-[15px] leading-relaxed text-gray-500 overflow-y-scroll max-h-20">
-                {event.tp_description_short}
-              </p>
-              <div className="buttons-block items-center gap-2 mt-3 sm:flex">
-                <button
-                  className="w-full mt-2 p-2.5 flex-1 bg-purple-600 text-white rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
-                  onClick={() => {
-                    setShowModal(false);
-                    window.open(`${event.tp_url}`);
-                  }}
-
-                >
-                  Открыть на таймпаде ↗
-                </button>
-                <button
-                  className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
-                  onClick={() => setShowModal(false)}
-                >
-                  Закрыть
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </>)
-  )
-
   const modal2 = (
-    <div id="defaultModal" tabIndex={-1} aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 w-full overflow-x-hidden overflow-y-auto md:inset-0 max-h-full">
-      <div onClick={() => setShowModal(false)} className='fixed bg-opacity-30 bg-black backdrop-blur h-full w-full'></div>
-      <div className="relative w-full max-w-2xl max-h-full">
+    <div id="defaultModal" tabIndex={-1} aria-hidden="true"
+      className="flex items-center fixed top-0 left-0 right-0 z-50 w-full h-full max-height: -webkit-fill-available overflow-x-hidden overflow-y-auto">
+      <div onClick={() => handleClick("close")} className='fixed bg-opacity-30 bg-black backdrop-blur h-full w-full'></div>
+      <div className="relative max-w-3xl w-full h-full sm:h-fit p-[1.5rem] m-auto">
         {/* <!-- Modal content --> */}
-        <div className="relative bg-white rounded-lg shadow ">
+        <div className="relative bg-white flex flex-col justify-between rounded-lg shadow w-full h-full overflow-hidden">
           {/* <!-- Modal header --> */}
-          <div className="flex items-start justify-between p-4 border-b rounded-t ">
-            <h3 className="text-xl font-semibold text-gray-900 ">
-              {event.tp_name}
-            </h3>
-            <button type="button" onClick={() => setShowModal(false)} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
+          <div className="flex items-start justify-between py-4 px-2 border-b rounded-t">
+            <h2 className='text-xl font-mono self-baseline font-bold m-1'>{starts_at} {starts_at_weekDay}</h2>
+            <button type="button" onClick={() => handleClick("close")} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
               <span className="sr-only">Close modal</span>
             </button>
           </div>
           {/* <!-- Modal body --> */}
-          <div className="p-2 space-y-6 flex">
-            <div className='min-w-[50%] flex '>
-              <img src={eventImage} alt="Poster" className="w-auto h-auto max-w-full max-h-full rounded-xl " />
-            </div>
-            <div className='max-w-[50%] flex flex-wrap'>
-              <h2 className='text-xl font-mono self-baseline'>{starts_at}</h2>
-              <h2 className='text-xl self-baseline'>{starts_at_weekDay}</h2>
-              <div className="flex">
-                <img src={event.tp_org_logo_image_default_url} alt="logo" className="rounded-full w-24 h-24 object-cover aspect-square" />
-                <p>{event.tp_org_name}</p>
+          <div className="m-2 flex flex-col sm:flex-row relative overflow-hidden h-full">
+            <div className='sm:w-[50%] h-[50%] w-full flex-col'>
+              <div className='flex justify-center'>
+                <h3 className="text-xl font-semibold text-gray-900 ">
+                  {event.tp_name}
+                </h3>
               </div>
-              <p className="text-base leading-relaxed text-gray-500  p-2">
-                {event.tp_description_short}
-              </p>
+              {/* <!-- Orgs and Desc --> */}
+              <div className='overflow-y-auto overflow-x-clip space-y-2'>
+                <div className='float-right ml-2 sm:mr-2 p-1 w-[30%]'>
+                  <div className="flex flex-col justify-center items-center">
+                    <img src={event.tp_org_logo_image_default_url} alt="logo"
+                      className="rounded-full w-auto h-auto object-cover aspect-square" />
+                    <h4 className='text-base font-mono font-bold text-center leading-4 text-gray-500 break-all sm:break-normal'>{event.tp_org_name}</h4>
+                  </div>
+                </div>
+                <p className="text-base text-gray-500 pb-2 max-h-[30vh]">
+                  {event.tp_description_short}
+                </p>
+              </div>
             </div>
+
+            <div className={`sm:w-[50%] w-full h-[50%] flex sm:aspect-square justify-center blur-0 rounded-2xl overflow-hidden`}>
+              <div className='w-full h-full bg-cover' style={{ backgroundImage: `url(${eventImage})` }}>
+                <div className='h-full w-full backdrop-blur flex justify-center'>
+                  <img src={eventImage} alt="Poster" className="w-auto object-scale-down max-w-full max-h-full hover:object-cover" />
+                </div>
+              </div>
+            </div>
+
           </div>
           {/* <!-- Modal footer --> */}
-          <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b ">
+          <div className="flex justify-end p-4 border-t border-gray-200">
             <button type="button" onClick={() => {
               setShowModal(false);
               window.open(`${event.tp_url}`);
-            }} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+            }} className="text-white bg-violet-800 hover:bg-violet-950 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
               Открыть на таймпаде ↗
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 
   function Modal() {
