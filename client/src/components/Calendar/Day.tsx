@@ -23,7 +23,8 @@ export default function Day({ events, date, isEmpty }: Events) {
 
 
   const mobileDate = (
-    <h3 className='text-center self-center uppercase font-bold text-sm p-2'>
+    <h3 className='text-center self-center uppercase font-bold text-sm p-2 
+    sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-20'>
       {dateStringMobile}
     </h3>
   );
@@ -50,8 +51,9 @@ export default function Day({ events, date, isEmpty }: Events) {
       boxDesktop: "Day-content basis-2/12 flex flex-col justify-start relative overflow-clip",
     },
     currentDay: {
-      mobile: "ring-2 ring-violet-400 ring-offset-0 rounded-lg absolute w-full h-full",
-      desktop: "border-4 border-violet-400 rounded-xl absolute w-full h-full",
+      mobile2: "ring-2 ring-violet-400 ring-offset-0 rounded-lg absolute w-full h-full z-30 pointer-events-none",
+      mobile: "border-4 border-violet-400 rounded-xl absolute w-full h-full z-30 pointer-events-none",
+      desktop: "border-4 border-violet-400 rounded-xl absolute w-full h-full pointer-events-none",
     }
   }
 

@@ -125,8 +125,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
 
   return (
     <div className='WeekView
-                    flex-row m-0'>
-
+                    flex-row'>
       <div className='sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-50'>
         <div className='Controls flex m-1 pt-1'>
           <ControlButton option='today'>
@@ -145,7 +144,9 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
         </div>
         <WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />
       </div>
-      {weeksJSX}
+      <div className='mx-1'>
+        {weeksJSX}
+      </div>
     </div >
   );
 }

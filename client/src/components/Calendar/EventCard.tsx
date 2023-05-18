@@ -23,12 +23,18 @@ export default function EventCard({ event }: Event) {
 
     if (option === "open") {
       setShowModal(true);
-      document.body.style.overflow = "hidden";
     } else {
       setShowModal(false);
-      document.body.style.overflow = "scroll";
     }
   }
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "scroll";
+    }
+  }, [showModal])
 
   function handleEsc(event: any) {
     if (event.key === "Escape") {
@@ -46,7 +52,7 @@ export default function EventCard({ event }: Event) {
   const mobile = (
     <div className="Card
                     rounded-2xl justify-center bg-no-repeat bg-cover bg-center bg-local
-                    w-full h-28 overflow-hidden shadow-2xl my-2"
+                    w-full h-28 overflow-hidden shadow-md my-2"
       style={{ backgroundImage: `url(${eventImage})` }}>
       <div className="Two-sides 
                       grid grid-cols-3 grid-rows-1 h-full">
@@ -103,7 +109,7 @@ export default function EventCard({ event }: Event) {
         {/* <!-- Modal content --> */}
         <div className="relative bg-white flex flex-col justify-between rounded-lg shadow h-full sm:h-fit overflow-hidden">
           {/* <!-- Modal header --> */}
-          <div className="flex items-start justify-between p-4 border-b rounded-t">
+          <div className="flex items-start justify-between py-4 px-2 border-b rounded-t">
             <h2 className='text-xl font-mono self-baseline font-bold m-1'>{starts_at} {starts_at_weekDay}</h2>
             <button type="button" onClick={() => handleClick("close")} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
@@ -113,7 +119,7 @@ export default function EventCard({ event }: Event) {
           {/* <!-- Modal body --> */}
           <div className="m-2 flex flex-col sm:flex-row relative overflow-hidden h-full">
             <div className='sm:w-[50%] h-[50%] w-full flex-col'>
-              <div className='p-1 flex justify-center'>
+              <div className='flex justify-center'>
                 <h3 className="text-xl font-semibold text-gray-900 ">
                   {event.tp_name}
                 </h3>
@@ -133,9 +139,9 @@ export default function EventCard({ event }: Event) {
                 </p>
               </div>
             </div>
-            <div className={`sm:w-[50%] w-full h-[50%] flex sm:aspect-square justify-center rounded-2xl overflow-clip`}>
+            <div className={`sm:w-[50%] w-full h-[50%] flex sm:aspect-square justify-center rounded-xl overflow-clip`}>
               <div className='w-full h-full bg-cover' style={{ backgroundImage: `url(${eventImage})` }}>
-                <div className='h-full w-full backdrop-blur flex justify-center'>
+                <div className='h-full w-full backdrop-blur flex justify-center rounded-xl'>
                   <img src={eventImage} alt="Poster" className="w-auto object-scale-down max-w-full max-h-full" />
                 </div>
               </div>
