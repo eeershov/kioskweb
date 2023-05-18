@@ -127,7 +127,6 @@ export default function EventCard({ event }: Event) {
               {/* <!-- Orgs and Desc --> */}
               <div className='overflow-y-auto overflow-x-clip space-y-2'>
                 <div className='float-right ml-2 sm:mr-2 p-1 w-[30%]'>
-                  {/* inset(calc(100% - 100px) 0 0); */}
                   <div className="flex flex-col justify-center items-center">
                     <img src={event.tp_org_logo_image_default_url} alt="logo"
                       className="rounded-full w-auto h-auto object-cover aspect-square" />
@@ -139,13 +138,15 @@ export default function EventCard({ event }: Event) {
                 </p>
               </div>
             </div>
-            <div className={`sm:w-[50%] w-full h-[50%] flex sm:aspect-square justify-center rounded-xl overflow-clip`}>
+
+            <div className={`sm:w-[50%] w-full h-[50%] flex sm:aspect-square justify-center blur-0 rounded-2xl overflow-hidden`}>
               <div className='w-full h-full bg-cover' style={{ backgroundImage: `url(${eventImage})` }}>
-                <div className='h-full w-full backdrop-blur flex justify-center rounded-xl'>
-                  <img src={eventImage} alt="Poster" className="w-auto object-scale-down max-w-full max-h-full" />
+                <div className='h-full w-full backdrop-blur flex justify-center'>
+                  <img src={eventImage} alt="Poster" className="w-auto object-scale-down max-w-full max-h-full hover:object-cover" />
                 </div>
               </div>
             </div>
+
           </div>
           {/* <!-- Modal footer --> */}
           <div className="flex justify-end p-4 border-t border-gray-200">
