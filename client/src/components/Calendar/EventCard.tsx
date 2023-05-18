@@ -105,9 +105,9 @@ export default function EventCard({ event }: Event) {
     <div id="defaultModal" tabIndex={-1} aria-hidden="true"
       className="flex items-center fixed top-0 left-0 right-0 z-50 w-full h-full max-height: -webkit-fill-available overflow-x-hidden overflow-y-auto">
       <div onClick={() => handleClick("close")} className='fixed bg-opacity-30 bg-black backdrop-blur h-full w-full'></div>
-      <div className="relative max-w-3xl w-full h-full p-[1.5rem] m-auto">
+      <div className="relative max-w-3xl w-full h-full sm:h-fit p-[1.5rem] m-auto">
         {/* <!-- Modal content --> */}
-        <div className="relative bg-white flex flex-col justify-between rounded-lg shadow h-full sm:h-fit overflow-hidden">
+        <div className="relative bg-white flex flex-col justify-between rounded-lg shadow w-full h-full overflow-hidden">
           {/* <!-- Modal header --> */}
           <div className="flex items-start justify-between py-4 px-2 border-b rounded-t">
             <h2 className='text-xl font-mono self-baseline font-bold m-1'>{starts_at} {starts_at_weekDay}</h2>
