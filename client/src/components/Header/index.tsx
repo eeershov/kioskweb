@@ -1,61 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { About } from "../About/About";
+import kioskLogo from "./kiosk_logo1.png";
 
 function Header() {
-  // const [navbarOpen, setNavbarOpen] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
-  // function handleToggle() {
-  //   setNavbarOpen(prev => !prev)
-  // }
+  function handleClick() {
+    setShowAbout((prev) => {
+      return !prev
+    })
+  }
 
-  // function SlideMenu() {
-  //   return (
-  //     <nav className="Menu
-  //                     relative
-  //                     z-10
-  //     ">
-  //       <button onClick={handleToggle}
-  //         className="
-  //                   fixed left-5 top-2 cursor-pointer z-20
-  //                   bg-orange-300
-  //                   rounded-full
-  //                   w-12 h-12
-  //                   flex
-  //                   justify-center
-  //                   items-center
-  //                   md:transition duration-200
-  //                   hover:bg-orange-400
-  //       ">
-  //         {navbarOpen ? "Close" : "Open"}
-  //       </button>
-  //       <ul className={`menuNav 
-  //                       md:transition-all duration-200
-  //                       ${navbarOpen ? "w-full" : "w-0"}
-  //                       fixed
-  //                       bg-slate-100
-  //                       overflow-y-scroll 
-  //                       overflow-hidden
-  //                       h-full 
-  //                       top-0 left-0 bottom-0
-  //                       list-none
-  //                       max-w-[80%]
-  //                       text-black
-  //       `}>
-  //         <li className="first:mt-16">pepepe</li>
-
-  //       </ul>
-  //     </nav>
-  //   )
-  // }
+  function handleCloseAbout(): void {
+    setShowAbout(false);
+  }
 
   return (
     <div>
-      <div className='h-14 flex 
-                      justify-center 
-                      bg-violet-900/5
-      '>
-        <h1 className='bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 self-center text-3xl font-bold'>Kiosk Comedy</h1>
-      </div>
+      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <span className="flex items-center">
+            <img src={kioskLogo} className="h-8 mr-3" alt="Kiosk Logo" />
+            <span className="self-center text-2xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 font-bold whitespace-nowrap">Киоск Комедии</span>
+          </span>
+          <button type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
+            <span className="sr-only">Открыть главное меню.</span>
+            <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
+          </button>
+          <div className="hidden w-full sm:block sm:w-auto" id="navbar-default">
+            <ul className="font-medium flex flex-col p-4 sm:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 sm:flex-row sm:space-x-8 sm:mt-0 sm:border-0 sm:bg-white dark:bg-gray-800 sm:dark:bg-gray-900 dark:border-gray-700">
+              <li>
+                <span className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded sm:bg-transparent sm:text-blue-700 sm:p-0 dark:text-white sm:dark:text-blue-500" aria-current="page">
+                  Календарь</span>
+              </li>
+              <li>
+                <span onClick={handleClick}
+                  className="block cursor-pointer py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 sm:hover:bg-transparent sm:border-0 sm:hover:text-blue-700 sm:p-0 dark:text-white sm:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white sm:dark:hover:bg-transparent">
+                  Что</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {showAbout &&
+        <div className="w-full h-full absolute top-0">
+          <div className="w-full h-full z-40 absolute top-0 backdrop-blur bg-black bg-opacity-30" onClick={handleClick}>
+          </div>
+          <About handleCloseAbout={handleCloseAbout} />
+        </div>}
     </div>
+
   )
 }
 
