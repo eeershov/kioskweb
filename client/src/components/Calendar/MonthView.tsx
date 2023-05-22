@@ -123,7 +123,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
   return (
     <div className='WeekView
                     flex-row'>
-      <div className='sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-50'>
+      <div className='sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-30'>
         <div className='Controls flex m-1 pt-1'>
           <ControlButton option='today'>
             Сегодня
