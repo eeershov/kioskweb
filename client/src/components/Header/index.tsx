@@ -45,7 +45,9 @@ function Header() {
       </nav>
 
       {showAbout &&
-        <div className="w-full h-full absolute z-40 top-0 backdrop-blur bg-black bg-opacity-30" onClick={handleClick}>
+        <div className="w-full h-full absolute top-0">
+          <div className="w-full h-full z-40 absolute top-0 backdrop-blur bg-black bg-opacity-30" onClick={handleClick}>
+          </div>
           <About handleCloseAbout={handleCloseAbout} />
         </div>}
     </div>
