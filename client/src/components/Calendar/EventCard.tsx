@@ -82,44 +82,50 @@ export default function EventCard({ event }: Event) {
 
   const bodyForModal = (
     <>
-      {/* <!-- Modal body --> */}
-      <div className="m-2 flex flex-col sm:flex-row relative overflow-hidden h-full">
-        <div className='sm:w-[50%] h-[50%] w-full flex-col'>
-          <div className='flex justify-center'>
+      {/* Modal body */}
+      <div className="overflow-clip m-2 flex flex-col sm:flex-row relative h-fit sm:h-fit">
+
+        {/* Desktop-Left-Mobile-Up */}
+        <div className='pb-3 max-h-[50%] sm:h-auto sm:w-[50%] overflow-y-auto w-full flex-col sm:mr-[0.12rem] mb-[0.12rem] sm:mb-0'>
+          {/* Event name */}
+          <div className='flex'>
             <h3 className="text-xl font-semibold text-gray-900 ">
               {event.tp_name}
             </h3>
           </div>
-          {/* <!-- Orgs and Desc --> */}
-          <div className='overflow-y-auto overflow-x-clip space-y-2'>
-            <div className='float-right ml-2 sm:mr-2 p-1 w-[30%]'>
+          {/* Description and Org */}
+          <div className=''>
+            <div className='float-right sm:mr-2 p-1 m-1 rounded ring-slate-900/5 w-[30%] ring-2 '>
               <div className="flex flex-col justify-center items-center">
                 <img src={event.tp_org_logo_image_default_url} alt="logo"
                   className="rounded-full w-auto h-auto object-cover aspect-square" />
                 <h4 className='text-base font-mono font-bold text-center leading-4 text-gray-500 break-all sm:break-normal'>{event.tp_org_name}</h4>
               </div>
             </div>
-            <p className="text-base text-gray-500 pb-2 max-h-[30vh]">
+            <p className="text-base text-gray-500 pb-2">
               {event.tp_description_short}
             </p>
           </div>
         </div>
 
-        <div className={`sm:w-[50%] w-full h-[50%] flex sm:aspect-square justify-center blur-0 rounded-2xl overflow-hidden`}>
-          <div className='w-full h-full bg-cover' style={{ backgroundImage: `url(${eventImage})` }}>
-            <div className='h-full w-full backdrop-blur flex justify-center'>
-              <img src={eventImage} alt="Poster" className="w-auto object-scale-down max-w-full max-h-full hover:object-cover" />
+        {/* Desktop-Right-Mobile-Down */}
+        <div className={`min-h-[50%] flex-grow sm:h-auto sm:w-[50%] flex justify-center blur-0 overflow-clip sm:ml-[0.12rem] mt-[0.12rem] sm:mt-0`}>
+          <div className={`border-2 border-slate-900/5 w-full h-full flex sm:aspect-square justify-center blur-0 rounded-2xl overflow-hidden`}>
+            <div className='w-full h-full bg-cover' style={{ backgroundImage: `url(${eventImage})` }}>
+              <div className='h-full w-full flex justify-center backdrop-blur'>
+                <img src={eventImage} alt="Poster" className="object-scale-down w-full hover:object-contain" />
+              </div>
             </div>
           </div>
         </div>
 
       </div>
       {/* <!-- Modal footer --> */}
-      <div className="flex justify-end p-4 border-t border-gray-200">
+      <div className="flex justify-end p-2 border-t border-gray-200">
         <button type="button" onClick={() => {
           setShowModal(false);
           window.open(`${event.tp_url}`);
-        }} className="text-white bg-violet-800 hover:bg-violet-950 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+        }} className="text-white bg-violet-800 hover:bg-violet-950 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium w-full sm:w-fit rounded-lg text-sm px-5 py-2.5 text-center">
           Открыть на таймпаде ↗
         </button>
       </div>
