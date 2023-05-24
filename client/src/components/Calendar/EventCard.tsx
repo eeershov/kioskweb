@@ -113,7 +113,7 @@ export default function EventCard({ event }: Event) {
           <div className={`w-full h-full flex sm:aspect-square justify-center blur-0 rounded-2xl overflow-hidden`}>
             <div className='w-full h-full bg-cover' style={{ backgroundImage: `url(${eventImage})` }}>
               <div className='h-full w-full flex justify-center backdrop-blur'>
-                <img src={eventImage} alt="Poster" className="object-scale-down w-full hover:object-contain" />
+                <img src={eventImage} alt="Poster" className="transition-transform object-scale-down w-full hover:scale-125" />
               </div>
             </div>
           </div>
