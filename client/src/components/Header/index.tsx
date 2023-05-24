@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import ModalStyle from "../Elements/ModalStyle";
 import kioskLogo from "./kiosk_logo1.png";
+import photo from "../../../public/bogdan-was-here.jpg";
 
 function Header() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -9,10 +10,23 @@ function Header() {
 
   function About() {
     const aboutBody = (
-      <>
-        <p className="p-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          A arcu cursus vitae congue mauris rhoncus aenean.</p>
-      </>
+      <div>
+        <div className="p-2 max-w-prose m-auto">
+          <p className="text-base text-gray-500 leading-relaxed">
+            <span>Здесь собраны события в жанре стендап таких уважаемых организаций как горький микрофон, </span>
+            <span className="text-violet-800 inline-block">киоск комедии,</span>
+            <span> стендап нн и стендап 52.</span>
+            <span>Пожалуйста, ходите на стендап в Нижнем Новгороде, и в особенности мероприятия киоска комедии.</span>
+          </p>
+          <address className="text-right text-base text-gray-500">
+            Обратная связь: <a href="mailto:kioskcomedy+web@gmail.com">kioskcomedy+web@gmail.com</a><br />
+            Нижний Новгород
+          </address>
+        </div>
+        <div className='h-full min-h-[12rem] w-full flex justify-center backdrop-blur overflow-hidden'>
+          <img src={photo} alt="Poster" className="transition-transform object-cover w-full hover:scale-125 sm:w-full" />
+        </div>
+      </div >
     );
     return (<>
       {showAboutModal ? <ModalStyle setParentState={setShowAboutModal} header="Что?" body={aboutBody} /> : null}
@@ -30,7 +44,7 @@ function Header() {
         <li>
           <span onClick={() => setShowAboutModal(true)}
             className="block cursor-pointer py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 sm:hover:bg-transparent sm:border-0 sm:hover:text-purple-600 sm:p-0">
-            Что</span>
+            Что?</span>
         </li>
       </ul>
     </>
