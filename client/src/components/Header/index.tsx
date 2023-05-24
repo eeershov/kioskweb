@@ -15,8 +15,9 @@ function Header() {
           <p className="text-base text-gray-500 leading-relaxed">
             <span>Здесь собраны события в жанре стендап таких уважаемых организаций как горький микрофон, </span>
             <span className="text-violet-800 inline-block">киоск комедии,</span>
-            <span> стендап нн и стендап 52.</span>
-            <span>Пожалуйста, ходите на стендап в Нижнем Новгороде, и в особенности мероприятия киоска комедии.</span>
+            <span> стендап нн и стендап 52. </span>
+            <span>Пожалуйста, ходите на стендап в Нижнем Новгороде, и в особенности мероприятия </span>
+            <span className="text-violet-800 inline-block">киоска комедии.</span>
           </p>
           <address className="text-right text-base text-gray-500">
             Обратная связь: <a href="mailto:kioskcomedy+web@gmail.com">kioskcomedy+web@gmail.com</a><br />
