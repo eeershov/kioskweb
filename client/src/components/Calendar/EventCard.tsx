@@ -110,7 +110,7 @@ export default function EventCard({ event }: Event) {
 
         {/* Desktop-Right-Mobile-Down */}
         <div className={`min-h-[50%] flex-grow sm:h-auto sm:w-[50%] flex justify-center blur-0 overflow-clip sm:ml-[0.12rem] mt-[0.12rem] sm:mt-0`}>
-          <div className={`border-2 border-slate-900/5 w-full h-full flex sm:aspect-square justify-center blur-0 rounded-2xl overflow-hidden`}>
+          <div className={`w-full h-full flex sm:aspect-square justify-center blur-0 rounded-2xl overflow-hidden`}>
             <div className='w-full h-full bg-cover' style={{ backgroundImage: `url(${eventImage})` }}>
               <div className='h-full w-full flex justify-center backdrop-blur'>
                 <img src={eventImage} alt="Poster" className="object-scale-down w-full hover:object-contain" />
