@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { setDefaultOptions, parse, getDay, subDays, addDays, format, differenceInDays } from "date-fns";
+import { setDefaultOptions, parse, getDay, subDays, addDays, format, differenceInDays, isSameDay } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { Week } from "./index";
 import { getWeekEvents } from "./utils";
@@ -66,7 +66,11 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
         setSelectedDate(addDays(selectedDate, 31));
         break;
       case "today":
-        setSelectedDate(new Date());
+        if (isSameDay(currentDate, selectedDate)) {
+          window.location.href = "#today";
+        } else {
+          setSelectedDate(new Date());
+        }
         break;
       default:
         break;
@@ -125,11 +129,11 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
                     flex-row'>
       <div className='sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-30'>
         <div className='Controls flex m-1 pt-1'>
-          <ControlButton option='today'>
-            Сегодня
-          </ControlButton>
           <ControlButton option='prev'>
             ❮
+          </ControlButton>
+          <ControlButton option='today'>
+            Сегодня
           </ControlButton>
           <ControlButton option='next'>
             ❯

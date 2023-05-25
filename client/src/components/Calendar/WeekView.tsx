@@ -51,6 +51,7 @@ export default function WeekView({ eventsByDay, selectedDate, todayDate }: Props
       optionAfterDate = addDays(dateState, 14);
     } else {
       setDateState(selectedDate);
+      window.location.href = "#today";
       setIsDisabledControls({ prev: false, next: false });
       return;
     }
@@ -78,7 +79,7 @@ export default function WeekView({ eventsByDay, selectedDate, todayDate }: Props
           ❮
         </ControlButton>
         <ControlButton option="current">
-          Эта неделя
+          Сегодня
         </ControlButton>
         <ControlButton option="next">
           ❯
