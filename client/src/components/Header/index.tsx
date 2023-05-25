@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import ModalStyle from "../Elements/ModalStyle";
 import kioskLogo from "./kiosk_logo1.png";
-import photo from "../../../public/bogdan-was-here.jpg";
+import photo from "../About/bogdan-was-here.jpg";
 
 function Header() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -14,13 +14,13 @@ function Header() {
         <div className="p-2 max-w-prose m-auto">
           <p className="text-base text-gray-500 leading-relaxed">
             <span>Здесь собраны события в жанре стендап таких уважаемых организаций как горький микрофон, </span>
-            <span className="text-violet-800 inline-block">киоск комедии,</span>
-            <span> стендап нн и стендап 52. </span>
+            <span className="text-violet-800 inline-block">киоск комедии</span>
+            <span>, стендап нн и стендап 52. </span>
             <span>Пожалуйста, ходите на стендап в Нижнем Новгороде, и в особенности мероприятия </span>
             <span className="text-violet-800 inline-block">киоска комедии.</span>
           </p>
           <address className="text-right text-base text-gray-500">
-            Обратная связь: <a href="mailto:kioskcomedy+web@gmail.com">kioskcomedy+web@gmail.com</a><br />
+            Обратная связь: <a href="mailto:kioskcomedy@gmail.com">kioskcomedy@gmail.com</a><br />
             Нижний Новгород
           </address>
         </div>
@@ -73,7 +73,7 @@ function Header() {
       <nav className="bg-white border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <span className="flex items-center">
-            <img src={kioskLogo} className="h-8 mr-3" alt="Kiosk Logo" />
+            <img src={kioskLogo} className="sm:hover:animate-spin h-8 mr-3" alt="Kiosk Logo" />
             <span className="self-center text-2xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 font-bold whitespace-nowrap">Киоск Комедии</span>
           </span>
           <button type="button" onClick={handleClick} className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
