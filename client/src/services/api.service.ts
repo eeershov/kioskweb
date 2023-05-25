@@ -16,7 +16,7 @@ export class ApiService {
       },
     };
     try {
-      const response = await axios.get(`${backend}:8080/api/events${dateString !== undefined ? ("/"+dateString) : ""}`, config);
+      const response = await axios.get(`${backend}/api/events${dateString !== undefined ? ("/"+dateString) : ""}`, config);
       return response.data;
     } catch (error) {
       throw new Error("Error while getting data from server.")
