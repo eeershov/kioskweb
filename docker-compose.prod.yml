@@ -1,24 +1,30 @@
-# docker-compose --file docker-compose.dev.yml up --build
-
-# docker-compose --file docker-compose.dev.yml down --rmi all
-# docker system prune --volumes
+# docker-compose --file docker-compose.prod.yml up --build
 
 version: '3.9'
 
 services:
+  npmanager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+    networks:
+      - backendapp_net
+      
   backendapp:
     container_name: backend
+    restart: always
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     ports:
       - 8080:8080
-    volumes:
-      - ${PWD}/backend:/backendapp
-      - ${PWD}/backend/node_modules:/backendapp/node_modules
     environment:
       TZ: 'Europe/Moscow'
-      NODE_ENV: development
+      NODE_ENV: production
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -32,17 +38,15 @@ services:
       - backendapp_net
     depends_on:
       - db
-  
+
   clientapp:
     container_name: client
+    restart: always
     build:
       context: ./client
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     ports:
       - 3000:3000
-    volumes:
-      - ${PWD}/client:/clientapp
-      - ${PWD}/client/node_modules:/clientapp/node_modules
     networks:
       - backendapp_net
     depends_on:
@@ -67,8 +71,18 @@ services:
     networks:
       - backendapp_net
 
-
-
+  # nginx:
+  #   container_name: nginx
+  #   image: nginx:latest
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  #   depends_on:
+  #     - backendapp
+  #     - clientapp
+  #   networks:
+  #     - backendapp_net
 
 volumes:
   db_data:
