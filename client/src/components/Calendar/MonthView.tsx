@@ -96,7 +96,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
     };
 
     return (
-      <div className='flex justify-center'>
+      <div className='flex justify-center mx-1'>
         {[0, 1, 2, 3, 4, 5, 6].map((index) => {
           const weekdayIndex: number = sundayZero.get(index) as number;
           const isEmpty = (isWeekdayEmpty[weekdayIndex] <= 0);
