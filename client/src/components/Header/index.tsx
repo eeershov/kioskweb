@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import ModalStyle from "../Elements/ModalStyle";
-import kioskLogo from "./kiosk_logo1.png";
 import kiosk from "./kiosk.svg";
 import photo from "../About/bogdan-was-here.jpg";
 
