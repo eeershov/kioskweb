@@ -69,7 +69,8 @@ export default function Day({ events, date, isEmpty }: Events) {
   const currentDayRing = () => {
     if (isCurrentDay) {
       return (
-        <div className={ringClass.join(" ")}></div>
+        <div id="today" className={ringClass.join(" ")}>
+        </div>
       );
     } else {
       return null;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import ModalStyle from "../Elements/ModalStyle";
-import kioskLogo from "./kiosk_logo1.png";
+import kiosk from "./kiosk.svg";
 import photo from "../About/bogdan-was-here.jpg";
 
 function Header() {
@@ -73,7 +73,7 @@ function Header() {
       <nav className="bg-white border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <span className="flex items-center">
-            <img src={kioskLogo} className="sm:hover:animate-spin h-8 mr-3" alt="Kiosk Logo" />
+            <img src={kiosk} className="rounded-full sm:hover:animate-spin h-8 mr-3" alt="Kiosk Logo" />
             <span className="self-center text-2xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 font-bold whitespace-nowrap">Киоск Комедии</span>
           </span>
           <button type="button" onClick={handleClick} className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">

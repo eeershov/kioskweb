@@ -1,21 +1,25 @@
 import React from "react";
+import photo from "./bogdan-was-here.jpg";
 
 export function About({ handleCloseAbout }: { handleCloseAbout: () => void }) {
   return (
-    <div className="p-[1rem] flex h-full items-center justify-center">
-      <div className="w-80 h-80 bg-white rounded-xl p-2 pt-4 relative z-50">
-        <div className="flex">
-          <h1>Что</h1>
-          <button type="button" onClick={handleCloseAbout} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
-            <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-            <span className="sr-only">Close modal</span>
-          </button>
-
-        </div>
-        <p className="pt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. A arcu cursus vitae congue mauris rhoncus aenean.</p>
+    <div>
+      <div className="p-2 max-w-prose m-auto">
+        <p className="text-base text-gray-500 leading-relaxed">
+          <span>Здесь собраны события в жанре стендап таких уважаемых организаций как горький микрофон, </span>
+          <span className="text-violet-800 inline-block">киоск комедии</span>
+          <span>, стендап нн и стендап 52. </span>
+          <span>Пожалуйста, ходите на стендап в Нижнем Новгороде, и в особенности мероприятия </span>
+          <span className="text-violet-800 inline-block">киоска комедии.</span>
+        </p>
+        <address className="text-right text-base text-gray-500">
+          Обратная связь: <a href="mailto:kioskcomedy@gmail.com">kioskcomedy@gmail.com</a><br />
+          Нижний Новгород
+        </address>
       </div>
-
-    </div>
-
+      <div className='h-full min-h-[12rem] w-full flex justify-center backdrop-blur overflow-hidden'>
+        <img src={photo} alt="Poster" className="transition-transform object-cover w-full hover:scale-125 sm:w-full" />
+      </div>
+    </div >
   );
 }
