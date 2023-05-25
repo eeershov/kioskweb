@@ -78,7 +78,7 @@ export default function WeekView({ eventsByDay, selectedDate, todayDate }: Props
           ❮
         </ControlButton>
         <ControlButton option="current">
-          Сегодня
+          Эта неделя
         </ControlButton>
         <ControlButton option="next">
           ❯

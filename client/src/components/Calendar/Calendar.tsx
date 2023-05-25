@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { setDefaultOptions, format } from "date-fns";
 import { ru } from 'date-fns/locale';
 import { WeekView, MonthView } from "./index";
+import Loading from "../Elements/Loading";
 import { ViewportContext } from '../../appContext/ViewportContext';
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
@@ -44,7 +45,7 @@ function Calendar() {
 
   return (
     <div className='Calendar max-w-7xl m-auto'>
-      {loading ? <p>Loading...</p> : (
+      {loading ? <div className='w-full flex justify-center items-center'><Loading /></div> : (
         <div className=''>
           {MonthOrWeekView}
         </div>
