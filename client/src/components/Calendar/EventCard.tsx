@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { format } from "date-fns";
 
+import { decodeHtml } from '../../utils/decodeHtml';
 import { ViewportContext } from "../../appContext/ViewportContext";
 import ModalStyle from "../Elements/ModalStyle";
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
@@ -20,11 +21,14 @@ export default function EventCard({ event }: Event) {
   const starts_at_weekDay = format(date, dateFormatMobile);
   const eventImage: string = event.tp_poster_image_default_url || event.tp_org_logo_image_default_url;
 
+  const tp_description_short = decodeHtml(event.tp_description_short);
+  const tp_name = decodeHtml(event.tp_name);
+
   useEffect(() => {
     if (showModal) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "scroll";
+      document.body.style.overflow = "auto";
     }
   }, [showModal])
 
@@ -35,7 +39,7 @@ export default function EventCard({ event }: Event) {
                     w-full h-28 overflow-hidden shadow-md my-2 cursor-pointer"
       onClick={() => setShowModal(true)}
       style={{ backgroundImage: `url(${eventImage})` }}>
-      <div className="Two-sides 
+      <div className="Two-sides
                       grid grid-cols-3 grid-rows-1 h-full">
         <div className="Left-side
                         flex col-span-1 place-items-end place-content-start p-2 bg-cover bg-center bg-local bg-no-repeat"
@@ -45,7 +49,7 @@ export default function EventCard({ event }: Event) {
                         flex-col justify-center col-span-2 text-black bg-white w-full h-full bg-opacity-70 backdrop-blur-sm">
           <div className="Right-top-side
                           bg-white bg-opacity-30 flex items-center justify-between p-2 h-[50%]">
-            <p className="overflow-hidden leading-5 max-h-10">{event.tp_name}</p>
+            <p className="overflow-hidden leading-5 max-h-10">{tp_name}</p>
             <p className="Time-start
                           font-black text-xl">
               {starts_at}
@@ -75,7 +79,7 @@ export default function EventCard({ event }: Event) {
         style={{ backgroundImage: `url(${eventImage})` }}></div>
       <div className="flex flex-col overflow-clip text-violet-950 group-hover:text-white">
         <p className="font-mono font-bold text-sm md:text-lg md:leading-4 overflow-clip text-left my-1">{starts_at}</p>
-        <p className="text-sm xl:text-base md:leading-4 xl:leading-5 line-clamp-2 lg:line-clamp-3 w-auto leading-3 break-words">{event.tp_name}</p>
+        <p className="text-sm xl:text-base md:leading-4 xl:leading-5 line-clamp-2 lg:line-clamp-3 w-auto leading-3 break-words pr-2">{tp_name}</p>
       </div>
     </div>
   );
@@ -90,7 +94,7 @@ export default function EventCard({ event }: Event) {
           {/* Event name */}
           <div className='flex'>
             <h3 className="text-xl font-semibold text-gray-900 ">
-              {event.tp_name}
+              {tp_name}
             </h3>
           </div>
           {/* Description and Org */}
@@ -103,7 +107,7 @@ export default function EventCard({ event }: Event) {
               </div>
             </div>
             <p className="text-base text-gray-500 pb-2">
-              {event.tp_description_short}
+              {tp_description_short}
             </p>
           </div>
         </div>
@@ -126,7 +130,7 @@ export default function EventCard({ event }: Event) {
           setShowModal(false);
           window.open(`${event.tp_url}`);
         }} className="text-white bg-violet-800 hover:bg-violet-950 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium w-full sm:w-fit rounded-lg text-sm px-5 py-2.5 text-center">
-          Открыть на таймпаде ↗
+          Зарегистрироваться
         </button>
       </div>
     </>
