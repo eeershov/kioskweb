@@ -42,13 +42,13 @@ export default function Day({ events, date, isEmpty }: Events) {
       mobile: "relative",
       desktop: "flex flex-wrap m-1 ring-1 ring-slate-900/5 rounded-lg w-full shadow-sm min-h-[2rem] relative",
       boxMobile: "relative",
-      boxDesktop: "flex flex-wrap w-11 min-h-[2rem] grow relative",
+      boxDesktop: "flex flex-wrap w-11 min-h-[2rem] relative",
     },
     dayContent: {
       mobile: "Day-content flex-row pb-4 mx-2 relative",
       desktop: "Day-content flex flex-col justify-start m-1 ring-1 ring-slate-900/5 rounded-lg shadow-sm relative overflow-clip h-full",
       boxMobile: "flex-row relative",
-      boxDesktop: "Day-content basis-2/12 flex flex-col justify-start relative overflow-clip",
+      boxDesktop: "Day-content basis-2/12 flex flex-col justify-start relative grow overflow-clip",
     },
     currentDay: {
       mobile2: "ring-2 ring-violet-400 ring-offset-0 rounded-lg absolute w-full h-full z-30 pointer-events-none",

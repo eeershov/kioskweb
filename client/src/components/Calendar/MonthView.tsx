@@ -95,8 +95,8 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
     const sundayZero = new Map([[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0]])
 
     const classStyleString = {
-      empty: "flex m-1 overflow-clip w-9 h-auto min-h-[2rem] grow",
-      notEmpty: "basis-2/12 flex flex-col justify-start m-1 overflow-clip"
+      empty: "flex overflow-clip w-11 h-auto min-h-[2rem]",
+      notEmpty: "basis-2/12 flex grow flex-col justify-start overflow-clip"
     };
 
     return (
