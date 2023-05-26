@@ -5,7 +5,7 @@ let backend: string;
 if (hostname === "localhost") {
   backend = "http://localhost";
 } else {
-  backend = `http://${hostname}`;
+  backend = `https://${hostname}`;
 }
 
 export { backend };
