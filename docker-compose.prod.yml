@@ -4,6 +4,7 @@ version: '3.9'
 
 services:
   npmanager:
+    container_name: nginxpm 
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
@@ -70,19 +71,6 @@ services:
       - 5432:5432
     networks:
       - backendapp_net
-
-  # nginx:
-  #   container_name: nginx
-  #   image: nginx:latest
-  #   ports:
-  #     - 80:80
-  #   volumes:
-  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-  #   depends_on:
-  #     - backendapp
-  #     - clientapp
-  #   networks:
-  #     - backendapp_net
 
 volumes:
   db_data:
