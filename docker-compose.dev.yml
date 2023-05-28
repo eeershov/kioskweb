@@ -1,11 +1,20 @@
-# docker-compose --file docker-compose.dev.yml up --build
-
-# docker-compose --file docker-compose.dev.yml down --rmi all
-# docker system prune --volumes
+# docker-compose --file docker-compose.pinggy.yml up --build -d
+# for pinggy.io
 
 version: '3.9'
 
 services:
+  # npmanager:
+  #   image: 'jc21/nginx-proxy-manager:latest'
+  #   restart: unless-stopped
+  #   ports:
+  #     # These ports are in format <host-port>:<container-port>
+  #     - '80:80' # Public HTTP Port
+  #     - '443:443' # Public HTTPS Port
+  #     - '81:81' # Admin Web Port
+  #   networks:
+  #     - backendapp_net
+      
   backendapp:
     container_name: backend
     build:
@@ -32,7 +41,7 @@ services:
       - backendapp_net
     depends_on:
       - db
-  
+
   clientapp:
     container_name: client
     build:
@@ -67,8 +76,18 @@ services:
     networks:
       - backendapp_net
 
-
-
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backendapp
+      - clientapp
+    networks:
+      - backendapp_net
 
 volumes:
   db_data:
