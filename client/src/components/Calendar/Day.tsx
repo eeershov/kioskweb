@@ -30,8 +30,8 @@ export default function Day({ events, date, isEmpty }: Events) {
   );
 
   const cornerDate = (
-    <div className='ring-2 ring-white rounded-md bg-purple-900 bg-opacity-70 h-4 md:h-5 lg:h-6 aspect-square min-[600px]:text-center absolute backdrop-blur-sm text-white m-1'>
-      <div className='lg:font-bold text-xs md:text-sm lg:text-base opacity-90'>
+    <div className='ring-2 ring-white rounded-md bg-purple-900 bg-opacity-70 h-4 md:h-5 lg:h-6 aspect-square min-[600px]:text-center absolute text-white m-1'>
+      <div className='font-medium lg:font-bold text-xs md:text-sm lg:text-base'>
         {dateStringDesktop}
       </div>
     </div>
