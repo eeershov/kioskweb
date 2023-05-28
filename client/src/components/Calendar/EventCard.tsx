@@ -24,13 +24,13 @@ export default function EventCard({ event }: Event) {
   const tp_description_short = decodeHtml(event.tp_description_short);
   const tp_name = decodeHtml(event.tp_name);
 
-  useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [showModal])
+  // useEffect(() => {
+  //   if (showModal) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "auto";
+  //   }
+  // }, [showModal])
 
 
   const mobile = (

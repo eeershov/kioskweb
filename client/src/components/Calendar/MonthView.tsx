@@ -95,8 +95,8 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
     const sundayZero = new Map([[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 0]])
 
     const classStyleString = {
-      empty: "flex m-1 overflow-clip w-9 h-auto min-h-[2rem] grow",
-      notEmpty: "basis-2/12 flex flex-col justify-start m-1 overflow-clip"
+      empty: "flex overflow-clip w-11 h-auto min-h-[2rem]",
+      notEmpty: "basis-2/12 flex grow flex-col justify-start overflow-clip"
     };
 
     return (
@@ -127,22 +127,23 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
   return (
     <div className='WeekView
                     flex-row'>
-      <div className='sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-30'>
-        <div className='Controls flex m-1 pt-1'>
-          <ControlButton option='prev'>
-            ❮
-          </ControlButton>
-          <ControlButton option='today'>
-            Сегодня
-          </ControlButton>
-          <ControlButton option='next'>
-            ❯
-          </ControlButton>
-          <h2 className='text-center text-base font-medium text-violet-950 uppercase 
+      <div className='Controls flex m-1 pt-1'>
+        <ControlButton option='prev'>
+          ❮
+        </ControlButton>
+        <ControlButton option='today'>
+          Сегодня
+        </ControlButton>
+        <ControlButton option='next'>
+          ❯
+        </ControlButton>
+        <h2 className='text-center text-base font-medium text-violet-950 uppercase 
                       h-6 m-2 w-32'>
-            {format(selectedDate, `LLLL YYY`)}
-          </h2>
-        </div>
+          {format(selectedDate, `LLLL YYY`)}
+        </h2>
+      </div>
+      <div className='sticky top-0 z-30 backdrop-blur-sm bg-white bg-opacity-70'>
+
         <WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />
       </div>
       <div className='mx-1'>
