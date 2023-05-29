@@ -55,6 +55,7 @@ services:
 
   db:
     container_name: database
+    restart: always
     image: postgres:15.2-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
