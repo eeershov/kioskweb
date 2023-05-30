@@ -6,9 +6,9 @@ export default function ButtonControlStyle({ onClick, children, disabled }: { on
     text-violet-950 
     dark:text-purple-500 
     border-violet-950 hover:bg-violet-950 hover:text-white 
-    dark:border-purple-500 dark:hover:bg-purple-500 dark:hover:text-black
+    dark:border-purple-500 dark:hover:bg-purple-500 dark:hover:text-gray-900
     focus:ring-violet-500 focus:bg-violet-950 focus:text-white
-    dark:focus:bg-purple-500 dark:focus:text-black
+    dark:focus:bg-purple-500 dark:focus:text-gray-900
     disabled:border-violet-200 disabled:text-violet-200 disabled:hover:bg-transparent"
       onClick={onClick} disabled={disabled}>
       {children}
