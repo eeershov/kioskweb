@@ -24,7 +24,7 @@ function Header() {
         </li>
         <li>
           <span onClick={() => setShowAboutModal(true)}
-            className="block cursor-pointer py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 sm:hover:bg-transparent sm:border-0 sm:hover:text-purple-600 sm:p-0">
+            className="block cursor-pointer py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 sm:hover:bg-transparent sm:border-0 sm:hover:text-purple-600 hover:underline sm:p-0">
             Что?</span>
         </li>
       </ul>
@@ -48,9 +48,8 @@ function Header() {
   }
 
   return (
-    <div>
-
-      <nav className="bg-white border-gray-200">
+    <div className="w-full">
+      <nav className="border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <span className="flex items-center">
             <img src={kiosk} className="rounded-full sm:hover:animate-spin h-8 mr-3" alt="Kiosk Logo" />
