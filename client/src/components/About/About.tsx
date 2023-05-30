@@ -6,12 +6,12 @@ export function About(): JSX.Element {
   return (
     <div>
       <div className="p-2 max-w-prose m-auto">
-        <p className="text-base text-gray-500 leading-relaxed">
+        <p className="text-base text-gray-500 dark:text-gray-200 leading-relaxed">
           <span>Здесь собраны события в жанре стендап таких уважаемых организаций комиков как горький микрофон, </span>
-          <span className="italic text-gray-500 inline-block">киоск комедии</span>
+          <span className="italic text-gray-500 dark:text-gray-200 inline-block">киоск комедии</span>
           <span>, стендап нн и стендап 52. </span>
           <span>Пожалуйста, приходи на стендап в Нижнем Новгороде (особенно советуем мероприятия </span>
-          <span className="italic text-gray-500 inline-block">киоска комедии.</span>)
+          <span className="italic text-gray-500 dark:text-gray-200 inline-block">киоска комедии.</span>)
         </p>
 
         {/* <---Socials---> */}
@@ -21,7 +21,7 @@ export function About(): JSX.Element {
           <VkButton size="full" />
         </div>
 
-        <address className="text-right text-base text-gray-500 mt-2 sm:mt-4">
+        <address className="text-right text-base text-gray-500 dark:text-gray-200 mt-2 sm:mt-4">
           Обратная связь: <a href="mailto:kioskcomedy@gmail.com">kioskcomedy@gmail.com</a><br />
           Нижний Новгород
         </address>

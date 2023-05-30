@@ -42,7 +42,7 @@ export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek }: Week
     mobile: "Week flex-col",
     desktop: "Week flex justify-center",
     currentMobile: "",
-    currentDesktop: "ring-2 rounded-xl ring-violet-400 shadow-xl",
+    currentDesktop: "ring-2 rounded-xl ring-violet-400 dark:ring-purple-500 shadow-xl",
   };
 
   let sumClassName: string[] = [];

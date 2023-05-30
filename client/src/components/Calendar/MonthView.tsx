@@ -112,7 +112,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
           }
           return (
             <div key={weekdayIndex} className={isEmpty ? classStyleString.empty : classStyleString.notEmpty}>
-              <div className='self-center m-auto text-sm md:text-base font-medium text-violet-950'>
+              <div className='self-center m-auto text-sm md:text-base font-medium text-violet-950 dark:text-purple-400'>
                 {weekday}
               </div>
             </div>
@@ -137,12 +137,12 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
         <ControlButton option='next'>
           ❯
         </ControlButton>
-        <h2 className='text-center text-base font-medium text-violet-950 uppercase 
+        <h2 className='text-center text-base font-medium text-violet-950 dark:text-purple-400 uppercase 
                       h-6 m-2 w-32'>
           {format(selectedDate, `LLLL YYY`)}
         </h2>
       </div>
-      <div className='sticky top-0 z-30 backdrop-blur-sm bg-white bg-opacity-70'>
+      <div className='sticky top-0 z-30 backdrop-blur-sm bg-white bg-opacity-70 dark:bg-gray-900 dark:bg-opacity-70'>
 
         <WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />
       </div>
