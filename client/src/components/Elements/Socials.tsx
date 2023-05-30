@@ -15,8 +15,9 @@ type SocialButtonProps = {
 function SocialButton({ size, text, address, children }: SocialButtonProps): JSX.Element {
   if (size === "full") {
     return (
-      <button onClick={() => window.open(address)}
-        className={`bg-violet-800 hover:bg-violet-800/90 focus:ring-2 ring-black focus:ring-offset-2  flex items-center h-fit rounded-lg overflow-hidden p-1`}>
+      <button title={address} onClick={() => window.open(address)}
+        className={`bg-violet-800 hover:bg-violet-800/90 focus:ring-2 ring-black focus:ring-offset-2 
+        flex items-center h-fit rounded-lg overflow-hidden p-1`}>
         <div className="h-6 w-6 rounded-full overflow-hidden">
           {children}
         </div>
@@ -25,7 +26,12 @@ function SocialButton({ size, text, address, children }: SocialButtonProps): JSX
     );
   } else {
     return (
-      <div className="h-6 w-6 bg-violet-500"></div>
+      <button title={address} onClick={() => window.open(address)}
+        className={`focus:ring-2 ring-black hover:scale-110 focus:ring-offset-2 flex items-center h-fit rounded-full overflow-hidden`}>
+        <div className="h-6 w-6 rounded-full overflow-hidden">
+          {children}
+        </div>
+      </button>
     );
   }
 }
