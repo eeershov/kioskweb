@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { format } from "date-fns";
 
 import { decodeHtml } from '../../utils/decodeHtml';
@@ -46,9 +46,9 @@ export default function EventCard({ event }: Event) {
           style={{ backgroundImage: `url(${eventImage})` }}>
         </div>
         <div className="Right-side 
-                        flex-col justify-center col-span-2 text-black bg-white w-full h-full bg-opacity-70 backdrop-blur-sm">
+                        flex-col justify-center col-span-2 text-black dark:text-white bg-white dark:bg-black w-full h-full bg-opacity-70 dark:bg-opacity-70 backdrop-blur-sm">
           <div className="Right-top-side
-                          bg-white bg-opacity-30 flex items-center justify-between p-2 h-[50%]">
+                          bg-white bg-opacity-30 dark:bg-black dark:bg-opacity-30 flex items-center justify-between p-2 h-[50%]">
             <p className="overflow-hidden leading-5 max-h-10">{tp_name}</p>
             <p className="Time-start
                           font-black text-xl">
@@ -77,7 +77,7 @@ export default function EventCard({ event }: Event) {
     hover:bg-gradient-to-t from-purple-600 to-violet-600 first:rounded-t-lg last:rounded-b-lg" onClick={() => setShowModal(true)}>
       <div className='rounded-md bg-no-repeat bg-cover bg-center bg-local w-[50%] aspect-square mr-1 shrink-0 self-center'
         style={{ backgroundImage: `url(${eventImage})` }}></div>
-      <div className="flex flex-col overflow-clip text-violet-950 group-hover:text-white">
+      <div className="flex flex-col overflow-clip text-violet-950 dark:text-purple-200 group-hover:text-white">
         <p className="font-mono font-bold text-sm md:text-lg md:leading-4 overflow-clip text-left my-1">{starts_at}</p>
         <p className="text-sm xl:text-base md:leading-4 xl:leading-5 line-clamp-2 lg:line-clamp-3 w-auto leading-3 break-words pr-2">{tp_name}</p>
       </div>
@@ -93,20 +93,20 @@ export default function EventCard({ event }: Event) {
         <div className='pb-3 max-h-[50%] sm:h-auto sm:w-[50%] overflow-y-auto w-full flex-col sm:mr-[0.12rem] mb-[0.12rem] sm:mb-0'>
           {/* Event name */}
           <div className='flex'>
-            <h3 className="text-xl font-semibold text-gray-900 ">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-200">
               {tp_name}
             </h3>
           </div>
           {/* Description and Org */}
           <div className=''>
-            <div className='float-right sm:mr-2 p-1 m-1 rounded ring-slate-900/5 w-[30%] ring-2 '>
+            <div className='float-right sm:mr-2 p-1 m-1 rounded ring-slate-900/5 dark:ring-purple-500/10 w-[30%] ring-2 '>
               <div className="flex flex-col justify-center items-center">
                 <img src={event.tp_org_logo_image_default_url} alt="logo"
                   className="rounded-full w-auto h-auto object-cover aspect-square" />
-                <h4 className='text-base font-mono font-bold text-center leading-4 text-gray-500 break-all sm:break-normal'>{event.tp_org_name}</h4>
+                <h4 className='text-base font-mono font-bold text-center leading-4 text-gray-500 dark:text-gray-200 break-all sm:break-normal'>{event.tp_org_name}</h4>
               </div>
             </div>
-            <p className="text-base text-gray-500 pb-2">
+            <p className="text-base text-gray-500 dark:text-gray-200 pb-2">
               {tp_description_short}
             </p>
           </div>
@@ -125,7 +125,7 @@ export default function EventCard({ event }: Event) {
 
       </div>
       {/* <!-- Modal footer --> */}
-      <div className="flex justify-end p-2 border-t border-gray-200">
+      <div className="flex justify-end p-2 border-t border-gray-200 dark:border-gray-700">
         <button type="button" onClick={() => {
           setShowModal(false);
           window.open(`${event.tp_url}`);

@@ -30,7 +30,7 @@ function App() {
 
   return (
     <ViewportProvider>
-      <div className="App">
+      <div className="App min-h-screen dark:bg-gray-900">
         <Header />
         <Calendar />
         <Footer />

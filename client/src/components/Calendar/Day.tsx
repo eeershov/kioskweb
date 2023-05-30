@@ -23,14 +23,14 @@ export default function Day({ events, date, isEmpty }: Events) {
 
 
   const mobileDate = (
-    <h3 className='text-center self-center uppercase font-bold text-sm p-2 
-    sticky top-0 bg-white bg-opacity-70 backdrop-blur-sm z-20'>
+    <h3 className='text-center text-violet-950 dark:text-purple-500 self-center uppercase font-bold text-sm p-2 
+    sticky top-0 bg-white dark:bg-gray-900 bg-opacity-70 dark:bg-opacity-70 backdrop-blur-sm z-20'>
       {dateStringMobile}
     </h3>
   );
 
   const cornerDate = (
-    <div className='ring-2 ring-white rounded-md bg-purple-900 bg-opacity-70 h-4 md:h-5 lg:h-6 aspect-square min-[600px]:text-center absolute text-white m-1'>
+    <div className='ring-2 ring-white dark:ring-gray-900 rounded-md bg-purple-900 bg-opacity-70 dark:bg-opacity-95 h-4 md:h-5 lg:h-6 aspect-square min-[600px]:text-center absolute text-white m-1'>
       <div className='font-medium lg:font-bold text-xs md:text-sm lg:text-base'>
         {dateStringDesktop}
       </div>
@@ -40,20 +40,20 @@ export default function Day({ events, date, isEmpty }: Events) {
   const dayStyles = {
     emptyDay: {
       mobile: "relative",
-      desktop: "flex flex-wrap m-1 ring-1 ring-slate-900/5 rounded-lg w-full shadow-sm min-h-[2rem] relative",
+      desktop: "flex flex-wrap m-1 ring-1 ring-slate-900/5 dark:ring-purple-950 rounded-lg w-full shadow-sm min-h-[2rem] relative",
       boxMobile: "relative",
       boxDesktop: "flex flex-wrap w-11 min-h-[2rem] relative",
     },
     dayContent: {
       mobile: "Day-content flex-row pb-4 mx-2 relative",
-      desktop: "Day-content flex flex-col justify-start m-1 ring-1 ring-slate-900/5 rounded-lg shadow-sm relative overflow-clip h-full",
+      desktop: "Day-content flex flex-col justify-start m-1 ring-1 ring-slate-900/5 dark:ring-purple-950 rounded-lg shadow-sm relative overflow-clip h-full",
       boxMobile: "flex-row relative",
       boxDesktop: "Day-content basis-2/12 flex flex-col justify-start relative grow overflow-clip",
     },
     currentDay: {
       mobile2: "ring-2 ring-violet-400 ring-offset-0 rounded-lg absolute w-full h-full z-30 pointer-events-none",
-      mobile: "border-4 border-violet-400 rounded-xl absolute w-full h-full z-30 pointer-events-none",
-      desktop: "border-4 border-violet-400 rounded-xl absolute w-full h-full pointer-events-none",
+      mobile: "border-4 border-violet-400 dark:border-purple-500 rounded-xl absolute w-full h-full z-30 pointer-events-none",
+      desktop: "border-4 border-violet-400 dark:border-purple-500 rounded-xl absolute w-full h-full pointer-events-none",
     }
   }
 
