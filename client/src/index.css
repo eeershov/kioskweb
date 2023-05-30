@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+/* logrocket cant work with smooth scroll yet */
+/* @layer base {
   html {
     scroll-behavior: smooth;
   }
-}
+} */
