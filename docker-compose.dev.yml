@@ -1,4 +1,4 @@
-# docker-compose --file docker-compose.pinggy.yml up --build -d
+# docker-compose --file docker-compose.dev.yml up --build -d
 # for pinggy.io
 
 version: '3.9'
