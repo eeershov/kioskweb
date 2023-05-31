@@ -50,7 +50,7 @@ function Header() {
   return (
     <div className="w-full">
       <nav>
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto p-4">
           <span className="flex items-center">
             <img src={kiosk} className="rounded-full sm:hover:animate-spin h-8 mr-3" alt="Kiosk Logo" />
             <span className="self-center text-2xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 font-bold whitespace-nowrap">Киоск Комедии</span>
