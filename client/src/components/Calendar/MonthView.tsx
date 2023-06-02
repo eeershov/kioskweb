@@ -125,8 +125,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
 
 
   return (
-    <div className='WeekView
-                    flex-row'>
+    <div className='MonthView w-screen'>
       <div className='Controls flex m-1 pt-1'>
         <ControlButton option='prev'>
           ❮
