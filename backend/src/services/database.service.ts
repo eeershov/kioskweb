@@ -7,6 +7,8 @@ import {
   format,
   subDays,
 } from "date-fns";
+import DOMPurify from "dompurify";
+import { JSDOM } from "jsdom";
 
 import { sql } from "../database/database.js";
 import {
@@ -21,22 +23,40 @@ const TP_orgIdGrky: number = parseInt(process.env.TP_orgIdGrky as string);
 const TP_orgIdStand: number = parseInt(process.env.TP_orgIdStand as string);
 const TP_orgId52: number = parseInt(process.env.TP_orgId52 as string);
 
+const window = new JSDOM("").window;
+const purify = DOMPurify(window);
+
+export const decodeHtml = (str: string) => {
+  // removing &quot;
+  const txt = window.document.createElement("textarea");
+  txt.innerHTML = str;
+  return txt.value;
+};
+
+const decodeNPurify = (str: string) => {
+  return purify.sanitize(decodeHtml(str));
+};
+
 export default class DatabaseService {
   private async updateEvents(arrTPEvents: TimepadEventData[]) {
     const arrEvents: EventCreationData[] = [];
     for (let i = 0; i < arrTPEvents.length; i++) {
       const event = arrTPEvents[i];
-      const starts_at = parseISO(event.starts_at);
+
+      const tp_starts_at = parseISO(event.starts_at);
+      const tp_name = decodeNPurify(event.name);
+      const tp_description_short = decodeNPurify(event.description_short);
+      const tp_description_html = decodeNPurify(event.description_html);
 
       const eventCreationData = {
         tp_org_id: event.organization.id,
         day_num: 123, // can do without it
         week_num: 123, // can do without it
         tp_id: event.id,
-        tp_starts_at: starts_at,
-        tp_name: event.name,
-        tp_description_short: event.description_short,
-        tp_description_html: event.description_html,
+        tp_starts_at,
+        tp_name,
+        tp_description_short,
+        tp_description_html,
         tp_url: event.url,
         tp_poster_image_default_url: event.poster_image?.default_url || null,
       };
@@ -96,7 +116,9 @@ export default class DatabaseService {
         const orgInfo: OrganizationCreationData = {
           tp_org_id: event.organization.id,
           tp_org_name: event.organization.name,
-          tp_org_description_html: event.organization.description_html || "",
+          tp_org_description_html: event.organization.description_html
+            ? decodeNPurify(event.organization.description_html)
+            : "",
           tp_org_url: event.organization.url,
           tp_org_logo_image_default_url:
             event.organization.logo_image.default_url,
