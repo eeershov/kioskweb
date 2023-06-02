@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Loading() {
   return (
-    <div className="flex justify-center w-24 h-24 overflow-hidden">
+    <div className="flex self-center justify-center w-24 h-24 overflow-hidden">
 
       <svg xmlns="http://www.w3.org/2000/svg" className="animate-spin m-3" width="64" height="64" viewBox="0 0 64 64" fill="none">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M32 64C49.6731 64 64 49.6731 64 32C64 14.3269 49.6731 0 32 0C14.3269 0 0 14.3269 0 32C0 49.6731 14.3269 64 32 64ZM32 59.52C47.1989 59.52 59.52 47.1989 59.52 32C59.52 16.8011 47.1989 4.48 32 4.48C16.8011 4.48 4.48 16.8011 4.48 32C4.48 47.1989 16.8011 59.52 32 59.52Z" fill="#D9D9D9" fill-opacity="0.5" />
