@@ -28,7 +28,7 @@ function SocialButton({ size, text, address, children }: SocialButtonProps): JSX
     return (
       <button title={address} onClick={() => window.open(address)}
         className={`focus:ring-2 ring-black hover:scale-110 focus:ring-offset-2 flex items-center h-fit rounded-full overflow-hidden`}>
-        <div className="h-6 w-6 rounded-full overflow-hidden">
+        <div className="h-6 w-6 lg:h-10 lg:w-10 rounded-full overflow-hidden">
           {children}
         </div>
       </button>
