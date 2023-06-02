@@ -39,17 +39,17 @@ function Calendar() {
     };
   }, [selectedDate]);
 
-  const MonthOrWeekView = (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDay} selectedDate={selectedDate} todayDate={todayDate} /> :
+  const MonthOrWeekView = () => (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDay} selectedDate={selectedDate} todayDate={todayDate} /> :
     <MonthView eventsByDay={eventsByDay} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />)
 
 
   return (
-    <div className='Calendar max-w-7xl m-auto'>
-      {loading ? <div className='w-full flex justify-center items-center'><Loading /></div> : (
-        <div className=''>
-          {MonthOrWeekView}
-        </div>
-      )}
+    <div className='Calendar max-w-7xl grow flex self-center justify-center'>
+      {loading ?
+        <Loading />
+        :
+        <MonthOrWeekView />
+      }
     </div>
   );
 }
