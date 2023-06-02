@@ -7,6 +7,7 @@ import { About } from "../About/About"
 function Header() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAboutModal, setShowAboutModal] = useState(false);
+  const [siteName, setSiteName] = useState({ name: "Киоск комедии", rnd: 0 });
 
   function AboutModal() {
     return (<>
@@ -47,13 +48,31 @@ function Header() {
     setShowMobileMenu(prev => !prev);
   }
 
+
+  function getRndInteger(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  function handleNameClick() {
+    const names = ["Киоск комедии", "Кусок комедии", "Коморка комедии", "Стендап алиэкспресс", "Damage is done", "Кусок комеди", "Кисок комедии", "Бывало такое"];
+    const namesLength = names.length;
+    let rnd = getRndInteger(0, namesLength);
+    while (rnd === siteName.rnd) {
+      rnd = getRndInteger(0, namesLength);
+    }
+    const name = names[rnd];
+    setSiteName({ name, rnd });
+  }
+
   return (
     <div className="w-full">
       <nav>
-        <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <span className="flex items-center">
+        <div className="max-w-7xl flex items-center justify-between mx-auto p-4">
+          <span onClick={handleNameClick} className="flex items-center cursor-default">
             <img src={kiosk} className="rounded-full sm:hover:animate-spin h-8 mr-3" alt="Kiosk Logo" />
-            <span className="self-center text-2xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 font-bold whitespace-nowrap">Киоск Комедии</span>
+            <span className="truncate self-center text-2xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 font-bold whitespace-nowrap">
+              {siteName.name}
+            </span>
           </span>
           <button type="button" onClick={handleClick} className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
             <span className="sr-only">Открыть главное меню.</span>
