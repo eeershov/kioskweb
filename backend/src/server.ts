@@ -9,16 +9,16 @@ process.env.TZ = "Europe/Moscow";
 const PORT = process.env.PORT || 8080;
 const nodeEnv = process.env.NODE_ENV || "production";
 const app = express();
-app.use(compression({ filter: shouldCompress }))
+app.use(compression({ filter: shouldCompress }));
 
-function shouldCompress (req: Request, res: Response) {
-  if (req.headers['x-no-compression']) {
+function shouldCompress(req: Request, res: Response) {
+  if (req.headers["x-no-compression"]) {
     // don't compress responses with this request header
-    return false
+    return false;
   }
- 
+
   // fallback to standard filter function
-  return compression.filter(req, res)
+  return compression.filter(req, res);
 }
 app.use(cors());
 app.use(express.json());
