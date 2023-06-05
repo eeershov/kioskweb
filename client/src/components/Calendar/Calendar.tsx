@@ -44,7 +44,7 @@ function Calendar() {
 
 
   return (
-    <div className='Calendar max-w-7xl grow flex self-center justify-center w-full overflow-x-hidden'>
+    <div className='Calendar max-w-7xl grow flex self-center justify-center w-full'>
       {loading ?
         <Loading />
         :

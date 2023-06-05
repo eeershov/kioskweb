@@ -142,7 +142,6 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
         </h2>
       </div>
       <div className='sticky top-0 z-30 backdrop-blur-sm bg-white bg-opacity-70 dark:bg-gray-900 dark:bg-opacity-70 mb-2'>
-
         <WeekdaysRow key={"weekdays"} isWeekdayEmpty={weekInfo.isWeekdayEmpty} />
       </div>
       <div className='mx-1'>
