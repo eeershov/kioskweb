@@ -1,4 +1,5 @@
 # docker-compose --file docker-compose.dev.yml up --build -d
+# docker system prune --volumes
 # for pinggy.io
 
 version: '3.9'

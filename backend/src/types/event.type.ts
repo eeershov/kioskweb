@@ -1,7 +1,5 @@
 type EventCreationData = {
   tp_org_id: number;
-  day_num: number;
-  week_num: number;
   tp_id: number;
   tp_starts_at: Date;
   tp_name: string;

@@ -12,8 +12,6 @@ CREATE TABLE IF NOT EXISTS tp_organizations(
 CREATE TABLE IF NOT EXISTS events(
   id SERIAL PRIMARY KEY,
   tp_org_id integer,
-  day_num integer,
-  week_num integer,
   tp_id integer UNIQUE,
   tp_starts_at TIMESTAMP(0) WITH TIME ZONE,
   tp_name text,

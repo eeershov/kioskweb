@@ -13,8 +13,16 @@ const TP_orgIds = [
   parseInt(process.env.TP_orgId52 as string),
 ];
 
+interface Parameters {
+  eventsId?: number[];
+  gatherPreviousMonths?: number;
+}
+
 export default class TimepadService {
-  private static getAxiosConfig(eventsId?: number[]): AxiosConfig {
+  private static getAxiosConfig({
+    eventsId,
+    gatherPreviousMonths,
+  }: Parameters): AxiosConfig {
     // getting events by IDs is the (only) way to check if they are still exist
     const org_ids = TP_orgIds.join(",");
 
@@ -24,6 +32,13 @@ export default class TimepadService {
       format(currentDate, dateFormat),
       format(subMonths(currentDate, 1), dateFormat),
     ];
+    let monthGatherFrom;
+    if (gatherPreviousMonths) {
+      monthGatherFrom = format(
+        subMonths(currentDate, gatherPreviousMonths),
+        dateFormat
+      );
+    }
 
     const fields = [
       "id",
@@ -45,6 +60,7 @@ export default class TimepadService {
         event_ids: eventsId,
         starts_at_min: monthAgo,
       }),
+      ...(gatherPreviousMonths && { starts_at_min: monthGatherFrom }),
     };
 
     return {
@@ -58,15 +74,18 @@ export default class TimepadService {
     };
   }
 
-  public static async getTimepadData(
-    eventsId?: number[]
-  ): Promise<TimepadEventData[] | undefined> {
+  public static async getTimepadData({
+    eventsId,
+    gatherPreviousMonths,
+  }: Parameters): Promise<TimepadEventData[] | undefined> {
     try {
       let axios_config;
       if (eventsId) {
-        axios_config = this.getAxiosConfig(eventsId);
+        axios_config = this.getAxiosConfig({ eventsId });
+      } else if (!eventsId && !gatherPreviousMonths) {
+        axios_config = this.getAxiosConfig({});
       } else {
-        axios_config = this.getAxiosConfig();
+        axios_config = this.getAxiosConfig({ gatherPreviousMonths });
       }
       const response: AxiosResponse<{ values: TimepadEventData[] }> =
         await axios(axios_config);

@@ -1,17 +1,37 @@
 import * as cron from "cron";
-import { SyncService } from "../services/index.js";
-
-const syncService = new SyncService();
-
-console.log("imported job");
+import { SyncService, DatabaseService } from "../services/index.js";
+const databaseService = new DatabaseService();
 
 const cronJob = new cron.CronJob("*/10 * * * *", async () => {
-  await syncService.updateEventsAndOrgs();
+  await SyncService.updateEventsAndOrgs();
 });
 
 const cronJob2 = new cron.CronJob("*/27 * * * *", async () => {
-  await syncService.updateRemovedEvents();
+  await SyncService.updateRemovedEvents();
 });
 
-cronJob.start();
-cronJob2.start();
+// check: if table has any data
+// populate empty db with data
+// finally: start jobs
+async function populateEmptyDB(numberOfMonths: number) {
+  const checkAnyData = await databaseService.getOne(); // properly check for ANY data
+  if (checkAnyData[0].exists === false) {
+    console.log("DB is empty, populating from Timepad");
+    const start = Date.now();
+
+    while (numberOfMonths > 0) {
+      await SyncService.updateEventsAndOrgs(numberOfMonths);
+      numberOfMonths--;
+    }
+    const end = Date.now();
+    const duration = end - start;
+    console.log(
+      `Populating DB is complete, time taken: ${duration / 1000} seconds.`
+    );
+  }
+
+  // finally
+  cronJob.start();
+  cronJob2.start();
+}
+populateEmptyDB(6);

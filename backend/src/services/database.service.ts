@@ -38,6 +38,16 @@ const decodeNPurify = (str: string) => {
 };
 
 export default class DatabaseService {
+  public async getOne(): Promise<[{ exists: boolean }]> {
+    try {
+      const eventsList = await sql<[{ exists: boolean }]>`
+      SELECT EXISTS (select * from events);
+      `;
+      return eventsList;
+    } catch (error) {
+      throw new Error(`Error getting data from the database.`);
+    }
+  }
   private async updateEvents(arrTPEvents: TimepadEventData[]) {
     const arrEvents: EventCreationData[] = [];
     for (let i = 0; i < arrTPEvents.length; i++) {
@@ -50,8 +60,6 @@ export default class DatabaseService {
 
       const eventCreationData = {
         tp_org_id: event.organization.id,
-        day_num: 123, // can do without it
-        week_num: 123, // can do without it
         tp_id: event.id,
         tp_starts_at,
         tp_name,
@@ -76,8 +84,6 @@ export default class DatabaseService {
               tp_description_html = EXCLUDED.tp_description_html,
               tp_url = EXCLUDED.tp_url,
               tp_poster_image_default_url = EXCLUDED.tp_poster_image_default_url,
-              day_num = EXCLUDED.day_num,
-              week_num = EXCLUDED.week_num,
               updated = CURRENT_TIMESTAMP,
               removed = FALSE
         `;
