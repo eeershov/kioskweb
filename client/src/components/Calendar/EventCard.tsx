@@ -8,9 +8,10 @@ import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
 interface Event {
   event: EventWithOrganizationData;
+  hideEvent: boolean;
 }
 
-export default function EventCard({ event }: Event) {
+export default function EventCard({ event, hideEvent }: Event) {
   const [showModal, setShowModal] = useState(false);
   const mobOrDesk = useContext(ViewportContext);
 
@@ -34,9 +35,9 @@ export default function EventCard({ event }: Event) {
 
 
   const mobile = (
-    <div className="Card
+    <div className={hideEvent ? "hidden" : `Card
                     rounded-2xl justify-center bg-no-repeat bg-cover bg-center bg-local
-                    w-full h-28 overflow-hidden shadow-md my-2 cursor-pointer"
+                    w-full h-28 overflow-hidden shadow-md my-2 cursor-pointer`}
       onClick={() => setShowModal(true)}
       style={{ backgroundImage: `url(${eventImage})` }}>
       <div className="Two-sides
@@ -73,8 +74,9 @@ export default function EventCard({ event }: Event) {
   );
 
   const desktop = (
-    <div className="Card w-full h-fit flex p-1 group cursor-pointer
-    hover:bg-gradient-to-t from-purple-600 to-violet-600 first:rounded-t-lg last:rounded-b-lg" onClick={() => setShowModal(true)}>
+    <div className={hideEvent ? "hidden" : `Card w-full h-fit flex p-1 group cursor-pointer 
+    hover:bg-gradient-to-t from-purple-600 to-violet-600 first:rounded-t-lg last:rounded-b-lg`}
+      onClick={() => setShowModal(true)}>
       <div className='rounded-md bg-no-repeat bg-cover bg-center bg-local w-[50%] aspect-square mr-1 shrink-0 self-center'
         style={{ backgroundImage: `url(${eventImage})` }}></div>
       <div className="flex flex-col overflow-clip text-violet-950 dark:text-purple-200 group-hover:text-white">

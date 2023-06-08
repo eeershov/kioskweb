@@ -10,9 +10,10 @@ interface Events {
   events: EventWithOrganizationData[] | [];
   date: Date;
   isEmpty: boolean;
+  filteredOrgs: Map<number, number>;
 }
 
-export default function Day({ events, date, isEmpty }: Events) {
+export default function Day({ events, date, isEmpty, filteredOrgs }: Events) {
   const mobOrDesk = useContext(ViewportContext);
   const dateFormatMobile = `EEEE d`;
   const dateFormatDesktop = `d`;
@@ -120,6 +121,12 @@ export default function Day({ events, date, isEmpty }: Events) {
     boxClass.push(dayStyles.dayContent.boxDesktop);
   }
 
+
+  let filterOn = false;
+  if (filteredOrgs.size > 0) {
+    filterOn = true;
+  }
+
   return (
     <>
       <div className={boxClass.join(" ")}>
@@ -128,8 +135,12 @@ export default function Day({ events, date, isEmpty }: Events) {
           {mobOrDesk === "Desktop" ? cornerDate : mobileDate}
           <div>
             {events.map((event, i) => {
+              let isHidden = false;
+              if (filterOn) {
+                isHidden = filteredOrgs?.has(event.tp_org_id) ? false : true;
+              }
               return (
-                <EventCard key={i} event={event} />
+                <EventCard key={i} event={event} hideEvent={isHidden} />
               )
             })}</div>
         </div>
