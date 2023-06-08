@@ -9,9 +9,10 @@ interface WeekEvents {
   weekEvents: Map<string, []>;
   isWeekdayEmpty?: number[];
   isCurrentWeek?: boolean;
+  filteredOrgs: Map<number, number>;
 }
 
-export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek }: WeekEvents) {
+export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek, filteredOrgs }: WeekEvents) {
   console.log("Week");
   const mobOrDesk = useContext(ViewportContext);
 
@@ -30,7 +31,7 @@ export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek }: Week
         isEmpty = (isWeekdayEmpty[getDay(date)] <= 0)
       }
       days.push(
-        <Day key={dateString} events={events} date={date} isEmpty={isEmpty} />
+        <Day key={dateString} events={events} date={date} isEmpty={isEmpty} filteredOrgs={filteredOrgs} />
       )
     }
     return days;

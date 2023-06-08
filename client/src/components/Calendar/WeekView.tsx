@@ -13,10 +13,11 @@ setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 interface Props {
   eventsByDay: Map<string, EventWithOrganizationData[] | []>
   selectedDate: Date,
-  todayDate: Date
+  todayDate: Date,
+  filteredOrgs: Map<number, number>,
 }
 
-export default function WeekView({ eventsByDay, selectedDate, todayDate }: Props) {
+export default function WeekView({ eventsByDay, selectedDate, todayDate, filteredOrgs }: Props) {
   const [dateState, setDateState] = useState(selectedDate); // selected date
   const [isDisabledControls, setIsDisabledControls] = useState({ prev: false, next: false });
 
@@ -85,7 +86,7 @@ export default function WeekView({ eventsByDay, selectedDate, todayDate }: Props
           ❯
         </ControlButton>
       </div>
-      {<Week weekEvents={getWeekEvents(dateState, eventsByDay)} />}
+      {<Week filteredOrgs={filteredOrgs} weekEvents={getWeekEvents(dateState, eventsByDay)} />}
     </div>
   )
 }

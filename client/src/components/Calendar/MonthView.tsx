@@ -13,10 +13,11 @@ interface Props {
   eventsByDay: Map<string, EventWithOrganizationData[] | []>,
   selectedDate: Date,
   setSelectedDate: Dispatch<SetStateAction<Date>>,
+  filteredOrgs: Map<number, number>,
 }
 
 
-export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }: Props) {
+export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, filteredOrgs }: Props) {
   console.log("MonthView");
   const dateFormat = `d-M-yyyy`;
   const currentDate = new Date();
@@ -54,7 +55,12 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate }
     if (diffDates > -1 && diffDates < 7) { // -1 < x < 7
       isCurrentWeek = true;
     }
-    weeksJSX.push(<Week key={i} weekEvents={weekEvents} isWeekdayEmpty={weekInfo.isWeekdayEmpty} isCurrentWeek={isCurrentWeek} />)
+    weeksJSX.push(<Week key={i}
+      weekEvents={weekEvents}
+      isWeekdayEmpty={weekInfo.isWeekdayEmpty}
+      isCurrentWeek={isCurrentWeek}
+      filteredOrgs={filteredOrgs} />
+    );
   }
 
   function handleClick(option: "today" | "prev" | "next") {

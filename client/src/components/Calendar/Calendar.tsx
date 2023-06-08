@@ -5,6 +5,7 @@ import { ru } from 'date-fns/locale';
 import { WeekView, MonthView } from "./index";
 import Loading from "../Elements/Loading";
 import { ViewportContext } from '../../appContext/ViewportContext';
+import OrgsFilter from '../OrgsFilter/OrgsFilter';
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
@@ -19,6 +20,10 @@ function Calendar() {
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [eventsByDay, setEventsByDay] = useState<Map<string, [] | EventWithOrganizationData[]>>(new Map());
+  const [filteredOrgs, setOrgsFilterState] = useState<Map<number, number>>(new Map());
+  const [isPressed, setIsPressed] = useState(false);
+  const idKiosk = 237025;
+
 
   useEffect(() => {
     let active = true;
@@ -39,12 +44,31 @@ function Calendar() {
     };
   }, [selectedDate]);
 
-  const MonthOrWeekView = () => (mobOrDesk === "Mobile" ? <WeekView eventsByDay={eventsByDay} selectedDate={selectedDate} todayDate={todayDate} /> :
-    <MonthView eventsByDay={eventsByDay} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />)
 
+  const MonthOrWeekView = () => (
+    mobOrDesk === "Mobile" ?
+      <WeekView filteredOrgs={filteredOrgs} eventsByDay={eventsByDay} selectedDate={selectedDate} todayDate={todayDate} />
+      :
+      <MonthView filteredOrgs={filteredOrgs} eventsByDay={eventsByDay} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
+  );
+
+
+  function handleOnlyKioskClick() {
+    if (isPressed) {
+      setOrgsFilterState((prev) => {
+        prev.delete(idKiosk);
+        return prev;
+      });
+      setIsPressed(false);
+    } else {
+      setOrgsFilterState(new Map([[idKiosk, idKiosk]]))
+      setIsPressed(true)
+    }
+  }
 
   return (
-    <div className='Calendar max-w-7xl grow flex self-center justify-center w-full'>
+    <div className='Calendar max-w-7xl grow flex flex-col self-center w-full'>
+      <OrgsFilter handleOnlyKioskClick={handleOnlyKioskClick} isPressed={isPressed} />
       {loading ?
         <Loading />
         :
