@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import ModalStyle from "../Elements/ModalStyle";
 import kiosk from "./kiosk.svg";
 import { About } from "../About/About"
 import DarkModeSwitch from "../DarkModeSwitch/Switcher"
+import { ViewportContext } from '../../appContext/ViewportContext';
+
 
 function Header() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [siteName, setSiteName] = useState({ name: "Киоск комедии", rnd: 0 });
-
+  const mobOrDesk = useContext(ViewportContext);
 
   function AboutModal() {
     return (<>
@@ -21,7 +23,7 @@ function Header() {
   function MenuItems() {
     return (<>
       <ul className="font-medium bg-white dark:bg-gray-900 flex flex-col p-4 sm:p-0 border border-gray-100 dark:border-gray-800 rounded-lg  sm:flex-row sm:space-x-8 sm:mt-0 sm:border-0">
-        <li>
+        <li className={mobOrDesk === 'Mobile' ? `hidden` : ``}>
           <span className="block py-2 pl-3 pr-4 text-gray-900 dark:text-white rounded hover:bg-gray-100/20 sm:hover:bg-transparent sm:border-0 sm:hover:text-purple-600 sm:p-0">
             <DarkModeSwitch />
           </span>

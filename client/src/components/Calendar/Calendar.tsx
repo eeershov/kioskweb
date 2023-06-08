@@ -6,6 +6,8 @@ import { WeekView, MonthView } from "./index";
 import Loading from "../Elements/Loading";
 import { ViewportContext } from '../../appContext/ViewportContext';
 import OrgsFilter from '../OrgsFilter/OrgsFilter';
+import DarkModeSwitch from "../DarkModeSwitch/Switcher"
+
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
 
@@ -68,6 +70,8 @@ function Calendar() {
 
   return (
     <div className='Calendar max-w-7xl grow flex flex-col self-center w-full'>
+      {mobOrDesk === 'Mobile' ? <div className='absolute p-2 -translate-y-[2px]'><DarkModeSwitch />
+      </div> : null}
       <OrgsFilter handleOnlyKioskClick={handleOnlyKioskClick} isPressed={isPressed} />
       {loading ?
         <Loading />
