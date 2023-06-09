@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import "./App.css";
+import Seo from "./components/Seo/Seo";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Calendar from "./components/Calendar/Calendar";
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <ViewportProvider>
+      <Seo />
       <div className="App min-h-screen dark:bg-gray-900 flex flex-col">
         <Header />
         <Calendar />
