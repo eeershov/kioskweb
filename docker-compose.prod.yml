@@ -14,7 +14,8 @@ services:
       - '81:81' # Admin Web Port
     networks:
       - backendapp_net
-      
+      - umami_net
+
   backendapp:
     container_name: backend
     restart: always
@@ -73,8 +74,41 @@ services:
     networks:
       - backendapp_net
 
+
+  umami:
+    container_name: umami
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    ports:
+      - "3001:3000"
+    environment:
+      DATABASE_URL: ${UMAMI_DATABASE_URL}
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${UMAMI_APP_SECRET}
+    depends_on:
+      - umami_db
+    networks:
+      - umami_net
+    restart: always
+
+  umami_db:
+    image: postgres:15-alpine
+    ports:
+      - "127.0.0.1:5433:5432"
+    environment:
+      POSTGRES_DB: ${UMAMI_POSTGRES_DB}
+      POSTGRES_USER: ${UMAMI_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${UMAMI_POSTGRES_PASS}
+    volumes:
+      - ./sql/schema.postgresql.sql:/docker-entrypoint-initdb.d/schema.postgresql.sql:ro
+      - umami-db-data:/var/lib/postgresql/data
+    networks:
+      - umami_net
+    restart: always
+
 volumes:
   db_data:
+  umami-db-data:
 
 networks:
   backendapp_net:
+  umami_net:
