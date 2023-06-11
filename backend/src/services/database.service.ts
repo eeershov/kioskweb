@@ -200,7 +200,9 @@ export default class DatabaseService {
 
     try {
       const eventsList = await sql<EventWithOrganizationData[]>`
-        SELECT E.*, O.tp_org_name, O.tp_org_subdomain, O.tp_org_logo_image_default_url
+        SELECT 
+          E.tp_org_id, E.tp_id, E.tp_starts_at, E.tp_name, E.tp_description_short, E.tp_url, E.tp_poster_image_default_url,
+          O.tp_org_name, O.tp_org_subdomain, O.tp_org_logo_image_default_url
         FROM events E
           INNER JOIN tp_organizations O 
             ON O.tp_org_id = E.tp_org_id
