@@ -42,7 +42,6 @@ export class ApiService {
       });
       return eventsByDay.set(format(blockDate, dateFormat), dateEvents);
     })
-    console.log(eventsByDay)
     return eventsByDay;
 
     function getMonthBlockDates(dateString?: string) {
