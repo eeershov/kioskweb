@@ -1,6 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import kiosklogo from "./kiosklogo.jpg";
+import umamiTracker from "./umamiTracker";
+
 
 export default function Seo() {
   return (
@@ -12,7 +14,7 @@ export default function Seo() {
       <meta property="og:description" content="" />
       <meta property="og:type" content="website" />
       <meta property="og:image" content={"https://kioskcomedy.org" + kiosklogo} />
-      <script async src="https://umami.kioskcomedy.org/script.js" data-website-id="b1beac61-5271-4b9e-ad38-aab4a087637e"></script>
+      {umamiTracker}
     </Helmet>
   );
 }
