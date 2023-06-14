@@ -2,9 +2,12 @@
 
 ## Description
 
+<a href="https://kioskcomedy.org/"><img src="https://github.com/eeershov/kioskweb/assets/38592029/e82d2539-b305-4b67-999d-0d799e0ecbd7" align="right" width="300px" /></a>
 The **Kiosk Comedy** project is a local stand-up comedy open mic shows' aggregator. This is my first project, its purpose is to solve the problem of comedy fans not being aware of all the comedy events in the city due to fragmented information from different comedy groups. The project aims to provide a centralized platform where comedy fans can easily find and plan their visits to comedy events, benefiting both the fans and the comedians by increasing the total number of viewers at events.
 
+
 ---
+
 The project is built using the following technologies:
 - Typescript
 - Node.js backend with Express
