@@ -1,17 +1,11 @@
 import { format, subMonths } from "date-fns";
-import axios from "axios";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { TimepadEventData, AxiosConfig } from "../types/index.js";
+import { TP_orgIds } from "../utils/config.js";
 
 const TP_API_TOKEN: string = process.env.TP_API_TOKEN as string;
 const TP_API_URL: string = process.env.TP_API_URL as string;
-const TP_orgIds = [
-  parseInt(process.env.TP_orgIdKiosk as string),
-  parseInt(process.env.TP_orgIdGrky as string),
-  parseInt(process.env.TP_orgIdStand as string),
-  parseInt(process.env.TP_orgId52 as string),
-];
 
 interface Parameters {
   eventsId?: number[];

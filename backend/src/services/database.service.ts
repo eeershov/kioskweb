@@ -17,11 +17,7 @@ import {
   EventCreationData,
   OrganizationCreationData,
 } from "../types/index.js";
-
-const TP_orgIdKiosk: number = parseInt(process.env.TP_orgIdKiosk as string);
-const TP_orgIdGrky: number = parseInt(process.env.TP_orgIdGrky as string);
-const TP_orgIdStand: number = parseInt(process.env.TP_orgIdStand as string);
-const TP_orgId52: number = parseInt(process.env.TP_orgId52 as string);
+import { TP_orgIds as defaultOrgs } from "../utils/config.js";
 
 const window = new JSDOM("").window;
 const purify = DOMPurify(window);
@@ -50,9 +46,7 @@ export default class DatabaseService {
   }
   private async updateEvents(arrTPEvents: TimepadEventData[]) {
     const arrEvents: EventCreationData[] = [];
-    for (let i = 0; i < arrTPEvents.length; i++) {
-      const event = arrTPEvents[i];
-
+    arrTPEvents.map((event) => {
       const tp_starts_at = parseISO(event.starts_at);
       const tp_name = decodeNPurify(event.name);
       const tp_description_short = decodeNPurify(event.description_short);
@@ -69,7 +63,7 @@ export default class DatabaseService {
         tp_poster_image_default_url: event.poster_image?.default_url || null,
       };
       arrEvents.push(eventCreationData);
-    }
+    });
 
     try {
       await sql.begin(async (sql) => {
@@ -99,12 +93,6 @@ export default class DatabaseService {
     const allOrgs: OrganizationCreationData[] = [];
 
     if (TimepadEvents === "default") {
-      const defaultOrgs = [
-        TP_orgIdKiosk,
-        TP_orgIdGrky,
-        TP_orgIdStand,
-        TP_orgId52,
-      ];
       for (let i = 0; i < defaultOrgs.length; i++) {
         const orgInfo: OrganizationCreationData = {
           tp_org_id: defaultOrgs[i],
