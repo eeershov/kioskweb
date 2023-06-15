@@ -2,24 +2,23 @@
 
 ## Description
 
+
 The **Kiosk Comedy** project is a local stand-up comedy open mic shows' aggregator. This is my first project, its purpose is to solve the problem of comedy fans not being aware of all the comedy events in the city due to fragmented information from different comedy groups. The project aims to provide a centralized platform where comedy fans can easily find and plan their visits to comedy events, benefiting both the fans and the comedians by increasing the total number of viewers at events.
+![Screenshot](https://github.com/eeershov/kioskweb/assets/38592029/67cfb1d9-4ba9-418c-806a-c4736cbf6bf9)
+
 
 ---
+
 The project is built using the following technologies:
 - Typescript
 - Node.js backend with Express
 - PostgreSQL database
 - React frontend with Vite
 - Docker for containerization
+
 - Nginx and Nginx Proxy Manager for reverse proxying
 - Umami Analytics for light website analytics
 
-## Table of Contents
----
-
-- [Installation](#installation)
-
-- [License](#license)
 
 ## Installation
 ---
