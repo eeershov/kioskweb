@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get("/", async (_req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log;
     const events = await databaseService.getEvents();
     res.status(200).send(events);
   } catch (err) {
