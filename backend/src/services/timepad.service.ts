@@ -80,10 +80,12 @@ export async function getTimepadData({
     } else {
       axios_config = getAxiosConfig({ gatherPreviousMonths });
     }
+
     const response: AxiosResponse<{ values: TimepadEventData[] }> = await axios(
       axios_config
     );
     const values = response.data.values;
+
     if (values) {
       return values;
     } else {
