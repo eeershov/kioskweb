@@ -22,7 +22,6 @@ export default function WeekView({ eventsByDay, selectedDate, todayDate, filtere
   const [isDisabledControls, setIsDisabledControls] = useState({ prev: false, next: false });
 
   function ControlButton({ option, children }: { option: "prev" | "next" | "current"; children: string }): JSX.Element {
-    console.log(option);
     let status = false;
     switch (option) {
       case "prev":

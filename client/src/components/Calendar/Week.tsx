@@ -13,7 +13,6 @@ interface WeekEvents {
 }
 
 export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek, filteredOrgs }: WeekEvents) {
-  console.log("Week");
   const mobOrDesk = useContext(ViewportContext);
 
   const dateFormat = `d-M-yyyy`;
