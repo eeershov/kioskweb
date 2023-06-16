@@ -18,7 +18,6 @@ interface Props {
 
 
 export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, filteredOrgs }: Props) {
-  console.log("MonthView");
   const dateFormat = `d-M-yyyy`;
   const currentDate = new Date();
 
@@ -42,11 +41,8 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
   }
   const weekInfo = getWeekInfo();
 
-  const weeksJSX = [];
-
   const currentDateMidnight = parse(format(currentDate, dateFormat), dateFormat, currentDate);
-  for (let i = 0; i < weekInfo.sundays.length; i++) {
-    const dateString = weekInfo.sundays[i];
+  const weeksJSX = weekInfo.sundays.map((dateString) => {
     const date = parse(dateString, dateFormat, currentDate);
     const weekEvents = getWeekEvents(date, eventsByDay);
 
@@ -55,13 +51,16 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
     if (diffDates > -1 && diffDates < 7) { // -1 < x < 7
       isCurrentWeek = true;
     }
-    weeksJSX.push(<Week key={i}
-      weekEvents={weekEvents}
-      isWeekdayEmpty={weekInfo.isWeekdayEmpty}
-      isCurrentWeek={isCurrentWeek}
-      filteredOrgs={filteredOrgs} />
+    return (
+      <Week key={dateString}
+        weekEvents={weekEvents}
+        isWeekdayEmpty={weekInfo.isWeekdayEmpty}
+        isCurrentWeek={isCurrentWeek}
+        filteredOrgs={filteredOrgs} />
     );
   }
+  );
+
 
   function handleClick(option: "today" | "prev" | "next") {
     switch (option) {
