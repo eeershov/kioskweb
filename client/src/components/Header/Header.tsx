@@ -15,7 +15,7 @@ function Header() {
 
   function AboutModal() {
     return (<>
-      {showAboutModal ? <ModalStyle setParentState={setShowAboutModal} header="Что?" body={<About />} /> : null}
+      {showAboutModal ? <ModalStyle setParentState={setShowAboutModal} header="Что?"><About /></ModalStyle> : null}
     </>
     );
   }

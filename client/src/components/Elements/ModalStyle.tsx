@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 
-export default function ModalStyle({ setParentState, header, body }: { setParentState: (b: false) => void, header: string, body: JSX.Element }) {
+interface ModalStyleProps {
+  setParentState: (b: false) => void,
+  header: string,
+  children: JSX.Element | JSX.Element[]
+}
+
+export default function ModalStyle({ setParentState, header, children }: ModalStyleProps) {
   useEffect(() => {
     function handleEsc(event: any) {
       if (event.key === "Escape") {
@@ -39,7 +45,8 @@ export default function ModalStyle({ setParentState, header, body }: { setParent
                 </button>
               </div>
 
-              {body}
+              {children}
+
             </div>
           </div >
         </div >
