@@ -1,6 +1,5 @@
 import * as cron from "cron";
 import { SyncService, DatabaseService } from "../services/index.js";
-const databaseService = new DatabaseService();
 
 const cronJob = new cron.CronJob("*/10 * * * *", async () => {
   await SyncService.updateEventsAndOrgs();
@@ -14,7 +13,7 @@ const cronJob2 = new cron.CronJob("*/27 * * * *", async () => {
 // populate empty db with data
 // finally: start jobs
 async function populateEmptyDB(numberOfMonths: number) {
-  const checkAnyData = await databaseService.getOne(); // properly check for ANY data
+  const checkAnyData = await DatabaseService.getOne();
   if (checkAnyData[0].exists === false) {
     console.log("DB is empty, populating from Timepad");
     const start = Date.now();
