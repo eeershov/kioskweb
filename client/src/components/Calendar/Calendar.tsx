@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { ApiService } from '../../services/api.service';
 import { setDefaultOptions, format } from "date-fns";
 import { ru } from 'date-fns/locale';
@@ -15,7 +15,6 @@ setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
 
 function Calendar() {
-  console.log("Calendar");
   const mobOrDesk = useContext(ViewportContext);
   const todayDate = new Date();
 
@@ -26,26 +25,22 @@ function Calendar() {
   const [isPressed, setIsPressed] = useState(false);
   const idKiosk = 237025;
 
-
-  useEffect(() => {
-    let active = true;
+  const fetchData = useCallback(async () => {
     async function fetchData() {
       setLoading(true);
       const dateFormat = `yyyy-MM-dd`;
       const selectedDateString = format(selectedDate, dateFormat);
       ApiService.getCalendarData(selectedDateString).then(response => {
-        if (active) {
-          setEventsByDay(response);
-          setLoading(false);
-        }
+        setEventsByDay(response);
+        setLoading(false);
       });
     }
     fetchData();
-    return () => {
-      active = false;
-    };
-  }, [selectedDate]);
+  }, [selectedDate])
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData])
 
   const MonthOrWeekView = () => (
     mobOrDesk === "Mobile" ?
