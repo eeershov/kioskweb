@@ -70,7 +70,7 @@ export default function EventCard({ event, hideEvent }: Event) {
     <div className={hideEvent ? "hidden" : `Card w-full h-fit flex p-1 group cursor-pointer 
     hover:bg-gradient-to-t from-purple-600 to-violet-600 first:rounded-t-lg last:rounded-b-lg`}
       onClick={() => setShowModal(true)}>
-      <div className='rounded-md bg-no-repeat bg-cover bg-center bg-local w-[50%] aspect-square mr-1 shrink-0 self-center'
+      <div className='rounded-md bg-no-repeat bg-cover bg-center bg-local w-[50%] max-h-28 aspect-square mr-1 shrink-0 self-center'
         style={{ backgroundImage: `url(${eventImage})` }}></div>
       <div className="flex flex-col overflow-clip text-violet-950 dark:text-purple-200 group-hover:text-white">
         <p className="font-mono font-bold text-sm md:text-lg md:leading-4 overflow-clip text-left my-1">{starts_at}</p>
