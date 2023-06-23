@@ -47,7 +47,7 @@ export default function Day({ events, date, isEmpty, filteredOrgs }: Events) {
     },
     dayContent: {
       mobile: "Day-content flex-row pb-4 mx-2 relative",
-      desktop: "Day-content flex flex-col justify-start m-1 ring-1 ring-violet-400/30 dark:ring-purple-600/30 rounded-lg shadow-sm relative overflow-clip h-full",
+      desktop: "Day-content flex flex-col justify-start m-1 ring-1 min-h-[32px] ring-violet-400/30 dark:ring-purple-600/30 rounded-lg shadow-sm relative overflow-clip h-full",
       boxMobile: "flex-row relative",
       boxDesktop: "Day-content basis-2/12 flex flex-col justify-start relative grow overflow-clip",
     },
