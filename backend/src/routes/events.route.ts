@@ -1,27 +1,14 @@
-import express, { Request, Response, NextFunction } from "express";
-import { DatabaseService } from "../services/index.js";
+import express from "express";
+import { getEventsByDate, getEventsRecent } from "../controllers/events.controller";
 
 const router = express.Router();
 
-router.get("/", async (_req: Request, res: Response, next: NextFunction) => {
-  try {
-    const events = await DatabaseService.getEvents();
-    res.status(200).send(events);
-  } catch (err) {
-    next(err);
-  }
-});
+router
+  .route("")
+  .get(getEventsRecent);
 
-router.get(
-  "/:dateString",
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const events = await DatabaseService.getEvents(req.params.dateString);
-      res.status(200).send(events);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
+router
+  .route("/:dateString")
+  .get(getEventsByDate);
 
 export default router;
