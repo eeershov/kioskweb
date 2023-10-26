@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:19.6-alpine3.16
+FROM node:20-alpine3.17
 
 # Set the working directory to /backendapp
 WORKDIR /backendapp
