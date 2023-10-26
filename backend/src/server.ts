@@ -8,7 +8,8 @@ import apiRouter from "./routes/api.routes.js";
 import "./utils/scheduler.js";
 
 const PORT = process.env.PORT || 8080;
-const nodeEnv = process.env.NODE_ENV || "production";
+const NODE_ENV = process.env.NODE_ENV || "production";
+const NUM_OF_PROXIES = process.env.NUM_OF_PROXIES || 1;
 const app = express();
 
 function shouldCompress(req: Request, res: Response) {
@@ -35,9 +36,10 @@ app.use(limiter);
 app.use(helmet());
 app.use(express.json());
 app.use("/", apiRouter);
+app.set('trust proxy', NUM_OF_PROXIES);
 
 app.get("/", (_req, res) => {
-  res.send(`ok: ${nodeEnv}`);
+  res.send(`ok: ${NODE_ENV}`);
 });
 
 app.listen(PORT, () => {
