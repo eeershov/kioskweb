@@ -7,9 +7,7 @@ import {
   format,
   subDays,
 } from "date-fns";
-import DOMPurify from "dompurify";
-import { JSDOM } from "jsdom";
-
+import { decodePurify } from "../utils/decodePurify.js";
 import { sql } from "../database/database.js";
 import {
   TimepadEventData,
@@ -19,19 +17,6 @@ import {
 } from "../types/index.js";
 import { TP_orgIds as defaultOrgs } from "../utils/config.js";
 
-const window = new JSDOM("").window;
-const purify = DOMPurify(window);
-
-export const decodeHtml = (str: string) => {
-  // removing &quot;
-  const txt = window.document.createElement("textarea");
-  txt.innerHTML = str;
-  return txt.value;
-};
-
-const decodeNPurify = (str: string) => {
-  return purify.sanitize(decodeHtml(str));
-};
 
 export async function getOne(): Promise<[{ exists: boolean }]> {
   try {
@@ -47,9 +32,9 @@ async function updateEvents(arrTPEvents: TimepadEventData[]) {
   const arrEvents: EventCreationData[] = [];
   arrTPEvents.map((event) => {
     const tp_starts_at = parseISO(event.starts_at);
-    const tp_name = decodeNPurify(event.name);
-    const tp_description_short = decodeNPurify(event.description_short);
-    const tp_description_html = decodeNPurify(event.description_html);
+    const tp_name = decodePurify(event.name);
+    const tp_description_short = decodePurify(event.description_short);
+    const tp_description_html = decodePurify(event.description_html);
 
     const eventCreationData = {
       tp_org_id: event.organization.id,
@@ -110,7 +95,7 @@ async function updateOrgs(TimepadEvents: TimepadEventData[] | "default") {
         tp_org_id: event.organization.id,
         tp_org_name: event.organization.name,
         tp_org_description_html: event.organization.description_html
-          ? decodeNPurify(event.organization.description_html)
+          ? decodePurify(event.organization.description_html)
           : "",
         tp_org_url: event.organization.url,
         tp_org_logo_image_default_url:
