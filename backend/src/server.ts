@@ -35,6 +35,7 @@ app.use(limiter);
 app.use(helmet());
 app.use(express.json());
 app.use("/", apiRouter);
+app.set("trust  proxy", 1);
 
 app.get("/", (_req, res) => {
   res.send(`ok: ${nodeEnv}`);
