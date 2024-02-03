@@ -10,6 +10,7 @@ import DarkModeSwitch from "../DarkModeSwitch/Switcher"
 
 
 import type { EventWithOrganizationData } from "../../types/EventWithOrg.type";
+import { CalendarRepository } from '../../repositories/CalendarRepository';
 
 setDefaultOptions({ locale: ru, weekStartsOn: 1 });
 
@@ -26,17 +27,21 @@ function Calendar() {
   const idKiosk = 237025;
 
   const fetchData = useCallback(async () => {
-    async function fetchData() {
-      setLoading(true);
-      const dateFormat = `yyyy-MM-dd`;
-      const selectedDateString = format(selectedDate, dateFormat);
-      ApiService.getCalendarData(selectedDateString).then(response => {
-        setEventsByDay(response);
-        setLoading(false);
-      });
+
+    setLoading(true);
+
+    const calendarData = await CalendarRepository.fetchData(selectedDate)
+    if (calendarData.data != null) {
+      setEventsByDay(calendarData.data);
     }
-    fetchData();
-  }, [selectedDate])
+
+    if (calendarData.errorMessage != null) {
+      // TODO show alert
+    }
+
+    setLoading(false);
+
+  }, [])
 
   useEffect(() => {
     fetchData();
