@@ -30,7 +30,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      TP_API_URL: https://api.timepad.ru/v1/events.json
+      TP_API_URL: ${TP_API_URL}
       TP_API_TOKEN: ${TP_API_TOKEN}
       TP_orgIdKiosk: ${TP_orgIdKiosk}
       TP_orgIdGrky: ${TP_orgIdGrky}
