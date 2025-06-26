@@ -19,9 +19,9 @@ export default function Week({ weekEvents, isWeekdayEmpty, isCurrentWeek, filter
   const currentDate = new Date();
 
   const dayIterator = weekEvents.entries()
-  let days: JSX.Element[] = [];
+  let days: React.JSX.Element[] = [];
 
-  function getWeekDays(): JSX.Element[] {
+  function getWeekDays(): React.JSX.Element[] {
     const days = [];
     for (const [dateString, events] of dayIterator) {
       const date = parse(dateString, dateFormat, currentDate);

@@ -2,7 +2,7 @@ import React from "react";
 import photo from "./bogdan-was-here.jpg";
 import { TimepadButton, TelegramButton, VkButton } from "../Elements/Socials";
 
-export function About(): JSX.Element {
+export function About(): React.JSX.Element {
   return (
     <div>
       <div className="p-2 max-w-prose m-auto">

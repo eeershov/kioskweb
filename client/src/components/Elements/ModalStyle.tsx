@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 interface ModalStyleProps {
   setParentState: (b: false) => void,
   header: string,
-  children: JSX.Element | JSX.Element[]
+  children: React.JSX.Element | React.JSX.Element[]
 }
 
 export default function ModalStyle({ setParentState, header, children }: ModalStyleProps) {

@@ -8,11 +8,11 @@ import tp_logo from "./Timepad_logo_75.png";
 type SizeT = "tiny" | "full";
 
 type SocialButtonProps = {
-  size: SizeT; text: string; address: string; children: JSX.Element
+  size: SizeT; text: string; address: string; children: React.JSX.Element
 }
 
 
-function SocialButton({ size, text, address, children }: SocialButtonProps): JSX.Element {
+function SocialButton({ size, text, address, children }: SocialButtonProps): React.JSX.Element {
   if (size === "full") {
     return (
       <button title={address} onClick={() => window.open(address)}

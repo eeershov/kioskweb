@@ -84,7 +84,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
 
 
 
-  function ControlButton({ option, children }: { option: "today" | "prev" | "next"; children: string }): JSX.Element {
+  function ControlButton({ option, children }: { option: "today" | "prev" | "next"; children: string }): React.JSX.Element {
     return (
       <ButtonControlStyle onClick={() => handleClick(option)}>
         {children}
@@ -92,7 +92,7 @@ export default function MonthView({ eventsByDay, selectedDate, setSelectedDate, 
     );
   }
 
-  function WeekdaysRow({ isWeekdayEmpty }: { isWeekdayEmpty: number[] }): JSX.Element {
+  function WeekdaysRow({ isWeekdayEmpty }: { isWeekdayEmpty: number[] }): React.JSX.Element {
     const weekdays = {
       short: ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
       full: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]

@@ -21,7 +21,7 @@ export default function WeekView({ eventsByDay, selectedDate, todayDate, filtere
   const [dateState, setDateState] = useState(selectedDate); // selected date
   const [isDisabledControls, setIsDisabledControls] = useState({ prev: false, next: false });
 
-  function ControlButton({ option, children }: { option: "prev" | "next" | "current"; children: string }): JSX.Element {
+  function ControlButton({ option, children }: { option: "prev" | "next" | "current"; children: string }): React.JSX.Element {
     let status = false;
     switch (option) {
       case "prev":
